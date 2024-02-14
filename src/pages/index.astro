@@ -11,7 +11,9 @@ import Layout from "../layouts/Layout.astro";
       <nav aria-label="main navigation">
         <ul class="list-none flex gap-6 flex-col lg:flex-row items-center">
           <li>
-            <a href="https://twitch.tv/nickytonline">Nick's Twitch Channel</a>
+            <a href="https://twitch.tv/nickytonline" data-twitch
+              >Nick's Twitch Channel</a
+            >
           </li>
           <li
             class="w-80 h-80 bg-white rounded-full bg-gradient-to-br from-purple-400 to-blue-500 border-4 border-gradient overflow-hidden relative"
@@ -19,7 +21,7 @@ import Layout from "../layouts/Layout.astro";
             <img
               src="/assets/alpaca.png"
               alt="Nick's Alpaca"
-              class="absolute p-3 -bottom-3 aspect-auto"
+              class="absolute p-3 -bottom-3 aspect-auto transform transition-transform duration-300 ease-in-out"
             />
           </li>
           <li>
