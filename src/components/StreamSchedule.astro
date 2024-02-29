@@ -1,0 +1,97 @@
+---
+import {
+  getLocalizedDate,
+  getHeadingId,
+  buildWebsiteLink,
+  buildGithubLink,
+  buildTwitterLink,
+  buildTwitchLink,
+  buildYoutubeLink,
+  getStreamLinks,
+} from "../utils/schedule-utils";
+import Website from "./Website.astro";
+
+export interface StreamGuestInfo {
+  date: string;
+  streamTitle: string;
+  streamDescription: string;
+  youtubeStreamLink?: string;
+  name: string;
+  title?: string;
+  twitter?: string;
+  youtube?: string;
+  twitch?: string;
+  github?: string;
+  website?: string;
+}
+
+interface Props {
+  locale: string;
+  timezone: string;
+  schedule: StreamGuestInfo[];
+}
+
+const { locale, timezone, schedule } = Astro.props;
+---
+
+<ul class="flex flex-col">
+  {
+    schedule.map(
+      ({
+        date,
+        streamTitle,
+        streamDescription,
+        youtubeStreamLink,
+        name,
+        title,
+        twitter,
+        website,
+        twitch,
+        youtube,
+        github,
+      }) => {
+        const guestDate = getLocalizedDate({
+          date,
+          locale,
+          timezone,
+          showTime: true,
+        });
+        const headingId = getHeadingId(name, date);
+
+        return (
+          <li>
+            <h2 id={headingId}>{streamTitle}</h2>
+            <time datetime={date}>{guestDate}</time>
+            <p set:html={streamDescription} />
+            <div>
+              {github === "nickytonline" ? null : (
+                <div>
+                  Guest: {name}
+                  {title ? `, ${title}` : null}
+                </div>
+              )}
+            </div>
+            {streamDescription ? <p set:html={streamDescription} /> : null}
+
+            <nav class="nav" aria-label="Links for live stream guest ${name}">
+              <ul
+                class="hidden flex"
+                set:html={`
+          ${buildGithubLink({ name, github })}
+          ${buildTwitterLink({ name, twitter })}
+          ${buildTwitchLink({ name, twitch })}
+          ${buildYoutubeLink({ name, youtube })}`}
+              />
+              <ul>
+                <li>
+                  <Website name={name} url={website} />
+                </li>
+              </ul>
+            </nav>
+            {youtubeStreamLink ? getStreamLinks(youtubeStreamLink) : null}
+          </li>
+        );
+      }
+    )
+  }
+</ul>

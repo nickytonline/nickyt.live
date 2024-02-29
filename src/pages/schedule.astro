@@ -1,0 +1,33 @@
+---
+import StreamSchedule, {
+  type StreamGuestInfo,
+} from "../components/StreamSchedule.astro";
+import Layout from "../layouts/Layout.astro";
+import { getStreamSchedule } from "../utils/schedule-utils";
+
+const { AIRTABLE_STREAM_GUEST_BASE_ID, AIRTABLE_API_KEY } = import.meta.env;
+
+if (!AIRTABLE_API_KEY || !AIRTABLE_STREAM_GUEST_BASE_ID) {
+  throw new Error("Missing required environment variables");
+}
+
+const locale =
+  Astro.request.headers.get("Accept-Language")?.split(",")[0] ||
+  Astro.request.headers.get("Accept-Language") ||
+  "en-US";
+
+const schedule = await getStreamSchedule({
+  apiKey: AIRTABLE_API_KEY,
+  baseId: AIRTABLE_STREAM_GUEST_BASE_ID,
+});
+
+// TODO: put in headers for caching.
+const { timezone = "" } = Astro.locals.netlify.context.geo;
+---
+
+<Layout title="Nick Taylor's live streaming schedule">
+  <main>
+    <h1>Stream Schedule</h1>
+    <StreamSchedule schedule={schedule} locale={locale} timezone={timezone} />
+  </main>
+</Layout>
