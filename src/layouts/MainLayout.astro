@@ -1,0 +1,32 @@
+---
+import "../styles/global.css";
+import OgMetaTags from "../components/OgMetaTags.astro";
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="The home of Nick Taylor's live streaming channels"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <OgMetaTags
+      title={title}
+      description="Nick Taylor's live streaming schedule"
+      socialImage="/assets/og-image.png"
+    />
+    <title>{title}</title>
+  </head>
+  <body class="grid m-4 md:m-8 gap-4">
+    <slot />
+  </body>
+</html>
