@@ -21,8 +21,12 @@ const schedule = await getStreamSchedule({
   baseId: AIRTABLE_STREAM_GUEST_BASE_ID,
 });
 
-// TODO: put in headers for caching.
 const { timezone = "" } = Astro.locals.netlify.context.geo;
+
+Astro.response.headers.set(
+  "Cache-Control",
+  "s-maxage=7200, stale-while-revalidate"
+);
 ---
 
 <Layout title="Nick Taylor's live streaming schedule">
