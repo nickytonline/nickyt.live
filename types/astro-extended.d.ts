@@ -1,15 +1,5 @@
+type NetlifyLocals = import('@astrojs/netlify').NetlifyLocals
+
 declare namespace App {
-  export interface Locals {
-    netlify: {
-      context: {
-        geo: {
-          timezone: string
-          city: string
-          country: string
-          latitude: number
-          longitude: number
-        }
-      }
-    }
-  }
+  interface Locals extends NetlifyLocals { }
 }
