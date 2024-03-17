@@ -2,14 +2,13 @@
 import {
   getLocalizedDate,
   getHeadingId,
-  buildWebsiteLink,
-  buildGithubLink,
-  buildTwitterLink,
-  buildTwitchLink,
-  buildYoutubeLink,
   getStreamLinks,
 } from "../utils/schedule-utils";
-import Website from "./Website.astro";
+import WebsiteLink from "./WebsiteLink.astro";
+import TwitterLink from "./TwitterLink.astro";
+import GitHubLink from "./GitHubLink.astro";
+import TwitchLink from "./TwitchLink.astro";
+import YouTubeLink from "./YouTubeLink.astro";
 
 export interface StreamGuestInfo {
   date: string;
@@ -62,7 +61,6 @@ const { locale, timezone, schedule } = Astro.props;
           <li>
             <h2 id={headingId}>{streamTitle}</h2>
             <time datetime={date}>{guestDate}</time>
-            <p set:html={streamDescription} />
             <div>
               {github === "nickytonline" ? null : (
                 <div>
@@ -74,18 +72,33 @@ const { locale, timezone, schedule } = Astro.props;
             {streamDescription ? <p set:html={streamDescription} /> : null}
 
             <nav class="nav" aria-label="Links for live stream guest ${name}">
-              <ul
-                class="hidden flex"
-                set:html={`
-          ${buildGithubLink({ name, github })}
-          ${buildTwitterLink({ name, twitter })}
-          ${buildTwitchLink({ name, twitch })}
-          ${buildYoutubeLink({ name, youtube })}`}
-              />
-              <ul>
-                <li>
-                  <Website name={name} url={website} />
-                </li>
+              <ul class="flex gap-2 items-center">
+                {website ? (
+                  <li>
+                    <WebsiteLink name={name} url={website} />
+                  </li>
+                ) : null}
+                {github ? (
+                  <li>
+                    <GitHubLink name={name} url={github} />
+                  </li>
+                ) : null}
+                {twitter ? (
+                  <li>
+                    <TwitterLink name={name} url={twitter} />
+                  </li>
+                ) : null}
+
+                {twitch ? (
+                  <li>
+                    <TwitchLink name={name} url={twitch} />
+                  </li>
+                ) : null}
+                {youtube ? (
+                  <li>
+                    <YouTubeLink name={name} url={youtube} />
+                  </li>
+                ) : null}
               </ul>
             </nav>
             {youtubeStreamLink ? getStreamLinks(youtubeStreamLink) : null}
