@@ -20,6 +20,11 @@ h1 {
   @apply lg:text-5xl;
 }
 
+h2 {
+  @apply text-2xl;
+  @apply lg:text-3xl;
+}
+
 body {
   @apply m-6;
   @apply font-normal;
