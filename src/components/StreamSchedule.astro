@@ -6,6 +6,7 @@ import GitHubLink from "./GitHubLink.astro";
 import TwitchLink from "./TwitchLink.astro";
 import YouTubeLink from "./YouTubeLink.astro";
 import StreamLinks from "./StreamLinks.astro";
+import HeadingAnchor from "./HeadingAnchor.astro";
 
 export interface StreamGuestInfo {
   date: string;
@@ -57,7 +58,10 @@ const { locale, timezone, schedule } = Astro.props;
         return (
           <li class="flex flex-col gap-4">
             <div>
-              <h2 id={headingId}>{streamTitle}</h2>
+              <h2 id={headingId} class="flex gap-2 items-center">
+                {streamTitle}
+                <HeadingAnchor headingId={headingId} />
+              </h2>
               <time datetime={date} class="text-pink-600">
                 {guestDate}
               </time>
