@@ -56,18 +56,16 @@ const { locale, timezone, schedule } = Astro.props;
         const headingId = getHeadingId(name, date);
 
         return (
-          <li class="flex flex-col gap-4">
+          <li class="flex flex-col gap-4 [&_h2]:odd:text-purple-600 [&_h2]:text-pink-600">
             <div>
               <h2 id={headingId} class="flex gap-2 items-center">
                 {streamTitle}
                 <HeadingAnchor headingId={headingId} />
               </h2>
-              <time datetime={date} class="text-pink-600">
-                {guestDate}
-              </time>
+              <time datetime={date}>{guestDate}</time>
               <div>
                 {github === "nickytonline" ? null : (
-                  <div class="text-purple-600">
+                  <div>
                     Guest: {name}
                     {title ? `, ${title}` : null}
                   </div>
