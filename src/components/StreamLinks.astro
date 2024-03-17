@@ -1,0 +1,17 @@
+---
+interface Props {
+  youtubeUrl: string;
+}
+
+const TWITCH_STREAM_URL = "https://www.twitch.tv/nickytonline";
+
+const { youtubeUrl } = Astro.props;
+---
+
+<div>
+  Watch live on:
+  <ul class="flex gap-4">
+    <li><a href={youtubeUrl}>YouTube</a></li>
+    <li><a href={TWITCH_STREAM_URL}> Twitch </a></li>
+  </ul>
+</div>

@@ -1,9 +1,5 @@
 import type { StreamGuestInfo } from "../components/StreamSchedule.astro";
 
-
-const TWITCH_STREAM_URL = "https://www.twitch.tv/nickytonline";
-
-
 export function buildHeadingAnchor(headingId: string) {
   return `
   <a href="#${headingId}" class="heading-permalink">
@@ -38,17 +34,6 @@ export function getLocalizedDate({
   };
 
   return new Date(date).toLocaleString(locale, options);
-}
-
-export function getStreamLinks(youtubeLink: string) {
-  return `
-    <div class="align-end box-flex gap-100">Watch live on:
-      <ul class="guest-stream-links box-flex gap-100">
-        ${youtubeLink ? `<li><a href="${youtubeLink}">YouTube</a></li>` : ""}
-        <li><a href="${TWITCH_STREAM_URL}">Twitch</a></li>
-      </ul>
-    </div>
-  `;
 }
 
 export function getScheduleMarkup({

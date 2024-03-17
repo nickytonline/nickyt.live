@@ -1,14 +1,11 @@
 ---
-import {
-  getLocalizedDate,
-  getHeadingId,
-  getStreamLinks,
-} from "../utils/schedule-utils";
+import { getLocalizedDate, getHeadingId } from "../utils/schedule-utils";
 import WebsiteLink from "./WebsiteLink.astro";
 import TwitterLink from "./TwitterLink.astro";
 import GitHubLink from "./GitHubLink.astro";
 import TwitchLink from "./TwitchLink.astro";
 import YouTubeLink from "./YouTubeLink.astro";
+import StreamLinks from "./StreamLinks.astro";
 
 export interface StreamGuestInfo {
   date: string;
@@ -33,7 +30,7 @@ interface Props {
 const { locale, timezone, schedule } = Astro.props;
 ---
 
-<ul class="flex flex-col">
+<ul class="mt-8 flex flex-col gap-8">
   {
     schedule.map(
       ({
@@ -58,19 +55,22 @@ const { locale, timezone, schedule } = Astro.props;
         const headingId = getHeadingId(name, date);
 
         return (
-          <li>
-            <h2 id={headingId}>{streamTitle}</h2>
-            <time datetime={date}>{guestDate}</time>
+          <li class="flex flex-col gap-4">
             <div>
-              {github === "nickytonline" ? null : (
-                <div>
-                  Guest: {name}
-                  {title ? `, ${title}` : null}
-                </div>
-              )}
+              <h2 id={headingId}>{streamTitle}</h2>
+              <time datetime={date} class="text-pink-600">
+                {guestDate}
+              </time>
+              <div>
+                {github === "nickytonline" ? null : (
+                  <div class="text-purple-600">
+                    Guest: {name}
+                    {title ? `, ${title}` : null}
+                  </div>
+                )}
+              </div>
+              {streamDescription ? <p set:html={streamDescription} /> : null}
             </div>
-            {streamDescription ? <p set:html={streamDescription} /> : null}
-
             <nav class="nav" aria-label="Links for live stream guest ${name}">
               <ul class="flex gap-2 items-center">
                 {website ? (
@@ -101,7 +101,9 @@ const { locale, timezone, schedule } = Astro.props;
                 ) : null}
               </ul>
             </nav>
-            {youtubeStreamLink ? getStreamLinks(youtubeStreamLink) : null}
+            {youtubeStreamLink ? (
+              <StreamLinks youtubeUrl={youtubeStreamLink} />
+            ) : null}
           </li>
         );
       }
