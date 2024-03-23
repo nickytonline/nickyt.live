@@ -8,21 +8,24 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6 {;
   @apply tracking-tight;
   @apply font-semibold;
   @apply text-balance;
 }
 
 h1 {
+
   @apply text-4xl;
   @apply lg:text-5xl;
 }
 
 body {
+  @apply m-6;
   @apply font-normal;
   @apply text-sm;
   @apply lg:text-xl;
+  @apply bg-white;
 }
 
 a:hover {
