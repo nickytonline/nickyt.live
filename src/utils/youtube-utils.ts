@@ -31,5 +31,5 @@ export async function getLatestVideo(videoFeedUrl: string) {
 
 export function sanitizeVideoDescription(description: string) {
   return marked.parse(description
-    .replace(/Links:?[\r\n].+/si, '').replace(/Places to follow Nick.+/si, ''))
+    .replace(/Links:?.+/si, '').replace(/Places to follow Nick.+/si, ''))
 }
