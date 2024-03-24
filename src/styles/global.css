@@ -31,9 +31,3 @@ body {
 a:hover {
   text-decoration: underline;
 }
-
-body:has(a[data-twitch]:hover,a[data-twitch]:focus) img {
-  @media (prefers-reduced-motion: no-preference) {
-    transform: scaleX(-1);
-  }
-}
