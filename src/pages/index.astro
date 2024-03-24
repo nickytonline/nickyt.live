@@ -20,7 +20,9 @@ Astro.response.headers.set(
     <header>
       <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-8xl">nickyt.live!</h1>
       <nav aria-label="main navigation" class="mt-2 sm:text-xl md:text-3xl">
-        <ul class="list-none flex gap-6 items-center">
+        <ul
+          class="list-none flex gap-6 items-center [&_a]:hover:odd:text-purple-600 [&_a]:hover:text-purple-600"
+        >
           <li>
             <a href="/schedule" data-twitch>Schedule</a>
           </li>
