@@ -20,9 +20,7 @@ Astro.response.headers.set(
     <header>
       <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-8xl">nickyt.live!</h1>
       <nav aria-label="main navigation" class="mt-2 sm:text-xl md:text-3xl">
-        <ul
-          class="list-none flex gap-6 items-center [&_a]:hover:odd:text-purple-600 [&_a]:hover:text-purple-600"
-        >
+        <ul class="list-none flex gap-6 items-center">
           <li>
             <a href="/schedule" data-twitch>Schedule</a>
           </li>
@@ -41,7 +39,7 @@ Astro.response.headers.set(
         <h1>Latest Videos</h1>
         {
           videos.map((video) => (
-            <article class="grid md:grid-cols-[480px,1fr] gap-6">
+            <article class="grid lg:grid-cols-[480px,1fr] gap-6">
               <a href={video.link}>
                 <img
                   src={video.thumbnail}

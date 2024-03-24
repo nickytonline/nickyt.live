@@ -28,6 +28,14 @@ body {
   @apply bg-white;
 }
 
+a {
+  /* text-decoration: underline; */
+  @apply underline;
+  @apply underline-offset-8;
+  transition: text-decoration-color 400ms text-decoration-thickness 400ms;
+}
+
 a:hover {
-  text-decoration: underline;
+  @apply decoration-pink-600;
+  @apply decoration-8;
 }
