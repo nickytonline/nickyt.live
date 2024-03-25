@@ -8,29 +8,34 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6 {;
   @apply tracking-tight;
   @apply font-semibold;
   @apply text-balance;
 }
 
 h1 {
+
   @apply text-4xl;
   @apply lg:text-5xl;
 }
 
 body {
+  @apply m-6;
   @apply font-normal;
   @apply text-sm;
   @apply lg:text-xl;
+  @apply bg-white;
+}
+
+a {
+  /* text-decoration: underline; */
+  @apply underline;
+  @apply underline-offset-8;
+  transition: text-decoration-color 400ms text-decoration-thickness 400ms;
 }
 
 a:hover {
-  text-decoration: underline;
-}
-
-body:has(a[data-twitch]:hover,a[data-twitch]:focus) img {
-  @media (prefers-reduced-motion: no-preference) {
-    transform: scaleX(-1);
-  }
+  @apply decoration-pink-600;
+  @apply decoration-8;
 }

@@ -9,5 +9,5 @@ export default defineConfig({
     applyBaseStyles: false
   })],
   output: "server",
-  adapter: netlify()
+  adapter: netlify(),
 });

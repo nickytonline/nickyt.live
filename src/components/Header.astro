@@ -1,0 +1,47 @@
+---
+import { Image } from "astro:assets";
+import alpaca from "../images/alpaca.png";
+---
+
+<header class="sticky top-0 pt-6 pb-6 bg-white">
+  <div class="flex flex-col items-center md:items-start md:flex-row gap-6">
+    <div
+      class="w-40 h-40 md:w-80 md:h-80 bg-white rounded-full bg-gradient-to-br from-pink-700 to-white border-2 border-pink-200 overflow-hidden relative"
+    >
+      <!-- TODO: Tweak this by shipping a smaller image as well -->
+      <Image
+        width="310"
+        height="310"
+        src={alpaca}
+        alt="Nick's Alpaca"
+        class="absolute p-3 -bottom-3 aspect-auto transform transition-transform duration-300 ease-in-out"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="flex flex-col gap-6 items-center md:items-start">
+      <h1 class="md:text-6xl lg:text-8xl">
+        nickyt<span class="text-pink-600">.</span>live<span
+          class="text-pink-600">!</span
+        >
+      </h1>
+      <nav
+        aria-label="main navigation"
+        class="mt-2 text-xl md:text-2xl lg:text-3xl"
+      >
+        <ul class="list-none flex gap-6 items-center">
+          <!-- <li>
+            <a href="/schedule" data-twitch>Schedule</a>
+          </li> -->
+          <li>
+            <a href="https://twitch.tv/nickytonline" data-twitch>Twitch</a>
+          </li>
+
+          <li>
+            <a href="https://nickyt.tube">YouTube</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
