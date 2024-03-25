@@ -8,10 +8,10 @@ import {
 
 const videos = await getVideos(DEFAULT_YT_FEED_URL);
 
-// Cache for 4 hours
+// Cache for a day
 Astro.response.headers.set(
   "Cache-Control",
-  "s-maxage=14400, stale-while-revalidate"
+  "s-maxage=86400, stale-while-revalidate"
 );
 ---
 
