@@ -1,0 +1,116 @@
+---
+import { getLocalizedDate, getHeadingId } from "../utils/schedule-utils";
+import WebsiteLink from "./WebsiteLink.astro";
+import TwitterLink from "./TwitterLink.astro";
+import GitHubLink from "./GitHubLink.astro";
+import TwitchLink from "./TwitchLink.astro";
+import YouTubeLink from "./YouTubeLink.astro";
+import StreamLinks from "./StreamLinks.astro";
+import HeadingAnchor from "./HeadingAnchor.astro";
+
+export interface StreamGuestInfo {
+  date: string;
+  streamTitle: string;
+  streamDescription: string;
+  youtubeStreamLink?: string;
+  name: string;
+  title?: string;
+  twitter?: string;
+  youtube?: string;
+  twitch?: string;
+  github?: string;
+  website?: string;
+}
+
+interface Props {
+  locale: string;
+  timezone: string;
+  schedule: StreamGuestInfo[];
+}
+
+const { locale, timezone, schedule } = Astro.props;
+---
+
+<ul class="mt-8 flex flex-col gap-8">
+  {
+    schedule.map(
+      ({
+        date,
+        streamTitle,
+        streamDescription,
+        youtubeStreamLink,
+        name,
+        title,
+        twitter,
+        website,
+        twitch,
+        youtube,
+        github,
+      }) => {
+        const guestDate = getLocalizedDate({
+          date,
+          locale,
+          timezone,
+          showTime: true,
+        });
+        const headingId = getHeadingId(name, date);
+
+        return (
+          <li class="flex flex-col gap-4 [&_h2]:odd:text-purple-600 [&_h2]:text-pink-600 [&_a:hover]:text-pink-600 [&_a:hover]:odd:text-purple-600">
+            <div>
+              <h2 id={headingId} class="flex gap-2 items-center">
+                {streamTitle}
+                <HeadingAnchor headingId={headingId} />
+              </h2>
+              <time datetime={date} class="italic">
+                {guestDate}
+              </time>
+              <div>
+                {github === "nickytonline" ? null : (
+                  <div>
+                    Guest: {name}
+                    {title ? `, ${title}` : null}
+                  </div>
+                )}
+              </div>
+              {streamDescription ? <p set:html={streamDescription} /> : null}
+            </div>
+            <nav class="nav" aria-label="Links for live stream guest ${name}">
+              <ul class="flex gap-2 items-center">
+                {website ? (
+                  <li>
+                    <WebsiteLink name={name} url={website} />
+                  </li>
+                ) : null}
+                {github ? (
+                  <li>
+                    <GitHubLink name={name} url={github} />
+                  </li>
+                ) : null}
+                {twitter ? (
+                  <li>
+                    <TwitterLink name={name} url={twitter} />
+                  </li>
+                ) : null}
+
+                {twitch ? (
+                  <li>
+                    <TwitchLink name={name} url={twitch} />
+                  </li>
+                ) : null}
+                {youtube ? (
+                  <li>
+                    <YouTubeLink name={name} url={youtube} />
+                  </li>
+                ) : null}
+              </ul>
+            </nav>
+            {youtubeStreamLink ? (
+              <StreamLinks youtubeUrl={youtubeStreamLink} />
+            ) : null}
+          </li>
+        );
+      }
+    )
+  }
+</ul>
