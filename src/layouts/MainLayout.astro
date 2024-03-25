@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import OgMetaTags from "../components/OgMetaTags.astro";
+import Header from "../components/Header.astro";
 interface Props {
   title: string;
 }
@@ -21,12 +22,15 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <OgMetaTags
       title={title}
-      description="Nick Taylor's live streaming schedule"
+      description="Links to Nick Taylor's live streaming channels and content"
       socialImage="/assets/og-image.png"
     />
     <title>{title}</title>
   </head>
-  <body class="grid m-4 md:m-8 gap-4">
-    <slot />
+  <body class="pb-32">
+    <div>
+      <Header />
+      <slot />
+    </div>
   </body>
 </html>
