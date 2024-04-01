@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const { origin } = new URL(Astro.request.url);
 ---
 
 <!doctype html>
@@ -23,7 +24,7 @@ const { title } = Astro.props;
     <OgMetaTags
       title={title}
       description="Links to Nick Taylor's live streaming channels and content"
-      socialImage="/assets/og-image.png"
+      socialImage={new URL("/assets/og-image.png", origin).href}
     />
     <title>{title}</title>
   </head>
