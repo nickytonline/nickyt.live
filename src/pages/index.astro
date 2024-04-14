@@ -3,10 +3,10 @@ import Layout from "../layouts/MainLayout.astro";
 import {
   getVideos,
   sanitizeVideoDescription,
-  DEFAULT_YT_FEED_URL,
+  NICKYT_LIVE_PLAYLIST_FEED_URL,
 } from "../utils/youtube-utils";
 
-const videos = await getVideos(DEFAULT_YT_FEED_URL);
+const videos = await getVideos(NICKYT_LIVE_PLAYLIST_FEED_URL);
 
 // Cache for a day
 Astro.response.headers.set(
