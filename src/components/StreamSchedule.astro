@@ -13,6 +13,7 @@ export interface StreamGuestInfo {
   streamTitle: string;
   streamDescription: string;
   youtubeStreamLink?: string;
+  linkedinStreamLink?: string;
   name: string;
   title?: string;
   twitter?: string;
@@ -39,6 +40,7 @@ const { locale, timezone, schedule } = Astro.props;
         streamTitle,
         streamDescription,
         youtubeStreamLink,
+        linkedinStreamLink,
         name,
         title,
         twitter,
@@ -105,9 +107,10 @@ const { locale, timezone, schedule } = Astro.props;
                 ) : null}
               </ul>
             </nav>
-            {youtubeStreamLink ? (
-              <StreamLinks youtubeUrl={youtubeStreamLink} />
-            ) : null}
+            <StreamLinks
+              youtubeUrl={youtubeStreamLink}
+              linkedinUrl={linkedinStreamLink}
+            />
           </li>
         );
       }
