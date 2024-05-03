@@ -83,7 +83,7 @@ const { locale, timezone, schedule } = Astro.props;
                 <img
                   src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
                   alt=""
-                  class="my-2 rounded-md w-[270px] md:w-[540px] aspect-video"
+                  class="my-2 rounded-md w-[270px] md:w-[540px] aspect-video border border-pink-300"
                 />
               ) : null}
               {streamDescription ? <p set:html={streamDescription} /> : null}
