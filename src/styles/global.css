@@ -31,7 +31,6 @@ body {
   @apply text-sm;
   @apply lg:text-xl;
   @apply bg-white;
-  @apply scroll-mt-16;
 }
 
 a {
