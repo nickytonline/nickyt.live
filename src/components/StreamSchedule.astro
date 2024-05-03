@@ -7,12 +7,14 @@ import TwitchLink from "./TwitchLink.astro";
 import YouTubeLink from "./YouTubeLink.astro";
 import StreamLinks from "./StreamLinks.astro";
 import HeadingAnchor from "./HeadingAnchor.astro";
+import { getYouTubeId } from "../utils/youtube-utils";
 
 export interface StreamGuestInfo {
   date: string;
   streamTitle: string;
   streamDescription: string;
   youtubeStreamLink?: string;
+  linkedinStreamLink?: string;
   name: string;
   title?: string;
   twitter?: string;
@@ -31,7 +33,7 @@ interface Props {
 const { locale, timezone, schedule } = Astro.props;
 ---
 
-<ul class="mt-8 flex flex-col gap-8">
+<ul class="mt-8 flex flex-col gap-16">
   {
     schedule.map(
       ({
@@ -39,6 +41,7 @@ const { locale, timezone, schedule } = Astro.props;
         streamTitle,
         streamDescription,
         youtubeStreamLink,
+        linkedinStreamLink,
         name,
         title,
         twitter,
@@ -54,9 +57,12 @@ const { locale, timezone, schedule } = Astro.props;
           showTime: true,
         });
         const headingId = getHeadingId(name, date);
+        const videoId = youtubeStreamLink
+          ? getYouTubeId(youtubeStreamLink)
+          : null;
 
         return (
-          <li class="flex flex-col gap-4 [&_h2]:odd:text-purple-600 [&_h2]:text-pink-600 [&_a:hover]:text-pink-600 [&_a:hover]:odd:text-purple-600">
+          <li class="flex flex-col gap-4 [&_h2]:odd:text-purple-600 [&_h2]:text-pink-600 [&_a:hover]:text-pink-600 [&_a:hover]:odd:text-purple-600 [&_a:hover]:odd:decoration-purple-600">
             <div>
               <h2 id={headingId} class="flex gap-2 items-center">
                 {streamTitle}
@@ -73,6 +79,13 @@ const { locale, timezone, schedule } = Astro.props;
                   </div>
                 )}
               </div>
+              {videoId ? (
+                <img
+                  src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                  alt=""
+                  class="my-2 rounded-md w-[270px] md:w-[540px] aspect-video border border-pink-300"
+                />
+              ) : null}
               {streamDescription ? <p set:html={streamDescription} /> : null}
             </div>
             <nav class="nav" aria-label="Links for live stream guest ${name}">
@@ -105,9 +118,10 @@ const { locale, timezone, schedule } = Astro.props;
                 ) : null}
               </ul>
             </nav>
-            {youtubeStreamLink ? (
-              <StreamLinks youtubeUrl={youtubeStreamLink} />
-            ) : null}
+            <StreamLinks
+              youtubeUrl={youtubeStreamLink}
+              linkedinUrl={linkedinStreamLink}
+            />
           </li>
         );
       }
