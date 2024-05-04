@@ -9,10 +9,10 @@ import {
 
 const videos = await getVideos(NICKYT_LIVE_PLAYLIST_FEED_URL);
 
-// Cache for a day
+Astro.response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
 Astro.response.headers.set(
-  "Cache-Control",
-  "s-maxage=86400, stale-while-revalidate"
+  "Netlify-CDN-Cache-Control",
+  "public, max-age=86400, must-revalidate"
 );
 ---
 

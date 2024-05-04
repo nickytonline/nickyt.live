@@ -23,8 +23,14 @@ const { timezone = "" } = Astro.locals.netlify.context.geo;
 
 Astro.response.headers.set(
   "Cache-Control",
-  "s-maxage=7200, stale-while-revalidate"
+  "public, max-age=0, must-revalidate"
 );
+Astro.response.headers.set(
+  "Netlify-CDN-Cache-Control",
+  "public, max-age=7200, must-revalidate"
+);
+Astro.response.headers.set("timezone", timezone);
+Astro.response.headers.set("Netlify-Vary", "header=Accept-Language|timezone");
 ---
 
 <Layout title="Nick Taylor's live streaming schedule">
