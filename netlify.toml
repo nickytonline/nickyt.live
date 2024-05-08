@@ -31,3 +31,9 @@ from = "https://www.nickyt.tube/*"
 to = "https://youtube.com/@nickytonline/:splat"
 status = 302
 force = true
+
+[[redirects]]
+from = "chat/*"
+to = "https://www.twitch.tv/popout/nickytonline/chat?popout="
+status = 302
+force = true
