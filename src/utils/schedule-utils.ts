@@ -170,11 +170,7 @@ export async function getStreamSchedule({
 export type CfeScheduleItem = Awaited<ReturnType<typeof get2Full2StackStreamSchedule>>[number];
 
 export async function get2Full2StackStreamSchedule() {
-  const parser = new Parser({
-    customFields: {
-      item: ['media:group', 'media:thumbnail'],
-    },
-  });
+  const parser = new Parser();
 
   const feed = await parser.parseURL("https://cfe.dev/rss.xml");
 
@@ -183,7 +179,7 @@ export async function get2Full2StackStreamSchedule() {
       type: "2full2stack" as const,
       title: m.title,
       link: m.link,
-      description: (m as any).description as string,
+      description: (m as any).content as string,
       date: m.pubDate ?? new Date().toISOString(),
     };
   });
