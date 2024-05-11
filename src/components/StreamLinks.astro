@@ -2,30 +2,39 @@
 interface Props {
   youtubeUrl?: string;
   linkedinUrl?: string;
+  cfeLink?: string;
 }
 
 const TWITCH_STREAM_URL = "https://www.twitch.tv/nickytonline";
 
-const { youtubeUrl, linkedinUrl } = Astro.props;
+const { youtubeUrl, linkedinUrl, cfeLink } = Astro.props;
 ---
 
 <div>
   Watch live on:
-  <ul class="flex gap-4">
-    <li><a href={TWITCH_STREAM_URL}>Twitch</a></li>
-    {
-      youtubeUrl ? (
+  {
+    cfeLink ? (
+      <ul class="flex gap-4">
         <li>
-          <a href={youtubeUrl}>YouTube</a>
+          <a href={cfeLink}>CFE.dev</a>
         </li>
-      ) : null
-    }
-    {
-      linkedinUrl ? (
+      </ul>
+    ) : (
+      <ul class="flex gap-4">
         <li>
-          <a href={linkedinUrl}>LinkedIn</a>
+          <a href={TWITCH_STREAM_URL}>Twitch</a>
         </li>
-      ) : null
-    }
-  </ul>
+        {youtubeUrl ? (
+          <li>
+            <a href={youtubeUrl}>YouTube</a>
+          </li>
+        ) : null}
+        {linkedinUrl ? (
+          <li>
+            <a href={linkedinUrl}>LinkedIn</a>
+          </li>
+        ) : null}
+      </ul>
+    )
+  }
 </div>

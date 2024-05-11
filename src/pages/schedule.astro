@@ -1,7 +1,10 @@
 ---
 import StreamSchedule from "../components/StreamSchedule.astro";
 import Layout from "../layouts/MainLayout.astro";
-import { getStreamSchedule } from "../utils/schedule-utils";
+import {
+  getStreamSchedule,
+  get2Full2StackStreamSchedule,
+} from "../utils/schedule-utils";
 
 const { AIRTABLE_STREAM_GUEST_BASE_ID, AIRTABLE_API_KEY } = import.meta.env;
 
@@ -18,6 +21,8 @@ const schedule = await getStreamSchedule({
   apiKey: AIRTABLE_API_KEY,
   baseId: AIRTABLE_STREAM_GUEST_BASE_ID,
 });
+
+const cfeSchedule = await get2Full2StackStreamSchedule();
 
 const { timezone = "" } = Astro.locals.netlify.context.geo;
 
@@ -37,7 +42,12 @@ Astro.response.headers.set("Netlify-Vary", "header=Accept-Language|timezone");
   <main class="mt-4 md:mt-8 lg:mt-16 sm:text-xl md:text-3xl">
     <div class="grid gap-8">
       <h1>Stream Schedule</h1>
-      <StreamSchedule schedule={schedule} locale={locale} timezone={timezone} />
+      <StreamSchedule
+        schedule={schedule}
+        cfeSchedule={cfeSchedule}
+        locale={locale}
+        timezone={timezone}
+      />
     </div>
   </main>
 </Layout>
