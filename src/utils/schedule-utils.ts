@@ -1,4 +1,20 @@
-import type { StreamGuestInfo } from "../components/StreamSchedule.astro";
+import Parser from "rss-parser";
+
+export interface StreamGuestInfo {
+  type: "nickyt.live"
+  date: string;
+  title: string;
+  description: string;
+  youtubeStreamLink?: string;
+  linkedinStreamLink?: string;
+  guestName: string;
+  guestTitle?: string;
+  twitter?: string;
+  youtube?: string;
+  twitch?: string;
+  github?: string;
+  website?: string;
+}
 
 export function getHeadingId(name: string, dateTime: string) {
   const [date] = dateTime.split("T");
@@ -41,8 +57,8 @@ export function getLatestGuestMarkup({
 
   return guests.reduce((acc, guest) => {
 
-    const { date, streamTitle, name } = guest;
-    const headingId = getHeadingId(name, streamTitle);
+    const { date, title, guestName } = guest;
+    const headingId = getHeadingId(guestName, title);
     const guestDate = getLocalizedDate({
       date,
       locale,
@@ -54,7 +70,7 @@ export function getLatestGuestMarkup({
     <ol class="post-list__items sf-flow pad-top-300" reversed>
       <li class="post-list__item">
         <h3 class="font-base leading-tight text-600 weight-mid">
-          <a href="/pages/stream-schedule/#${headingId}" class="post-list__link" rel="bookmark">${streamTitle}</a>
+          <a href="/pages/stream-schedule/#${headingId}" class="post-list__link" rel="bookmark">${title}</a>
         </h3>
         <time datetime="${date}" class="text-500 gap-top-300 weight-mid">${guestDate}</time>
       </li>
@@ -115,13 +131,13 @@ export async function getStreamSchedule({
 
   const { records } = (await response.json()) as { records: GuestRecord[] };
   // Can't use satifies. Functions bundler doesn't support it yet
-  const schedule: StreamGuestInfo[] = records.map(({ fields }) => {
+  const schedule = records.map(({ fields }) => {
     const {
       Date: date,
-      Name: name,
-      "Guest Title": title,
-      "Stream Title": streamTitle,
-      "Stream Description": streamDescription,
+      Name: guestName,
+      "Guest Title": guestTitle,
+      "Stream Title": title,
+      "Stream Description": description,
       "YouTube Stream Link": youtubeStreamLink,
       "LinkedIn Stream Link": linkedinStreamLink,
       "Twitter Username": twitter,
@@ -132,11 +148,12 @@ export async function getStreamSchedule({
     } = fields;
 
     return {
+      type: "nickyt.live" as const,
       date,
-      name,
-      title: title ?? "",
-      streamTitle,
-      streamDescription,
+      guestName,
+      guestTitle: guestTitle ?? "",
+      title,
+      description,
       youtubeStreamLink,
       linkedinStreamLink,
       twitter,
@@ -148,4 +165,38 @@ export async function getStreamSchedule({
   });
 
   return schedule;
+}
+
+export type CfeScheduleItem = Awaited<ReturnType<typeof get2Full2StackStreamSchedule>>[number];
+
+async function getOgImage(url: string) {
+  try {
+  const response = await fetch(url);
+  const html = await response.text();
+  const match = html.match(/<meta.+property=['"]og:image['"].+content=['"]([^"']+)['"]/);
+
+  return match?.[1] ?? "";
+  } catch (e) {
+    console.error(e);
+    return "";
+  }
+}
+
+export async function get2Full2StackStreamSchedule() {
+  const parser = new Parser();
+
+  const feed = await parser.parseURL("https://cfe.dev/rss.xml");
+
+  const items =  feed.items.filter(item => item.link?.startsWith("https://cfe.dev/talkshows/2full2stack") && new Date(item.pubDate!) > new Date()).map(async (m) => {
+    return {
+      type: "2full2stack" as const,
+      title: m.title,
+      link: m.link,
+      description: (m as any).content as string,
+      date: m.pubDate ?? new Date().toISOString(),
+      ogImage: await getOgImage(m.link!),
+    };
+  });
+
+  return await Promise.all(items);
 }

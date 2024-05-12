@@ -1,5 +1,10 @@
 ---
-import { getLocalizedDate, getHeadingId } from "../utils/schedule-utils";
+import type { StreamGuestInfo } from "../utils/schedule-utils";
+import {
+  getLocalizedDate,
+  getHeadingId,
+  type CfeScheduleItem,
+} from "../utils/schedule-utils";
 import WebsiteLink from "./WebsiteLink.astro";
 import TwitterLink from "./TwitterLink.astro";
 import GitHubLink from "./GitHubLink.astro";
@@ -9,124 +14,140 @@ import StreamLinks from "./StreamLinks.astro";
 import HeadingAnchor from "./HeadingAnchor.astro";
 import { getYouTubeId } from "../utils/youtube-utils";
 
-export interface StreamGuestInfo {
-  date: string;
-  streamTitle: string;
-  streamDescription: string;
-  youtubeStreamLink?: string;
-  linkedinStreamLink?: string;
-  name: string;
-  title?: string;
-  twitter?: string;
-  youtube?: string;
-  twitch?: string;
-  github?: string;
-  website?: string;
-}
-
 interface Props {
   locale: string;
   timezone: string;
   schedule: StreamGuestInfo[];
+  cfeSchedule: CfeScheduleItem[];
 }
 
-const { locale, timezone, schedule } = Astro.props;
+const { locale, timezone, schedule, cfeSchedule } = Astro.props;
+
+const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
+  ...cfeSchedule,
+  ...schedule,
+].sort((a, b) => {
+  return new Date(a.date).getTime() - new Date(b.date).getTime();
+});
 ---
 
 <ul class="flex flex-col gap-16">
   {
-    schedule.map(
-      ({
+    fullSchedule.map((scheduleItem) => {
+      const { date, title, description } = scheduleItem;
+      const guestDate = getLocalizedDate({
         date,
-        streamTitle,
-        streamDescription,
-        youtubeStreamLink,
+        locale,
+        timezone,
+        showTime: true,
+      });
+
+      let youtubeStreamLink,
         linkedinStreamLink,
-        name,
-        title,
+        guestName,
+        guestTitle,
         twitter,
         website,
         twitch,
         youtube,
         github,
-      }) => {
-        const guestDate = getLocalizedDate({
-          date,
-          locale,
-          timezone,
-          showTime: true,
-        });
-        const headingId = getHeadingId(name, date);
-        const videoId = youtubeStreamLink
-          ? getYouTubeId(youtubeStreamLink)
-          : null;
+        cfeLink,
+        ogImage;
 
-        return (
-          <li class="flex flex-col gap-4 [&_h2]:odd:text-purple-600 [&_h2]:text-pink-600 [&_a:hover]:text-pink-600 [&_a:hover]:odd:text-purple-600 [&_a:hover]:odd:decoration-purple-600">
-            <div class="grid gap-4">
-              <div>
-                <h2 id={headingId} class="flex gap-2 items-center mb-2">
-                  {streamTitle}
-                  <HeadingAnchor headingId={headingId} />
-                </h2>
-                <time datetime={date} class="italic">
-                  {guestDate}
-                </time>
-                <div>
-                  {github === "nickytonline" ? null : (
-                    <div>
-                      Guest: {name}
-                      {title ? `, ${title}` : null}
-                    </div>
-                  )}
-                </div>
-              </div>
-              {videoId ? (
-                <img
-                  src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-                  alt=""
-                  class="my-2 rounded-md w-[270px] md:w-[540px] aspect-video border border-pink-300"
-                />
-              ) : null}
-              {streamDescription ? <p set:html={streamDescription} /> : null}
-            </div>
-            <nav class="nav" aria-label="Links for live stream guest ${name}">
-              <ul class="flex gap-2 items-center">
-                {website ? (
-                  <li>
-                    <WebsiteLink name={name} url={website} />
-                  </li>
-                ) : null}
-                {github ? (
-                  <li>
-                    <GitHubLink name={name} url={github} />
-                  </li>
-                ) : null}
-                {twitter ? (
-                  <li>
-                    <TwitterLink name={name} url={twitter} />
-                  </li>
-                ) : null}
-
-                {twitch ? (
-                  <li>
-                    <TwitchLink name={name} url={twitch} />
-                  </li>
-                ) : null}
-                {youtube ? (
-                  <li>
-                    <YouTubeLink name={name} url={youtube} />
-                  </li>
-                ) : null}
-              </ul>
-            </nav>
-            <StreamLinks
-              youtubeUrl={youtubeStreamLink}
-              linkedinUrl={linkedinStreamLink}
-            />
-          </li>
-        );
+      if (scheduleItem.type === "nickyt.live") {
+        guestName = scheduleItem.guestName;
+        guestTitle = scheduleItem.guestTitle;
+        youtubeStreamLink = scheduleItem.youtubeStreamLink;
+        linkedinStreamLink = scheduleItem.linkedinStreamLink;
+        twitter = scheduleItem.twitter;
+        website = scheduleItem.website;
+        twitch = scheduleItem.twitch;
+        youtube = scheduleItem.youtube;
+        github = scheduleItem.github;
+      } else {
+        guestName = "2Full2Stack";
+        cfeLink = scheduleItem.link;
+        ogImage = scheduleItem.ogImage;
       }
-    )
+
+      const headingId = getHeadingId(guestName, date);
+      const videoId = youtubeStreamLink
+        ? getYouTubeId(youtubeStreamLink)
+        : null;
+
+      return (
+        <li class="flex flex-col gap-4 [&_h2]:odd:text-purple-600 [&_h2]:text-pink-600 [&_a:hover]:text-pink-600 [&_a:hover]:odd:text-purple-600 [&_a:hover]:odd:decoration-purple-600">
+          <div class="grid gap-4">
+            <div>
+              <h2 id={headingId} class="flex gap-2 items-center mb-2">
+                {guestName === "2Full2Stack"
+                  ? `2 Full 2 Stack: ${title}`
+                  : title}
+                <HeadingAnchor headingId={headingId} />
+              </h2>
+              <time datetime={date} class="italic">
+                {guestDate}
+              </time>
+              <div>
+                {github === "nickytonline" ||
+                guestName === "2Full2Stack" ? null : (
+                  <div>
+                    Guest: {guestName}
+                    {guestTitle ? `, ${guestTitle}` : null}
+                  </div>
+                )}
+              </div>
+            </div>
+            {videoId || ogImage ? (
+              <img
+                src={
+                  videoId
+                    ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+                    : ogImage
+                }
+                alt=""
+                class={`my-2 rounded-md w-[270px] md:w-[540px] aspect-video border${videoId ? " border-pink-300" : ""}`}
+              />
+            ) : null}
+            {description ? <p set:html={description} /> : null}
+          </div>
+          <nav class="nav" aria-label="Links for live stream guest ${name}">
+            <ul class="flex gap-2 items-center">
+              {website ? (
+                <li>
+                  <WebsiteLink name={guestName} url={website} />
+                </li>
+              ) : null}
+              {github ? (
+                <li>
+                  <GitHubLink name={guestName} url={github} />
+                </li>
+              ) : null}
+              {twitter ? (
+                <li>
+                  <TwitterLink name={guestName} url={twitter} />
+                </li>
+              ) : null}
+
+              {twitch ? (
+                <li>
+                  <TwitchLink name={guestName} url={twitch} />
+                </li>
+              ) : null}
+              {youtube ? (
+                <li>
+                  <YouTubeLink name={guestName} url={youtube} />
+                </li>
+              ) : null}
+            </ul>
+          </nav>
+          <StreamLinks
+            cfeLink={cfeLink}
+            youtubeUrl={youtubeStreamLink}
+            linkedinUrl={linkedinStreamLink}
+          />
+        </li>
+      );
+    })
   }
 </ul>
