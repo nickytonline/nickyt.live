@@ -169,18 +169,34 @@ export async function getStreamSchedule({
 
 export type CfeScheduleItem = Awaited<ReturnType<typeof get2Full2StackStreamSchedule>>[number];
 
+async function getOgImage(url: string) {
+  try {
+  const response = await fetch(url);
+  const html = await response.text();
+  const match = html.match(/<meta.+property=['"]og:image['"].+content=['"]([^"']+)['"]/);
+
+  return match?.[1] ?? "";
+  } catch (e) {
+    console.error(e);
+    return "";
+  }
+}
+
 export async function get2Full2StackStreamSchedule() {
   const parser = new Parser();
 
   const feed = await parser.parseURL("https://cfe.dev/rss.xml");
 
-  return feed.items.filter(item => item.link?.startsWith("https://cfe.dev/talkshows/2full2stack") && new Date(item.pubDate!) > new Date()).map((m) => {
+  const items =  feed.items.filter(item => item.link?.startsWith("https://cfe.dev/talkshows/2full2stack") && new Date(item.pubDate!) > new Date()).map(async (m) => {
     return {
       type: "2full2stack" as const,
       title: m.title,
       link: m.link,
       description: (m as any).content as string,
       date: m.pubDate ?? new Date().toISOString(),
+      ogImage: await getOgImage(m.link!),
     };
   });
+
+  return await Promise.all(items);
 }
