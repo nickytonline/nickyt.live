@@ -7,7 +7,7 @@ import TwitterLink from "../../components/TwitterLink.astro";
 import WebsiteLink from "../../components/WebsiteLink.astro";
 import YouTubeLink from "../../components/YouTubeLink.astro";
 import MainLayout from "../../layouts/MainLayout.astro";
-import { getStreamSchedule } from "../../utils/schedule-utils";
+import { getAllGuests } from "../../utils/schedule-utils";
 import { getYouTubeId } from "../../utils/youtube-utils";
 
 interface Props extends StreamGuestInfo {
@@ -34,7 +34,7 @@ export async function getStaticPaths() {
     throw new Error("Missing required environment variables");
   }
 
-  const schedule = await getStreamSchedule({
+  const schedule = await getAllGuests({
     apiKey: AIRTABLE_API_KEY,
     baseId: AIRTABLE_STREAM_GUEST_BASE_ID,
   });

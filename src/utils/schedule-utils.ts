@@ -98,12 +98,24 @@ const GUEST_FIELDS = [
   "Website",
 ] as const;
 
-export async function getStreamSchedule({
+export async function getAllGuests({
   apiKey,
   baseId,
 }: {
   apiKey: string;
   baseId: string;
+}): Promise<StreamGuestInfo[]> {
+  return await getStreamSchedule({ apiKey, baseId, type: "past" });
+}
+
+export async function getStreamSchedule({
+  apiKey,
+  baseId,
+  type = "upcoming",
+}: {
+  apiKey: string;
+  baseId: string;
+  type?: "upcoming" | "past";
 }): Promise<StreamGuestInfo[]> {
   // Only get guests on the stream schedule from the day before and on
   const yesterday = new Date();
@@ -112,7 +124,7 @@ export async function getStreamSchedule({
 
   const startDate = yesterday.toISOString();
   // Only get guests on the stream schedule from the day before and on
-  const filter = `&filterByFormula=AND(IS_AFTER({Date}, '${startDate}'), {On%20Schedule})`;
+  const filter = type=== "upcoming" ?`&filterByFormula=AND(IS_AFTER({Date}, '${startDate}'), {On%20Schedule})` : "";
   const sorter = `&sortField=Date&sortDirection=asc`;
 
   // Generates querystring key value pairs that look like this, Name&fields[]=Guest%20Title&fields[]=Stream%20Title
