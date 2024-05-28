@@ -128,13 +128,14 @@ export async function getStreamSchedule({
   });
 
   interface GuestRecord {
+    id: string;
     createdTime: string;
     fields: Record<(typeof GUEST_FIELDS)[number], string>;
   }
 
   const { records } = (await response.json()) as { records: GuestRecord[] };
   // Can't use satifies. Functions bundler doesn't support it yet
-  const schedule = records.map(({ fields }) => {
+  const schedule: StreamGuestInfo[] = records.map(({ id, fields }) => {
     const {
       Date: date,
       Name: guestName,
@@ -153,6 +154,7 @@ export async function getStreamSchedule({
 
     return {
       type: "nickyt.live" as const,
+      id,
       date,
       guestName,
       guestTitle: guestTitle ?? "",
