@@ -1,7 +1,7 @@
 import Parser from "rss-parser";
 
 export interface StreamGuestInfo {
-  type: "nickyt.live"
+  type: "nickyt.live";
   date: string;
   title: string;
   description: string;
@@ -14,6 +14,7 @@ export interface StreamGuestInfo {
   twitch?: string;
   github?: string;
   website?: string;
+  ogImageURL?: string;
 }
 
 export function getHeadingId(name: string, dateTime: string) {
@@ -56,7 +57,6 @@ export function getLatestGuestMarkup({
   }
 
   return guests.reduce((acc, guest) => {
-
     const { date, title, guestName } = guest;
     const headingId = getHeadingId(guestName, title);
     const guestDate = getLocalizedDate({
@@ -66,7 +66,9 @@ export function getLatestGuestMarkup({
       showTime: true,
     });
 
-    return acc + `
+    return (
+      acc +
+      `
     <ol class="post-list__items sf-flow pad-top-300" reversed>
       <li class="post-list__item">
         <h3 class="font-base leading-tight text-600 weight-mid">
@@ -75,9 +77,9 @@ export function getLatestGuestMarkup({
         <time datetime="${date}" class="text-500 gap-top-300 weight-mid">${guestDate}</time>
       </li>
     </ol>
-    `;
-  }
-    , '<h2 class="post-list__heading text-700 md:text-800">Upcoming Live Streams</h2>');
+    `
+    );
+  }, '<h2 class="post-list__heading text-700 md:text-800">Upcoming Live Streams</h2>');
 }
 
 const GUEST_FIELDS = [
@@ -86,6 +88,7 @@ const GUEST_FIELDS = [
   "Guest Title",
   "Stream Title",
   "Stream Description",
+  "ogImageURL",
   "YouTube Stream Link",
   "LinkedIn Stream Link",
   "Twitter Username",
@@ -145,6 +148,7 @@ export async function getStreamSchedule({
       "GitHub Handle": github,
       "YouTube Channel": youtube,
       Website: website,
+      ogImageURL,
     } = fields;
 
     return {
@@ -161,21 +165,26 @@ export async function getStreamSchedule({
       github,
       youtube,
       website,
+      ogImageURL,
     };
   });
 
   return schedule;
 }
 
-export type CfeScheduleItem = Awaited<ReturnType<typeof get2Full2StackStreamSchedule>>[number];
+export type CfeScheduleItem = Awaited<
+  ReturnType<typeof get2Full2StackStreamSchedule>
+>[number];
 
 async function getOgImage(url: string) {
   try {
-  const response = await fetch(url);
-  const html = await response.text();
-  const match = html.match(/<meta.+property=['"]og:image['"].+content=['"]([^"']+)['"]/);
+    const response = await fetch(url);
+    const html = await response.text();
+    const match = html.match(
+      /<meta.+property=['"]og:image['"].+content=['"]([^"']+)['"]/,
+    );
 
-  return match?.[1] ?? "";
+    return match?.[1] ?? "";
   } catch (e) {
     console.error(e);
     return "";
@@ -187,16 +196,22 @@ export async function get2Full2StackStreamSchedule() {
 
   const feed = await parser.parseURL("https://cfe.dev/rss.xml");
 
-  const items =  feed.items.filter(item => item.link?.startsWith("https://cfe.dev/talkshows/2full2stack") && new Date(item.pubDate!) > new Date()).map(async (m) => {
-    return {
-      type: "2full2stack" as const,
-      title: m.title,
-      link: m.link,
-      description: (m as any).content as string,
-      date: m.pubDate ?? new Date().toISOString(),
-      ogImage: await getOgImage(m.link!),
-    };
-  });
+  const items = feed.items
+    .filter(
+      (item) =>
+        item.link?.startsWith("https://cfe.dev/talkshows/2full2stack") &&
+        new Date(item.pubDate!) > new Date(),
+    )
+    .map(async (m) => {
+      return {
+        type: "2full2stack" as const,
+        title: m.title,
+        link: m.link,
+        description: (m as any).content as string,
+        date: m.pubDate ?? new Date().toISOString(),
+        ogImage: await getOgImage(m.link!),
+      };
+    });
 
   return await Promise.all(items);
 }
