@@ -37,3 +37,9 @@ from = "chat/*"
 to = "https://www.twitch.tv/popout/nickytonline/chat?popout="
 status = 302
 force = true
+
+[[redirects]]
+from = "sponsor-digital-ocean/*"
+to = "https://www.digitalocean.com/deploy?utm_source=influencer_nicktaylor&amp;utm_medium=event&amp;utm_campaign=deploy24"
+status = 302
+force = true
