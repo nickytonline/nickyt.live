@@ -33,6 +33,10 @@ body {
   @apply bg-white;
 }
 
+main {
+  max-width: 65ch;
+}
+
 a {
   /* text-decoration: underline; */
   @apply underline;
