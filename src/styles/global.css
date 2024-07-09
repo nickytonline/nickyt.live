@@ -48,3 +48,8 @@ a:hover {
   @apply decoration-pink-600;
   @apply decoration-8;
 }
+
+a[aria-current="page"] {
+  @apply decoration-purple-600;
+  @apply decoration-8;
+}

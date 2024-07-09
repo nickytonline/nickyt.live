@@ -34,10 +34,16 @@ const currentPath = pathname.slice(1);
       >
         <ul class="list-none flex gap-6 place-content-center flex-wrap">
           <li>
-            <a href="/">Home</a>
+            <a href="/" aria-current={currentPath === "" ? "page" : "false"}
+              >Home</a
+            >
           </li>
           <li>
-            <a href="/archive">Past Streams</a>
+            <a
+              href="/archive"
+              aria-current={currentPath === "archive" ? "page" : "false"}
+              >Past Streams</a
+            >
           </li>
           <li>
             <a href="https://twitch.tv/nickytonline">Twitch</a>
