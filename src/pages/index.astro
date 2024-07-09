@@ -2,24 +2,24 @@
 import StreamSchedule from "../components/StreamSchedule.astro";
 import Layout from "../layouts/MainLayout.astro";
 import {
-    getStreamSchedule,
-    get2Full2StackStreamSchedule,
+  getStreamSchedule,
+  get2Full2StackStreamSchedule,
 } from "../utils/schedule-utils";
 
 const { AIRTABLE_STREAM_GUEST_BASE_ID, AIRTABLE_API_KEY } = import.meta.env;
 
 if (!AIRTABLE_API_KEY || !AIRTABLE_STREAM_GUEST_BASE_ID) {
-    throw new Error("Missing required environment variables");
+  throw new Error("Missing required environment variables");
 }
 
 const locale =
-    Astro.request.headers.get("Accept-Language")?.split(",")[0] ||
-    Astro.request.headers.get("Accept-Language") ||
-    "en-US";
+  Astro.request.headers.get("Accept-Language")?.split(",")[0] ||
+  Astro.request.headers.get("Accept-Language") ||
+  "en-US";
 
 const schedule = await getStreamSchedule({
-    apiKey: AIRTABLE_API_KEY,
-    baseId: AIRTABLE_STREAM_GUEST_BASE_ID,
+  apiKey: AIRTABLE_API_KEY,
+  baseId: AIRTABLE_STREAM_GUEST_BASE_ID,
 });
 
 const cfeSchedule = await get2Full2StackStreamSchedule();
@@ -27,27 +27,27 @@ const cfeSchedule = await get2Full2StackStreamSchedule();
 const { timezone = "" } = Astro.locals.netlify.context.geo;
 
 Astro.response.headers.set(
-    "Cache-Control",
-    "public, max-age=0, must-revalidate",
+  "Cache-Control",
+  "public, max-age=0, must-revalidate"
 );
 Astro.response.headers.set(
-    "Netlify-CDN-Cache-Control",
-    "public, max-age=14400, must-revalidate",
+  "Netlify-CDN-Cache-Control",
+  "public, max-age=86400, must-revalidate"
 );
 Astro.response.headers.set("timezone", timezone);
 Astro.response.headers.set("Netlify-Vary", "header=Accept-Language|timezone");
 ---
 
 <Layout title="Nick Taylor's live streaming schedule">
-    <main class="mt-4 md:mt-8 lg:mt-16 sm:text-xl md:text-3xl">
-        <div class="grid gap-8">
-            <h1>Stream Schedule</h1>
-            <StreamSchedule
-                schedule={schedule}
-                cfeSchedule={cfeSchedule}
-                locale={locale}
-                timezone={timezone}
-            />
-        </div>
-    </main>
+  <main class="mt-4 md:mt-8 lg:mt-16 sm:text-xl md:text-3xl">
+    <div class="grid gap-8">
+      <h1>Stream Schedule</h1>
+      <StreamSchedule
+        schedule={schedule}
+        cfeSchedule={cfeSchedule}
+        locale={locale}
+        timezone={timezone}
+      />
+    </div>
+  </main>
 </Layout>
