@@ -1,6 +1,9 @@
 ---
 import { Image } from "astro:assets";
 import alpaca from "../images/alpaca.png";
+
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1);
 ---
 
 <header class="lg:sticky top-0 pt-6 pb-6 bg-white">
@@ -31,13 +34,13 @@ import alpaca from "../images/alpaca.png";
       >
         <ul class="list-none flex gap-6 place-content-center flex-wrap">
           <li>
-            <a href="/" data-twitch>Home</a>
+            <a href="/">Home</a>
           </li>
           <li>
-            <a href="/archive" data-twitch>Past Streams</a>
+            <a href="/archive">Past Streams</a>
           </li>
           <li>
-            <a href="https://twitch.tv/nickytonline" data-twitch>Twitch</a>
+            <a href="https://twitch.tv/nickytonline">Twitch</a>
           </li>
 
           <li>
