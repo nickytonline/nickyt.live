@@ -39,17 +39,17 @@ main {
 
 a {
   /* text-decoration: underline; */
-  @apply underline;
+  @apply decoration-pink-600;
   @apply underline-offset-8;
-  transition: text-decoration-color 400ms text-decoration-thickness 400ms;
 }
 
-a:hover {
+a:not([aria-current="page"]):hover {
   @apply decoration-pink-600;
+  @apply underline;
   @apply decoration-8;
 }
 
 a[aria-current="page"] {
+  @apply underline;
   @apply decoration-purple-600;
-  @apply decoration-8;
 }
