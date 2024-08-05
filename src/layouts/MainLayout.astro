@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import OgMetaTags from "../components/OgMetaTags.astro";
 import Header from "../components/Header.astro";
+import SkipLink from "../components/SkipLink.astro";
 interface Props {
   title: string;
 }
@@ -32,6 +33,7 @@ const { origin } = new URL(Astro.request.url);
     <title>{title}</title>
   </head>
   <body class="pb-32">
+    <SkipLink id="main" />
     <div>
       <Header />
       <slot />
