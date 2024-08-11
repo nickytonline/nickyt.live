@@ -1,0 +1,48 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../layouts/MainLayout.astro";
+---
+
+<Layout title="Nick Taylor's live streaming schedule">
+  <main id="main" class="mt-4 md:mt-8 lg:mt-16 sm:text-xl md:text-3xl">
+    <div class="grid gap-8">
+      <h1>About</h1>
+      <p>
+        <Image
+          class="headshot"
+          src="/assets/colour-headshot-500x500.jpg"
+          alt="Headshot of Nick Taylor"
+          width="150"
+          height="150"
+        />
+
+        <em>Hello!</em> My name is Nick Taylor. I'm a Senior Software Engineer at
+        <a href="https://opensauced.pizza">OpenSauced</a>. I'm a fan of Open
+        Source and have a growing interest in serverless and edge computing. I'm
+        not a big fan of spiders, but I know they're doing good work eating
+        bugs. I am a <em>big</em> fan of TypeScript, JavaScript, Node, and all things
+        frontend. Aside from programming, I enjoy contributing to open source, hitting
+        the gym, snowboarding, and rugby a long time ago. More about me can be found
+        on my personal site, <a href="https://www.nickyt.co">nickyt.co</a>.
+      </p>
+
+      <iframe
+        src="https://github.com/sponsors/nickytonline/card"
+        title="Sponsor nickytonline"
+        height="270"
+        width="600"
+        style="border: 0;"></iframe>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .headshot {
+    width: 25%;
+    border-radius: 50%;
+    shape-outside: ellipse(50% 50%);
+    margin-right: 1rem;
+    float: left;
+    margin-top: 2rem;
+  }
+</style>
