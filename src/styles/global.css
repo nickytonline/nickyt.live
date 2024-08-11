@@ -38,7 +38,7 @@ main {
 }
 
 a:not([class]) {
-  /* text-decoration: underline; */
+  text-decoration: underline;
   @apply decoration-pink-600;
   @apply underline-offset-8;
 }
@@ -52,4 +52,8 @@ a:not([aria-current="page"]):hover {
 a[aria-current="page"] {
   @apply underline;
   @apply decoration-purple-600;
+}
+
+a[aria-current="page"]:hover {
+  @apply decoration-8;
 }
