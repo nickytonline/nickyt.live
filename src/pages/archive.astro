@@ -22,7 +22,7 @@ Astro.response.headers.set(
 <Layout title="Nick Taylor's live streaming homepage">
   <main id="main" class="mt-4 md:mt-8 lg:mt-16 sm:text-xl md:text-3xl">
     <div class="grid gap-8">
-      <h1>Latest Videos</h1>
+      <h1>Past Streams</h1>
       {
         videos.map((video) => {
           const videoId = getYouTubeId(video.link);
@@ -46,6 +46,7 @@ Astro.response.headers.set(
           );
         })
       }
+      <p>View more of the back catalogue on <a href="https://youtube.com/@nickytonline">youtube.com/@nickytonline</a></p>
     </div>
   </main>
 </Layout>
