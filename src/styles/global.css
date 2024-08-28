@@ -43,7 +43,7 @@ a:not([class]) {
   @apply underline-offset-8;
 }
 
-a:not([aria-current="page"]):hover {
+a:not([class]):hover {
   @apply decoration-pink-600;
   @apply underline;
   @apply decoration-8;
@@ -51,9 +51,8 @@ a:not([aria-current="page"]):hover {
 
 a[aria-current="page"] {
   @apply underline;
-  @apply decoration-purple-600;
 }
 
-a[aria-current="page"]:hover {
-  @apply decoration-8;
+a:not([aria-current="page"]) {
+  @apply no-underline
 }
