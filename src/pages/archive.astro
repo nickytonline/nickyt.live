@@ -21,7 +21,7 @@ Astro.response.headers.set(
 
 <Layout title="Nick Taylor's live streaming homepage">
   <main id="main" class="mt-4 md:mt-8 lg:mt-16 sm:text-xl md:text-3xl">
-    <div class="grid gap-8">
+    <div class="grid gap-8 lg:gap-12">
       <h1>Past Streams</h1>
       <p>View more of the back catalogue on <a href="https://youtube.com/@nickytonline">youtube.com/@nickytonline</a></p>
       {
@@ -29,7 +29,7 @@ Astro.response.headers.set(
           const videoId = getYouTubeId(video.link);
 
           return (
-            <article class="grid lg:grid-cols-[480px,1fr] gap-6">
+            <article class="grid lg:grid-cols-[480px,1fr] gap-6 mb-6">
               <a href={video.link}>
                 <!-- TODO: make the slate pink once latest thumbnails are all pink bg. -->
                 <img
