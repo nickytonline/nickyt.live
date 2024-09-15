@@ -49,10 +49,10 @@ a:not([class]):hover {
   @apply decoration-8;
 }
 
-a[aria-current="page"] {
+nav a[aria-current="page"] {
   @apply underline;
 }
 
-a:not([aria-current="page"]) {
+nav a:not([aria-current="page"]) {
   @apply no-underline
 }
