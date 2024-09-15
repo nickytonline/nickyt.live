@@ -7,7 +7,7 @@ import {
   getYouTubeId,
 } from "../utils/youtube-utils";
 
-const videos = await getVideos(NICKYT_LIVE_PLAYLIST_FEED_URL);
+const videos = await getVideos(NICKYT_LIVE_PLAYLIST_FEED_URL, 15);
 
 Astro.response.headers.set(
   "Cache-Control",
@@ -23,6 +23,7 @@ Astro.response.headers.set(
   <main id="main" class="mt-4 md:mt-8 lg:mt-16 sm:text-xl md:text-3xl">
     <div class="grid gap-8">
       <h1>Past Streams</h1>
+      <p>View more of the back catalogue on <a href="https://youtube.com/@nickytonline">youtube.com/@nickytonline</a></p>
       {
         videos.map((video) => {
           const videoId = getYouTubeId(video.link);
