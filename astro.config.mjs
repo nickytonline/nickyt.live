@@ -10,4 +10,5 @@ export default defineConfig({
   })],
   output: "server",
   adapter: netlify(),
+  experimental: { contentLayer: true }
 });

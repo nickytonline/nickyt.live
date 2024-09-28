@@ -1,13 +1,9 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/MainLayout.astro";
-import {
-  getVideos,
-  sanitizeVideoDescription,
-  TWO_FULL_2_STACK_PLAYLIST_FEED_URL,
-  getYouTubeId,
-} from "../utils/youtube-utils";
+import { sanitizeVideoDescription } from "../utils/youtube-utils";
 
-const videos = await getVideos(TWO_FULL_2_STACK_PLAYLIST_FEED_URL, 15);
+const episodes = await getCollection("twoFull2StackEpisodes");
 
 Astro.response.headers.set(
   "Cache-Control",
@@ -20,34 +16,48 @@ Astro.response.headers.set(
 ---
 
 <Layout title="Nick Taylor's live streaming homepage">
-  <main id="main" class="mt-4 md:mt-8 lg:mt-16 sm:text-basemd:text-3xl">
+  <main id="main" class="mt-4 md:mt-8 lg:mt-16 sm:text-base md:text-3xl">
     <div class="grid gap-8 lg:gap-12">
       <h1>2 Full 2 Stack</h1>
-      <p>View more of the back catalogue on <a href="https://www.youtube.com/watch?v=V_FzeBMZMKA&list=PLZDPKYkCEQk07B0HWWOKH3bqpqOUQuOOk">CFE.dev's YouTube channel</a></p>
+      <p>
+        View more of the back catalogue on <a
+          href="https://www.youtube.com/watch?v=V_FzeBMZMKA&list=PLZDPKYkCEQk07B0HWWOKH3bqpqOUQuOOk"
+          >CFE.dev's YouTube channel</a
+        >
+      </p>
       {
-        videos.map((video) => {
-          const videoId = getYouTubeId(video.link);
+        episodes.map((episode) => {
+          const { id, data } = episode;
+          const description = data.description ?? data.meta.description ?? "";
 
           return (
             <article class="grid lg:grid-cols-[480px,1fr] gap-6 mb-6">
-              <a href={video.link}>
-                <!-- TODO: make the slate pink once latest thumbnails are all pink bg. -->
+              <a href={data.link}>
                 <img
-                  src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-                  alt={video.title}
+                  src={data.image.url}
+                  alt={data.title}
                   class="my-2 rounded-md w-[240px] md:w-[480px] aspect-auto border"
                 />
               </a>
               <div class="flex flex-col gap-4 w-max[480px] md:max-w-[65ch]">
-                <h2>{video.title}</h2>
-                <div style="word-break: break-all" class="prose" set:html={sanitizeVideoDescription(video.description)} />
-                <a href={video.link}>Watch on YouTube</a>
+                <h2>{data.title}</h2>
+                <div
+                  style="word-break: break-all"
+                  class="prose"
+                  set:html={sanitizeVideoDescription(description)}
+                />
+                <a href={data.link}>Watch on YouTube</a>
               </div>
             </article>
           );
         })
       }
-      <p>View more of the back catalogue on <a href="https://www.youtube.com/watch?v=V_FzeBMZMKA&list=PLZDPKYkCEQk07B0HWWOKH3bqpqOUQuOOk">CFE.dev's YouTube channel</a></p>
+      <p>
+        View more of the back catalogue on <a
+          href="https://www.youtube.com/watch?v=V_FzeBMZMKA&list=PLZDPKYkCEQk07B0HWWOKH3bqpqOUQuOOk"
+          >CFE.dev's YouTube channel</a
+        >
+      </p>
     </div>
   </main>
 </Layout>
