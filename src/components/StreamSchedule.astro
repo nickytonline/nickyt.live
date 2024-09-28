@@ -109,7 +109,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
                     : ogImage
                 }
                 alt=""
-                class={`my-2 rounded-md w-[270px] md:w-[540px] aspect-video border${videoId ? " border-pink-300" : ""}`}
+                class={`my-2 rounded-md w-[240px] md:w-[480px] aspect-auto border${videoId ? " border-pink-300" : ""}`}
               />
             ) : null}
             {description ? <p set:html={description} /> : null}

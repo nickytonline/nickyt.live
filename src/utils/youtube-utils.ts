@@ -3,6 +3,7 @@ import Parser from 'rss-parser';
 
 export const DEFAULT_YT_FEED_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCBLlEq0co24VFJIMEHNcPOQ';
 export const NICKYT_LIVE_PLAYLIST_FEED_URL = "https://www.youtube.com/feeds/videos.xml?playlist_id=PLcR4ZgxWXeICy2QVTV-6HuEHfl9DcAuq7"
+export const TWO_FULL_2_STACK_PLAYLIST_FEED_URL = "https://www.youtube.com/feeds/videos.xml?playlist_id=PLZDPKYkCEQk07B0HWWOKH3bqpqOUQuOOk"
 
 export function getYouTubeId(url: string) {
           return url?.match(
