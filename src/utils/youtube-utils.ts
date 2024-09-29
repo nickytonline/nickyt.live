@@ -20,7 +20,15 @@ export async function getVideos(videoFeedUrl: string, numberOfVideos = 6) {
 
   const feed = await parser.parseURL(videoFeedUrl);
 
-  return feed.items.slice(0, numberOfVideos).map((m) => {
+
+  return feed.items.slice(0, numberOfVideos)
+  .filter((m) => {
+    return new Date(m.pubDate!).getTime() <= new Date().getTime();
+  })
+  .sort((a, b) => {
+    return new Date(b.pubDate!).getTime() - new Date(a.pubDate!).getTime();
+  })
+  .map((m) => {
     return {
       title: m.title,
       link: m.link,
