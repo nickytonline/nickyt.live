@@ -112,7 +112,9 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
                 class={`my-2 rounded-md w-[240px] md:w-[480px] aspect-auto border${videoId ? " border-pink-300" : ""}`}
               />
             ) : null}
-            {description ? <p set:html={description} /> : null}
+            {description ? (
+              <p set:html={description} class="prose max-w-prose" />
+            ) : null}
           </div>
           <nav class="nav" aria-label="Links for live stream guest ${name}">
             <ul class="flex gap-2 items-center">
