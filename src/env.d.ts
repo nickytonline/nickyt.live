@@ -6,4 +6,4 @@ type YouTubeVideo = {
   description: string;
   thumbnail: string;
   date: string;
-}
+};

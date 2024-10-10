@@ -19,7 +19,8 @@ export interface StreamGuestInfo {
 
 export function getHeadingId(name: string, dateTime: string) {
   const [date] = dateTime.split("T");
-  return `${date}-${encodeURIComponent(name.replace(/\s+/, "-"))}`.toLowerCase();
+  return `${date}-${encodeURIComponent(name.replace(/\s+/, "-"))}`
+    .toLowerCase();
 }
 
 export function getLocalizedDate({
@@ -56,19 +57,20 @@ export function getLatestGuestMarkup({
     return ``;
   }
 
-  return guests.reduce((acc, guest) => {
-    const { date, title, guestName } = guest;
-    const headingId = getHeadingId(guestName, title);
-    const guestDate = getLocalizedDate({
-      date,
-      locale,
-      timezone,
-      showTime: true,
-    });
+  return guests.reduce(
+    (acc, guest) => {
+      const { date, title, guestName } = guest;
+      const headingId = getHeadingId(guestName, title);
+      const guestDate = getLocalizedDate({
+        date,
+        locale,
+        timezone,
+        showTime: true,
+      });
 
-    return (
-      acc +
-      `
+      return (
+        acc +
+        `
     <ol class="post-list__items sf-flow pad-top-300" reversed>
       <li class="post-list__item">
         <h3 class="font-base leading-tight text-600 weight-mid">
@@ -78,8 +80,10 @@ export function getLatestGuestMarkup({
       </li>
     </ol>
     `
-    );
-  }, '<h2 class="post-list__heading text-700 md:text-800">Upcoming Live Streams</h2>');
+      );
+    },
+    '<h2 class="post-list__heading text-700 md:text-800">Upcoming Live Streams</h2>',
+  );
 }
 
 const GUEST_FIELDS = [
@@ -112,14 +116,16 @@ export async function getStreamSchedule({
 
   const startDate = yesterday.toISOString();
   // Only get guests on the stream schedule from the day before and on
-  const filter = `&filterByFormula=AND(IS_AFTER({Date}, '${startDate}'), {On%20Schedule})`;
+  const filter =
+    `&filterByFormula=AND(IS_AFTER({Date}, '${startDate}'), {On%20Schedule})`;
   const sorter = `&sortField=Date&sortDirection=asc`;
 
   // Generates querystring key value pairs that look like this, Name&fields[]=Guest%20Title&fields[]=Stream%20Title
   const fields = GUEST_FIELDS.map(encodeURIComponent).join("&fields[]=");
 
   // Uses the Airtable API's filterByFormula (see https://support.airtable.com/docs/how-to-sort-filter-or-retrieve-ordered-records-in-the-api)
-  const streamGuestInfoQueryUrl = `https://api.airtable.com/v0/${baseId}/Stream%20Guests?${filter}${sorter}&fields[]=${fields}`;
+  const streamGuestInfoQueryUrl =
+    `https://api.airtable.com/v0/${baseId}/Stream%20Guests?${filter}${sorter}&fields[]=${fields}`;
 
   const response = await fetch(streamGuestInfoQueryUrl, {
     headers: {
@@ -207,7 +213,7 @@ export async function get2Full2StackStreamSchedule() {
         type: "2full2stack" as const,
         title: m.title,
         link: m.link,
-        description: (m as any).content as string,
+        description: m.content as string,
         date: m.pubDate ?? new Date().toISOString(),
         ogImage: await getOgImage(m.link!),
       };
