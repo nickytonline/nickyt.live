@@ -7,7 +7,7 @@ import {
   getYouTubeId,
 } from "../utils/youtube-utils";
 
-const videos = await getVideos(TWO_FULL_2_STACK_PLAYLIST_FEED_URL, 15);
+const videos = await getVideos({videoFeedUrl: TWO_FULL_2_STACK_PLAYLIST_FEED_URL, numberOfVideos:15, descendingDate: true});
 
 Astro.response.headers.set(
   "Cache-Control",

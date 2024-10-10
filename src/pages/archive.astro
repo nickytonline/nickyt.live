@@ -7,7 +7,7 @@ import {
   getYouTubeId,
 } from "../utils/youtube-utils";
 
-const videos = await getVideos(NICKYT_LIVE_PLAYLIST_FEED_URL, 15);
+const videos = await getVideos({videoFeedUrl: NICKYT_LIVE_PLAYLIST_FEED_URL, numberOfVideos: 15});
 
 Astro.response.headers.set(
   "Cache-Control",

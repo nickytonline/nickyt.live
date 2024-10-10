@@ -11,10 +11,11 @@ export function getYouTubeId(url: string) {
         )?.groups?.videoId;
 }
 
-export async function getVideos(videoFeedUrl: string, numberOfVideos = 6) {
+export async function getVideos({videoFeedUrl, descendingDate = false, numberOfVideos = 6}: {videoFeedUrl: string, descendingDate?: boolean, numberOfVideos?: number }) {
   const parser = new Parser({
     customFields: {
-      item: ['media:group', 'media:thumbnail'],
+      item: ['media:group', 'media:thumbnail'
+      ],
     },
   });
 
@@ -22,11 +23,8 @@ export async function getVideos(videoFeedUrl: string, numberOfVideos = 6) {
 
 
   return feed.items.slice(0, numberOfVideos)
-  .filter((m) => {
-    return new Date(m.pubDate!).getTime() <= new Date().getTime();
-  })
   .sort((a, b) => {
-    return new Date(b.pubDate!).getTime() - new Date(a.pubDate!).getTime();
+    return descendingDate ? new Date(b.pubDate!).getTime() - new Date(a.pubDate!).getTime() : 0;
   })
   .map((m) => {
     return {
@@ -40,7 +38,7 @@ export async function getVideos(videoFeedUrl: string, numberOfVideos = 6) {
 }
 
 export async function getLatestVideo(videoFeedUrl: string) {
-  const videos = await getVideos(videoFeedUrl, 1);
+  const videos = await getVideos({videoFeedUrl, numberOfVideos: 1});
 
   return videos[0];
 }
