@@ -31,5 +31,8 @@
     "*.{astro,md,css,js,ts,tsx}": [
       "deno lint --fix"
     ]
+  },
+  "devDependencies": {
+    "husky": "^9.1.6"
   }
 }
