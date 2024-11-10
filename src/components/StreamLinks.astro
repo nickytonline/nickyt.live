@@ -6,7 +6,6 @@ interface Props {
 }
 
 const TWITCH_STREAM_URL = "https://www.twitch.tv/nickytonline";
-const TWITTER_URL = "https://twitter.com/nickytonline";
 
 const { youtubeUrl, linkedinUrl, cfeLink } = Astro.props;
 ---
@@ -35,9 +34,6 @@ const { youtubeUrl, linkedinUrl, cfeLink } = Astro.props;
             <a href={linkedinUrl}>LinkedIn</a>
           </li>
         ) : null}
-        <li>
-          <a href={TWITTER_URL}>Twitter</a>
-        </li>
       </ul>
     )
   }
