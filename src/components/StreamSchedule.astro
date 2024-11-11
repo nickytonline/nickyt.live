@@ -97,7 +97,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
                 title ? (
                   <EventCalendar
                     eventDate={date}
-                    eventName={title}
+                    eventName={guestName === "2Full2Stack" ? `2 Full 2 Stack - ${title}` : `nickyt.live - ${title}`}
                     {description}
                     duration={90}
                     location={eventLocation}
