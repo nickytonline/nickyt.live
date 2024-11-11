@@ -1,9 +1,9 @@
 ---
 import type { StreamGuestInfo } from "../utils/schedule-utils";
 import {
-  getLocalizedDate,
-  getHeadingId,
   type CfeScheduleItem,
+  getHeadingId,
+  getLocalizedDate,
 } from "../utils/schedule-utils";
 import WebsiteLink from "./WebsiteLink.astro";
 import TwitterLink from "./TwitterLink.astro";
@@ -13,7 +13,7 @@ import YouTubeLink from "./YouTubeLink.astro";
 import StreamLinks from "./StreamLinks.astro";
 import HeadingAnchor from "./HeadingAnchor.astro";
 import { getYouTubeId } from "../utils/youtube-utils";
-import Schedule from "../pages/index.astro";
+import EventCalendar from "./EventCalendar";
 
 interface Props {
   locale: string;
@@ -35,124 +35,156 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
 <ul class="flex flex-col gap-16">
   {
     fullSchedule.map((scheduleItem) => {
-      console.dir(scheduleItem);
-      const { date, title, description } = scheduleItem;
-      const guestDate = getLocalizedDate({
-        date,
-        locale,
-        timezone,
-        showTime: true,
-      });
+    console.dir(scheduleItem);
+    const { date, title, description } = scheduleItem;
+    const guestDate = getLocalizedDate({
+      date,
+      locale,
+      timezone,
+      showTime: true,
+    });
 
-      let youtubeStreamLink,
-        linkedinStreamLink,
-        guestName,
-        guestTitle,
-        twitter,
-        website,
-        twitch,
-        youtube,
-        github,
-        cfeLink,
-        ogImage;
+    let youtubeStreamLink,
+      linkedinStreamLink,
+      guestName,
+      guestTitle,
+      twitter,
+      website,
+      twitch,
+      youtube,
+      github,
+      cfeLink,
+      ogImage;
 
-      if (scheduleItem.type === "nickyt.live") {
-        guestName = scheduleItem.guestName;
-        guestTitle = scheduleItem.guestTitle;
-        youtubeStreamLink = scheduleItem.youtubeStreamLink;
-        linkedinStreamLink = scheduleItem.linkedinStreamLink;
-        twitter = scheduleItem.twitter;
-        website = scheduleItem.website;
-        twitch = scheduleItem.twitch;
-        youtube = scheduleItem.youtube;
-        github = scheduleItem.github;
-        ogImage = scheduleItem.ogImageURL;
-      } else {
-        guestName = "2Full2Stack";
-        cfeLink = scheduleItem.link;
-        ogImage = scheduleItem.ogImage;
-      }
+    if (scheduleItem.type === "nickyt.live") {
+      guestName = scheduleItem.guestName;
+      guestTitle = scheduleItem.guestTitle;
+      youtubeStreamLink = scheduleItem.youtubeStreamLink;
+      linkedinStreamLink = scheduleItem.linkedinStreamLink;
+      twitter = scheduleItem.twitter;
+      website = scheduleItem.website;
+      twitch = scheduleItem.twitch;
+      youtube = scheduleItem.youtube;
+      github = scheduleItem.github;
+      ogImage = scheduleItem.ogImageURL;
+    } else {
+      guestName = "2Full2Stack";
+      cfeLink = scheduleItem.link;
+      ogImage = scheduleItem.ogImage;
+    }
 
-      const headingId = getHeadingId(guestName, date);
-      const videoId = youtubeStreamLink
-        ? getYouTubeId(youtubeStreamLink)
-        : null;
+    const headingId = getHeadingId(guestName, date);
+    const videoId = youtubeStreamLink
+      ? getYouTubeId(youtubeStreamLink)
+      : null;
+    const eventLocation = `${Astro.request.url}#${headingId}`;
 
-      return (
-        <li class="flex flex-col gap-4 [&_h2]:text-pink-600 [&_a:hover]:text-pink-600">
-          <div class="grid gap-4">
-            <div>
-              <h2 id={headingId} class="flex gap-2 items-center mb-2">
-                {guestName === "2Full2Stack"
-                  ? `2 Full 2 Stack: ${title}`
-                  : title}
-                <HeadingAnchor headingId={headingId} />
-              </h2>
+    return (
+      <li
+        class="flex flex-col gap-4 [&_h2]:text-pink-600 [&_a:hover]:text-pink-600"
+      >
+        <div class="grid gap-4">
+          <div>
+            <h2 id={headingId} class="flex gap-2 items-center mb-2">
+              {guestName === "2Full2Stack" ? `2 Full 2 Stack: ${title}` : title}
+              <HeadingAnchor {headingId} />
+            </h2>
+            <div class="flex flex-wrap items-center gap-4">
               <time datetime={date} class="italic">
                 {guestDate}
               </time>
-              <div>
-                {github === "nickytonline" ||
-                guestName === "2Full2Stack" ? null : (
-                  <div>
-                    Guest: {guestName}
-                    {guestTitle ? `, ${guestTitle}` : null}
-                  </div>
-                )}
-              </div>
+              {
+                title ? (
+                  <EventCalendar
+                    eventDate={date}
+                    eventName={title}
+                    {description}
+                    duration={90}
+                    location={eventLocation}
+                    client:visible
+                  />
+                ) : null
+              }
             </div>
-            {videoId || ogImage ? (
-              <img
-                src={
-                  videoId
-                    ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
-                    : ogImage
-                }
-                alt=""
-                class={`my-2 rounded-md w-[240px] md:w-[480px] aspect-auto border${videoId ? " border-pink-300" : ""}`}
-              />
-            ) : null}
-            {description ? (
-              <p set:html={description} class="prose max-w-prose" />
-            ) : null}
+            <div>
+              {
+                github === "nickytonline" ||
+      guestName === "2Full2Stack"
+    ? null
+    : (
+                  <div>
+                    Guest: {guestName} {guestTitle ? `, ${guestTitle}` : null}
+                  </div>
+                )
+              }
+            </div>
           </div>
-          <nav class="nav" aria-label="Links for live stream guest ${name}">
-            <ul class="flex gap-2 items-center">
-              {website ? (
+          {
+            videoId || ogImage ? (
+              <img
+                src={videoId
+                ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+                : ogImage}
+                alt=""
+                class={`my-2 rounded-md w-[240px] md:w-[480px] aspect-auto border${
+                  videoId ? " border-pink-300" : ""
+                }`}
+              />
+            ) : null
+          }
+          {
+            description ? (
+              <p set:html={description} class="prose max-w-prose" />
+            ) : null
+          }
+        </div>
+        <nav class="nav" aria-label="Links for live stream guest ${name}">
+          <ul class="flex gap-2 items-center">
+            {
+              website ? (
                 <li>
                   <WebsiteLink name={guestName} url={website} />
                 </li>
-              ) : null}
-              {github ? (
+              ) : null
+            }
+            {
+              github ? (
                 <li>
                   <GitHubLink name={guestName} url={github} />
                 </li>
-              ) : null}
-              {twitter ? (
+              ) : null
+            }
+            {
+              twitter ? (
                 <li>
                   <TwitterLink name={guestName} url={twitter} />
                 </li>
-              ) : null}
+              ) : null
+            }
 
-              {twitch ? (
+            {
+              twitch ? (
                 <li>
                   <TwitchLink name={guestName} url={twitch} />
                 </li>
-              ) : null}
-              {youtube ? (
+              ) : null
+            }
+            {
+              youtube ? (
                 <li>
                   <YouTubeLink name={guestName} url={youtube} />
                 </li>
-              ) : null}
-            </ul>
-          </nav>
-          <StreamLinks
-            cfeLink={cfeLink}
-            youtubeUrl={youtubeStreamLink}
-            linkedinUrl={linkedinStreamLink}
-          />
-        </li>
-      );
-    })
+              ) : null
+            }
+          </ul>
+        </nav>
+        <StreamLinks
+          {cfeLink}
+          youtubeUrl={youtubeStreamLink}
+          linkedinUrl={linkedinStreamLink}
+        />
+      </li>
+    );
+  })
   }
 </ul>
