@@ -78,6 +78,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
       ? getYouTubeId(youtubeStreamLink)
       : null;
     const eventLocation = `${Astro.request.url}#${headingId}`;
+    const noGuest = github === "nickytonline" || guestName === "2Full2Stack";
 
     return (
       <li
@@ -89,33 +90,35 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
               {guestName === "2Full2Stack" ? `2 Full 2 Stack: ${title}` : title}
               <HeadingAnchor {headingId} />
             </h2>
-            <div class="flex flex-wrap items-center gap-4">
-              <time datetime={date} class="italic">
-                {guestDate}
-              </time>
+            <div class="flex flex-wrap items-start gap-4">
+              <div>
+                <time datetime={date} class="italic">
+                  {guestDate}
+                </time>
+                <div>
+                  {
+                    noGuest ? null : (
+                      <div>
+                        Guest: {guestName}
+                        {guestTitle ? `, ${guestTitle}` : null}
+                      </div>
+                    )
+                  }
+                </div>
+              </div>
               {
                 title ? (
                   <EventCalendar
                     eventDate={date}
-                    eventName={guestName === "2Full2Stack" ? `2 Full 2 Stack - ${title}` : `nickyt.live - ${title}`}
+                    eventName={guestName === "2Full2Stack"
+                    ? `2 Full 2 Stack - ${title}`
+                    : `nickyt.live - ${title}`}
                     {description}
                     duration={90}
                     location={eventLocation}
                     client:visible
                   />
                 ) : null
-              }
-            </div>
-            <div>
-              {
-                github === "nickytonline" ||
-      guestName === "2Full2Stack"
-    ? null
-    : (
-                  <div>
-                    Guest: {guestName} {guestTitle ? `, ${guestTitle}` : null}
-                  </div>
-                )
               }
             </div>
           </div>

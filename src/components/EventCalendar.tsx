@@ -30,7 +30,7 @@ const EventCalendar = ({
   const endDate = new Date(startDate.getTime() + durationInMillis);
 
   return (
-    <nav className="relative group">
+    <nav className="relative group w-fit">
       <a
         href="#"
         className="flex gap-2 items-center rounded-md  bg-pink-600 text-white px-4 py-2 hover:bg-white border-2 border-pink-600 hover:border-pink-600"
