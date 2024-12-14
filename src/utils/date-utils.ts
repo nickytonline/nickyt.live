@@ -28,9 +28,13 @@ export function formatDate(date: Date) {
  *
  * @returns a URL string
  */
-export function generateGoogleCalendarUrl(
-  { eventName, startDate, endDate, location, description }: EventInfo,
-) {
+export function generateGoogleCalendarUrl({
+  eventName,
+  startDate,
+  endDate,
+  location,
+  description,
+}: EventInfo) {
   const params = new URLSearchParams({
     action: "TEMPLATE",
     text: eventName,
@@ -54,9 +58,13 @@ export function generateGoogleCalendarUrl(
  *
  * @returns a URL string
  */
-export function generateOutlookUrl(
-  { eventName, startDate, endDate, location, description }: EventInfo,
-) {
+export function generateOutlookUrl({
+  eventName,
+  startDate,
+  endDate,
+  location,
+  description,
+}: EventInfo) {
   const params = new URLSearchParams({
     subject: eventName,
     startdt: startDate.toISOString(),
@@ -69,9 +77,13 @@ export function generateOutlookUrl(
 }
 
 // Generate iCal/Apple Calendar content
-export function generateICalContent(
-  { eventName, startDate, endDate, location, description }: EventInfo,
-) {
+export function generateICalContent({
+  eventName,
+  startDate,
+  endDate,
+  location,
+  description,
+}: EventInfo) {
   const content = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",

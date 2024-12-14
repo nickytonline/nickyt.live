@@ -8,14 +8,13 @@ h2,
 h3,
 h4,
 h5,
-h6 {;
+h6 {
   @apply tracking-tight;
   @apply font-semibold;
   @apply text-balance;
 }
 
 h1 {
-
   @apply text-4xl;
   @apply lg:text-5xl;
 }
@@ -50,5 +49,5 @@ nav a[aria-current="page"] {
 }
 
 nav a:not([aria-current="page"]) {
-  @apply no-underline
+  @apply no-underline;
 }

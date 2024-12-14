@@ -11,18 +11,18 @@ export const GUEST_APPEARANCES_PLAYLIST_FEED_URL =
   "https://www.youtube.com/feeds/videos.xml?playlist_id=PLcR4ZgxWXeIAa0VXPJQ7fgXkx73A5TeGU";
 
 export function getYouTubeId(url: string) {
-  return url?.match(
-    /(?:live\/|v=)(?<videoId>[^?&]+)/,
-  )?.groups?.videoId;
+  return url?.match(/(?:live\/|v=)(?<videoId>[^?&]+)/)?.groups?.videoId;
 }
 
-export async function getVideos(
-  { videoFeedUrl, descendingDate = false, numberOfVideos = 6 }: {
-    videoFeedUrl: string;
-    descendingDate?: boolean;
-    numberOfVideos?: number;
-  },
-) {
+export async function getVideos({
+  videoFeedUrl,
+  descendingDate = false,
+  numberOfVideos = 6,
+}: {
+  videoFeedUrl: string;
+  descendingDate?: boolean;
+  numberOfVideos?: number;
+}) {
   const parser = new Parser({
     customFields: {
       item: ["media:group", "media:thumbnail"],
@@ -31,7 +31,8 @@ export async function getVideos(
 
   const feed = await parser.parseURL(videoFeedUrl);
 
-  return feed.items.slice(0, numberOfVideos)
+  return feed.items
+    .slice(0, numberOfVideos)
     .sort((a, b) => {
       return descendingDate
         ? new Date(b.pubDate!).getTime() - new Date(a.pubDate!).getTime()
@@ -57,6 +58,7 @@ export async function getLatestVideo(videoFeedUrl: string) {
 export function sanitizeVideoDescription(description: string) {
   return marked.parse(
     description
-      .replace(/Links:?.+/si, "").replace(/Places to follow Nick.+/si, ""),
+      .replace(/Links:?.+/is, "")
+      .replace(/Places to follow Nick.+/is, ""),
   );
 }
