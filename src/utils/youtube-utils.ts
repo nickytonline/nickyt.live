@@ -7,6 +7,8 @@ export const NICKYT_LIVE_PLAYLIST_FEED_URL =
   "https://www.youtube.com/feeds/videos.xml?playlist_id=PLcR4ZgxWXeICy2QVTV-6HuEHfl9DcAuq7";
 export const TWO_FULL_2_STACK_PLAYLIST_FEED_URL =
   "https://www.youtube.com/feeds/videos.xml?playlist_id=PLZDPKYkCEQk07B0HWWOKH3bqpqOUQuOOk";
+export const GUEST_APPEARANCES_PLAYLIST_FEED_URL =
+  "https://www.youtube.com/feeds/videos.xml?playlist_id=PLcR4ZgxWXeIAa0VXPJQ7fgXkx73A5TeGU";
 
 export function getYouTubeId(url: string) {
   return url?.match(
