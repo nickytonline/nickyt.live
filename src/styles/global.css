@@ -52,3 +52,50 @@ nav a[aria-current="page"] {
 nav a:not([aria-current="page"]) {
   @apply no-underline
 }
+
+.animated-i {
+  position: relative;
+  display: inline-block;
+}
+
+.animated-i .moving-i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #db2777;
+  opacity: 0;
+  transform-origin: center;
+  animation: moveAndSpring 2s forwards;
+}
+
+@keyframes moveAndSpring {
+  0% {
+    opacity: 0;
+    transform: translateX(0) rotate(0deg);
+  }
+  5% {
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(var(--final-x)) rotate(180deg) translateX(15px);
+  }
+  50% {
+    transform: translateX(var(--final-x)) rotate(180deg) translateX(-10px);
+  }
+  60% {
+    transform: translateX(var(--final-x)) rotate(180deg) translateX(8px);
+  }
+  70% {
+    transform: translateX(var(--final-x)) rotate(180deg) translateX(-5px);
+  }
+  80% {
+    transform: translateX(var(--final-x)) rotate(180deg) translateX(3px);
+  }
+  90% {
+    transform: translateX(var(--final-x)) rotate(180deg) translateX(-1px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(var(--final-x)) rotate(180deg) translateX(0);
+  }
+}
