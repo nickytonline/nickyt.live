@@ -15,7 +15,7 @@
     "@astrojs/netlify": "^5.1.0",
     "@astrojs/react": "^3.6.2",
     "@astrojs/tailwind": "^5.1.0",
-    "astro": "^4.3.5",
+    "astro": "^4.16.18",
     "gsap": "^3.12.5",
     "lint-staged": "^15.2.10",
     "lucide-react": "^0.456.0",
