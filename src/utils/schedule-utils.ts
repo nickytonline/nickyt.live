@@ -13,6 +13,7 @@ export interface StreamGuestInfo {
   youtube?: string;
   twitch?: string;
   github?: string;
+  bluesky?: string;
   website?: string;
   ogImageURL?: string;
 }
@@ -96,6 +97,7 @@ const GUEST_FIELDS = [
   "GitHub Handle",
   "YouTube Channel",
   "Website",
+  "Bluesky",
 ] as const;
 
 export async function getStreamSchedule({
@@ -147,6 +149,7 @@ export async function getStreamSchedule({
       "Twitch Handle": twitch,
       "GitHub Handle": github,
       "YouTube Channel": youtube,
+      Bluesky: bluesky,
       Website: website,
       ogImageURL,
     } = fields;
@@ -164,6 +167,7 @@ export async function getStreamSchedule({
       twitch,
       github,
       youtube,
+      bluesky,
       website,
       ogImageURL,
     };
