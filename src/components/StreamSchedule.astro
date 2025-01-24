@@ -23,6 +23,7 @@ interface Props {
   cfeSchedule: CfeScheduleItem[];
 }
 
+const X_URL = "https://x.com/nickytonline";
 const { locale, timezone, schedule, cfeSchedule } = Astro.props;
 
 const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
@@ -54,7 +55,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
         twitch,
         youtube,
         github,
-        cfeLink,
+        cfeUrl,
         ogImage,
         bluesky;
 
@@ -72,7 +73,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
         bluesky = scheduleItem.bluesky;
       } else {
         guestName = "2Full2Stack";
-        cfeLink = scheduleItem.link;
+        cfeUrl = scheduleItem.link;
         ogImage = scheduleItem.ogImage;
       }
 
@@ -177,9 +178,10 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
             </ul>
           </nav>
           <StreamLinks
-            {cfeLink}
+            {cfeUrl}
             youtubeUrl={youtubeStreamLink}
             linkedinUrl={linkedinStreamLink}
+            xUrl={X_URL}
           />
         </li>
       );
