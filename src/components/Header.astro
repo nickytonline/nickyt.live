@@ -7,7 +7,7 @@ const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.slice(1);
 ---
 
-<header class="lg:sticky top-0 pt-6 pb-6 bg-white">
+<header class="lg:sticky top-0 pt-6 pb-6 bg-white z-10">
   <div class="flex flex-col items-center md:items-start md:flex-row gap-6">
     <div class="flex flex-col gap-6 items-center md:items-start">
       <AnimatedText animate={currentPath === ""} client:load />
@@ -18,27 +18,28 @@ const currentPath = pathname.slice(1);
         <ul class="list-none flex gap-6 place-content-center flex-wrap">
           <li>
             <a href="/" aria-current={currentPath === "" ? "page" : "false"}
-            >Home</a>
+              >Home</a
+            >
           </li>
           <li>
             <a
               href="/archive"
               aria-current={currentPath === "archive" ? "page" : "false"}
-            >Past Streams
+              >Past Streams
             </a>
           </li>
           <li>
             <a
               href="/2full2stack"
               aria-current={currentPath === "2full2stack" ? "page" : "false"}
-            >2 Full 2 Stack
+              >2 Full 2 Stack
             </a>
           </li>
           <li>
             <a
               href="/guest-appearances"
               aria-current={currentPath === "2full2stack" ? "page" : "false"}
-            >Guest Appearances
+              >Guest Appearances
             </a>
           </li>
           <li class="relative group">
@@ -56,8 +57,8 @@ const currentPath = pathname.slice(1);
                   <a href="https://nickyt.tube">YouTube</a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/in/nickytonline"
-                  >LinkedIn</a>
+                  <a href="https://www.linkedin.com/in/nickytonline">LinkedIn</a
+                  >
                 </li>
               </ul>
             </div>
@@ -66,7 +67,7 @@ const currentPath = pathname.slice(1);
             <a
               href="/about"
               aria-current={currentPath === "about" ? "page" : "false"}
-            >About
+              >About
             </a>
           </li>
         </ul>
