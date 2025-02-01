@@ -16,6 +16,7 @@ export interface StreamGuestInfo {
   bluesky?: string;
   website?: string;
   ogImageURL?: string;
+  linkedin?: string;
 }
 
 export function getHeadingId(name: string, dateTime: string) {
@@ -98,6 +99,7 @@ const GUEST_FIELDS = [
   "YouTube Channel",
   "Website",
   "Bluesky",
+  "LinkedIn",
 ] as const;
 
 export async function getStreamSchedule({
@@ -149,6 +151,7 @@ export async function getStreamSchedule({
       "Twitch Handle": twitch,
       "GitHub Handle": github,
       "YouTube Channel": youtube,
+      LinkedIn: linkedin,
       Bluesky: bluesky,
       Website: website,
       ogImageURL,
@@ -170,6 +173,7 @@ export async function getStreamSchedule({
       bluesky,
       website,
       ogImageURL,
+      linkedin,
     };
   });
 

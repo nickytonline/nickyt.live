@@ -11,6 +11,7 @@ import BlueskyLink from "./BlueskyLink.astro";
 import GitHubLink from "./GitHubLink.astro";
 import TwitchLink from "./TwitchLink.astro";
 import YouTubeLink from "./YouTubeLink.astro";
+import LinkedInLink from "./LinkedInLink.astro";
 import StreamLinks from "./StreamLinks.astro";
 import HeadingAnchor from "./HeadingAnchor.astro";
 import { getYouTubeId } from "../utils/youtube-utils";
@@ -57,7 +58,8 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
         github,
         cfeUrl,
         ogImage,
-        bluesky;
+        bluesky,
+        linkedin;
 
       if (scheduleItem.type === "nickyt.live") {
         guestName = scheduleItem.guestName;
@@ -71,6 +73,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
         github = scheduleItem.github;
         ogImage = scheduleItem.ogImageURL;
         bluesky = scheduleItem.bluesky;
+        linkedin = scheduleItem.linkedin;
       } else {
         guestName = "2Full2Stack";
         cfeUrl = scheduleItem.link;
@@ -173,6 +176,11 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
               {youtube ? (
                 <li>
                   <YouTubeLink name={guestName} url={youtube} />
+                </li>
+              ) : null}
+              {linkedin ? (
+                <li>
+                  <LinkedInLink name={guestName} url={linkedin} />
                 </li>
               ) : null}
             </ul>
