@@ -9,6 +9,8 @@ export const TWO_FULL_2_STACK_PLAYLIST_FEED_URL =
   "https://www.youtube.com/feeds/videos.xml?playlist_id=PLZDPKYkCEQk07B0HWWOKH3bqpqOUQuOOk";
 export const GUEST_APPEARANCES_PLAYLIST_FEED_URL =
   "https://www.youtube.com/feeds/videos.xml?playlist_id=PLcR4ZgxWXeIAa0VXPJQ7fgXkx73A5TeGU";
+export const POMERIUM_LIVE_PLAYLIST_FEED_URL =
+  "https://www.youtube.com/feeds/videos.xml?playlist_id=PLZWncRoWaoFxwV4ZoTC-TydJYZ1c_FEGJ";
 
 export function getYouTubeId(url: string) {
   return url?.match(/(?:live\/|v=)(?<videoId>[^?&]+)/)?.groups?.videoId;

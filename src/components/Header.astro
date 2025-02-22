@@ -28,27 +28,13 @@ const currentPath = pathname.slice(1);
               >Past Streams
             </a>
           </li>
-          <li>
-            <a
-              href="/2full2stack"
-              aria-current={currentPath === "2full2stack" ? "page" : "false"}
-              >2 Full 2 Stack
-            </a>
-          </li>
-          <li>
-            <a
-              href="/guest-appearances"
-              aria-current={currentPath === "2full2stack" ? "page" : "false"}
-              >Guest Appearances
-            </a>
-          </li>
           <li class="relative group">
             <a href="#">Channels</a>
             <div
               class="absolute invisible opacity-0 transition-all duration-300 transform -translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0"
             >
               <ul
-                class="mt-4 p-4 grid gap-4 border border-black [&_a]:block [&_a]:w-full bg-white"
+                class="mt-4 p-4 grid gap-4 border border-black [&_a]:block [&_a]:w-full [&_a]:whitespace-nowrap bg-white"
               >
                 <li>
                   <a href="https://twitch.tv/nickytonline">Twitch</a>
@@ -62,6 +48,42 @@ const currentPath = pathname.slice(1);
                 </li>
               </ul>
             </div>
+          </li>
+          <li class="relative group">
+            <a href="#">Guest Channels</a>
+            <div
+              class="absolute invisible opacity-0 transition-all duration-300 transform -translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0"
+            >
+              <ul
+                class="mt-4 p-4 grid gap-4 border border-black [&_a]:block [&_a]:w-full [&_a]:whitespace-nowrap bg-white"
+              >
+                <li>
+                  <a
+                    href="/2full2stack"
+                    aria-current={currentPath === "2full2stack"
+                      ? "page"
+                      : "false"}
+                    >2 Full 2 Stack
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/pomerium-live"
+                    aria-current={currentPath === "pomerium-live"
+                      ? "page"
+                      : "false"}
+                    >Pomerium Live
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <a
+              href="/guest-appearances"
+              aria-current={currentPath === "2full2stack" ? "page" : "false"}
+              >Guest Appearances
+            </a>
           </li>
           <li>
             <a

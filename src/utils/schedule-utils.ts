@@ -223,3 +223,25 @@ export async function get2Full2StackStreamSchedule() {
 
   return await Promise.all(items);
 }
+
+// Pomerium Live use the YouTube feed for @pomerium_io
+export async function getPomeriumLiveStreamSchedule() {
+  const parser = new Parser();
+
+  // Option 1: Using channel's upcoming live streams playlist
+  const feed = await parser.parseURL(
+    "https://www.youtube.com/feeds/videos.xml?channel_id=UCBJq3tmXb-1fOvv2bFc8l0A",
+  );
+
+  // Filter for only upcoming live streams
+  return feed.items.map((item) => {
+    return {
+      type: "pomerium-live" as const,
+      title: item.title,
+      link: item.link,
+      description: item.content as string,
+      date: item.pubDate,
+      ogImage: item.media?.thumbnail?.[0]?.$.url ?? "",
+    };
+  });
+}
