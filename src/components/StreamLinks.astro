@@ -3,11 +3,10 @@ interface Props {
   youtubeUrl?: string;
   linkedinUrl?: string;
   cfeUrl?: string;
+  twitchUrl?: string;
 }
 
-const TWITCH_STREAM_URL = "https://www.twitch.tv/nickytonline";
-
-const { youtubeUrl, linkedinUrl, cfeUrl } = Astro.props;
+const { youtubeUrl, linkedinUrl, cfeUrl, twitchUrl } = Astro.props;
 ---
 
 <div>
@@ -21,9 +20,11 @@ const { youtubeUrl, linkedinUrl, cfeUrl } = Astro.props;
       </ul>
     ) : (
       <ul class="flex gap-4">
-        <li>
-          <a href={TWITCH_STREAM_URL}>Twitch</a>
-        </li>
+        {twitchUrl ? (
+          <li>
+            <a href={twitchUrl}>Twitch</a>
+          </li>
+        ) : null}
         {youtubeUrl ? (
           <li>
             <a href={youtubeUrl}>YouTube</a>

@@ -1,7 +1,7 @@
 import Parser from "rss-parser";
 
 export interface StreamGuestInfo {
-  type: "nickyt.live";
+  type: "nickyt.live" | "2-full-2-stack" | "pomerium-live";
   date: string;
   title: string;
   description: string;
@@ -100,6 +100,7 @@ const GUEST_FIELDS = [
   "Website",
   "Bluesky",
   "LinkedIn",
+  "type",
 ] as const;
 
 export async function getStreamSchedule({
@@ -155,10 +156,11 @@ export async function getStreamSchedule({
       Bluesky: bluesky,
       Website: website,
       ogImageURL,
+      type,
     } = fields;
 
     return {
-      type: "nickyt.live" as const,
+      type,
       date,
       guestName,
       guestTitle: guestTitle ?? "",

@@ -17,6 +17,8 @@ import HeadingAnchor from "./HeadingAnchor.astro";
 import { getYouTubeId } from "../utils/youtube-utils";
 import EventCalendar from "./EventCalendar";
 
+const TWITCH_STREAM_URL = "https://www.twitch.tv/nickytonline";
+
 interface Props {
   locale: string;
   timezone: string;
@@ -58,9 +60,13 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
         cfeUrl,
         ogImage,
         bluesky,
-        linkedin;
+        linkedin,
+        type;
 
-      if (scheduleItem.type === "nickyt.live") {
+      if (
+        scheduleItem.type === "nickyt.live" ||
+        scheduleItem.type === "pomerium-live"
+      ) {
         guestName = scheduleItem.guestName;
         guestTitle = scheduleItem.guestTitle;
         youtubeStreamLink = scheduleItem.youtubeStreamLink;
@@ -73,6 +79,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
         ogImage = scheduleItem.ogImageURL;
         bluesky = scheduleItem.bluesky;
         linkedin = scheduleItem.linkedin;
+        type = scheduleItem.type;
       } else {
         guestName = "2Full2Stack";
         cfeUrl = scheduleItem.link;
@@ -184,6 +191,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
           </nav>
           <StreamLinks
             {cfeUrl}
+            twitchUrl={type === "nickyt.live" ? TWITCH_STREAM_URL : undefined}
             youtubeUrl={youtubeStreamLink}
             linkedinUrl={linkedinStreamLink}
           />
