@@ -24,7 +24,6 @@ interface Props {
   cfeSchedule: CfeScheduleItem[];
 }
 
-const X_URL = "https://x.com/nickytonline";
 const { locale, timezone, schedule, cfeSchedule } = Astro.props;
 
 const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
@@ -92,9 +91,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
           <div class="grid gap-4">
             <div>
               <h2 id={headingId} class="flex gap-2 items-center mb-2">
-                {guestName === "2Full2Stack"
-                  ? `2 Full 2 Stack: ${title}`
-                  : title}
+                {title}
                 <HeadingAnchor {headingId} />
               </h2>
               <div class="flex flex-wrap items-start gap-4">
@@ -189,7 +186,6 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
             {cfeUrl}
             youtubeUrl={youtubeStreamLink}
             linkedinUrl={linkedinStreamLink}
-            xUrl={X_URL}
           />
         </li>
       );
