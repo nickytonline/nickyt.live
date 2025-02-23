@@ -90,7 +90,6 @@ const GUEST_FIELDS = [
   "Guest Title",
   "Stream Title",
   "Stream Description",
-  "ogImageURL",
   "YouTube Stream Link",
   "LinkedIn Stream Link",
   "Twitter Username",
@@ -155,12 +154,20 @@ export async function getStreamSchedule({
       LinkedIn: linkedin,
       Bluesky: bluesky,
       Website: website,
-      ogImageURL,
       type,
     } = fields;
 
+    // Validate that type is one of the allowed values
+    if (
+      type !== "nickyt.live" &&
+      type !== "2-full-2-stack" &&
+      type !== "pomerium-live"
+    ) {
+      throw new Error(`Invalid stream type: ${type}`);
+    }
+
     return {
-      type,
+      type: type as "nickyt.live" | "2-full-2-stack" | "pomerium-live",
       date,
       guestName,
       guestTitle: guestTitle ?? "",
@@ -174,7 +181,6 @@ export async function getStreamSchedule({
       youtube,
       bluesky,
       website,
-      ogImageURL,
       linkedin,
     };
   });
