@@ -2,23 +2,16 @@
 interface Props {
   youtubeUrl?: string;
   linkedinUrl?: string;
-  cfeUrl?: string;
   twitchUrl?: string;
 }
 
-const { youtubeUrl, linkedinUrl, cfeUrl, twitchUrl } = Astro.props;
+const { youtubeUrl, linkedinUrl, twitchUrl } = Astro.props;
 ---
 
 <div>
   Watch live on:
   {
-    cfeUrl ? (
-      <ul class="flex gap-4">
-        <li>
-          <a href={cfeUrl}>CFE.dev</a>
-        </li>
-      </ul>
-    ) : (
+    (
       <ul class="flex gap-4">
         {twitchUrl ? (
           <li>

@@ -133,7 +133,7 @@ export async function getStreamSchedule({
 
   interface GuestRecord {
     createdTime: string;
-    fields: Record<(typeof GUEST_FIELDS)[number], string>;
+    fields: Partial<Record<(typeof GUEST_FIELDS)[number], string>>;
   }
 
   const { records } = (await response.json()) as { records: GuestRecord[] };
@@ -168,29 +168,34 @@ export async function getStreamSchedule({
 
     return {
       type: type as "nickyt.live" | "2-full-2-stack" | "pomerium-live",
-      date,
-      guestName,
+      date: date!,
+      guestName: guestName!,
       guestTitle: guestTitle ?? "",
-      title,
-      description,
-      youtubeStreamLink,
-      linkedinStreamLink,
-      twitter,
-      twitch,
-      github,
-      youtube,
-      bluesky,
-      website,
-      linkedin,
-    };
+      title: title!,
+      description: description!,
+      youtubeStreamLink: youtubeStreamLink ?? undefined,
+      linkedinStreamLink: linkedinStreamLink ?? undefined,
+      twitter: twitter ?? undefined,
+      twitch: twitch ?? undefined,
+      github: github ?? undefined,
+      youtube: youtube ?? undefined,
+      bluesky: bluesky ?? undefined,
+      website: website ?? undefined,
+      linkedin: linkedin ?? undefined,
+    } satisfies StreamGuestInfo;
   });
 
   return schedule;
 }
 
-export type CfeScheduleItem = Awaited<
-  ReturnType<typeof get2Full2StackStreamSchedule>
->[number];
+export type CfeScheduleItem = {
+  type: "2-full-2-stack";
+  title: string | undefined;
+  link: string | undefined;
+  description: string;
+  date: string;
+  ogImage: string;
+};
 
 async function getOgImage(url: string) {
   try {
@@ -220,7 +225,7 @@ export async function get2Full2StackStreamSchedule() {
     )
     .map(async (m) => {
       return {
-        type: "2full2stack" as const,
+        type: "2-full-2-stack" as const,
         title: m.title,
         link: m.link,
         description: m.content as string,
