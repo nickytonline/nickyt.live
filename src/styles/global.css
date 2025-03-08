@@ -35,21 +35,22 @@ body {
 a:not([class]) {
   text-decoration: underline;
   @apply decoration-pink-600;
-  @apply underline-offset-8;
+  @apply underline-offset-4;
 }
 
+nav a[aria-current="page"],
 a:not([class]):hover {
   @apply decoration-pink-600;
   @apply underline;
-  @apply decoration-8;
-}
-
-nav a[aria-current="page"] {
-  @apply underline;
+  @apply decoration-4;
 }
 
 nav a:not([aria-current="page"]) {
   @apply no-underline;
+}
+
+nav a:not([aria-current="page"]):hover {
+  @apply decoration-inherit;
 }
 
 .animated-i {
