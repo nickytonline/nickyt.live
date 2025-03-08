@@ -1,35 +1,45 @@
 import type { APIRoute } from "astro";
-import { getStreamSchedule } from "../utils/schedule-utils";
+import {
+  getStreamSchedule,
+  get2Full2StackStreamSchedule,
+  type StreamGuestInfo,
+} from "../utils/schedule-utils";
 
 const SITE_URL = import.meta.env.URL;
 
 export const GET: APIRoute = async () => {
-  const streamSchedule = await getStreamSchedule({
-    apiKey: import.meta.env.AIRTABLE_API_KEY,
-    baseId: import.meta.env.AIRTABLE_STREAM_GUEST_BASE_ID,
-  });
+  const [streamSchedule, twoFullTwoStackSchedule] = await Promise.all([
+    getStreamSchedule({
+      apiKey: import.meta.env.AIRTABLE_API_KEY,
+      baseId: import.meta.env.AIRTABLE_STREAM_GUEST_BASE_ID,
+    }),
+    get2Full2StackStreamSchedule(),
+  ]);
 
-  console.log("Stream schedule length:", streamSchedule.length);
-  if (streamSchedule.length > 0) {
+  // Merge both schedules
+  const allStreams = [...streamSchedule, ...twoFullTwoStackSchedule];
+
+  console.log("Total streams:", allStreams.length);
+  if (allStreams.length > 0) {
     console.log("First stream:", {
-      title: streamSchedule[0].title,
-      date: streamSchedule[0].date,
-      guestName: streamSchedule[0].guestName,
+      title: allStreams[0].title,
+      date: allStreams[0].date,
+      type: allStreams[0].type,
     });
   }
 
   // Sort streams by date
-  const sortedSchedule = [...streamSchedule].sort(
+  const sortedSchedule = [...allStreams].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
   console.log("Sorted schedule length:", sortedSchedule.length);
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>NickyT.Live Stream Schedule</title>
-    <description>Upcoming live streams and guest appearances on NickyT.Live</description>
+    <description>Upcoming live streams and guest appearances on NickyT.Live and 2Full2Stack</description>
     <link>${SITE_URL}</link>
     <atom:link href="${SITE_URL}/rss.xml" rel="self" type="application/rss+xml"/>
     <language>en-US</language>
@@ -40,17 +50,26 @@ export const GET: APIRoute = async () => {
       <title>${stream.title}</title>
       <description><![CDATA[${stream.description}
 
-Guest: ${stream.guestName}${stream.guestTitle ? ` (${stream.guestTitle})` : ""}
+${stream.type === "2-full-2-stack" ? "" : `Guest: ${(stream as StreamGuestInfo).guestName}${(stream as StreamGuestInfo).guestTitle ? ` (${(stream as StreamGuestInfo).guestTitle})` : ""}`}
 
-${stream.youtubeStreamLink ? `YouTube Stream: ${stream.youtubeStreamLink}` : ""}
-${stream.linkedinStreamLink ? `LinkedIn Stream: ${stream.linkedinStreamLink}` : ""}
-${stream.twitter ? `Twitter: https://twitter.com/${stream.twitter}` : ""}
-${stream.github ? `GitHub: https://github.com/${stream.github}` : ""}
-${stream.website ? `Website: ${stream.website}` : ""}
+${(stream as StreamGuestInfo).youtubeStreamLink ? `YouTube Stream: ${(stream as StreamGuestInfo).youtubeStreamLink}` : ""}
+${(stream as StreamGuestInfo).linkedinStreamLink ? `LinkedIn Stream: ${(stream as StreamGuestInfo).linkedinStreamLink}` : ""}
+${(stream as StreamGuestInfo).twitter ? `Twitter: https://twitter.com/${(stream as StreamGuestInfo).twitter}` : ""}
+${(stream as StreamGuestInfo).github ? `GitHub: https://github.com/${(stream as StreamGuestInfo).github}` : ""}
+${(stream as StreamGuestInfo).website ? `Website: ${(stream as StreamGuestInfo).website}` : ""}
 ]]></description>
       <pubDate>${new Date(stream.date).toUTCString()}</pubDate>
-      <link>${stream.youtubeStreamLink || stream.linkedinStreamLink || `${SITE_URL}/pages/stream-schedule`}</link>
-      <guid isPermaLink="false">${stream.date}-${stream.guestName.replace(/\s+/g, "-")}</guid>
+      <link>${
+        stream.type === "2-full-2-stack"
+          ? (stream as { link: string | undefined }).link
+          : (stream as StreamGuestInfo).youtubeStreamLink
+      }</link>
+      <guid isPermaLink="false">${stream.date}-${
+        stream.type === "2-full-2-stack"
+          ? stream.title?.replace(/\s+/g, "-")
+          : (stream as StreamGuestInfo).guestName.replace(/\s+/g, "-")
+      }</guid>
+      ${stream.type === "2-full-2-stack" ? `<media:thumbnail url="${(stream as { ogImage: string }).ogImage}" />` : ""}
     </item>`,
       )
       .join("\n    ")}
