@@ -79,6 +79,8 @@ ${(stream as StreamGuestInfo).website ? `Website: ${(stream as StreamGuestInfo).
   return new Response(rss, {
     headers: {
       "Content-Type": "application/xml;charset=utf-8",
+      "Cache-Control": "public, max-age=0, must-revalidate",
+      "Netlify-CDN-Cache-Control": "public, max-age=86400, must-revalidate",
     },
   });
 };
