@@ -16,9 +16,32 @@ export function getYouTubeId(url: string) {
   return url?.match(/(?:live\/|v=)(?<videoId>[^?&]+)/)?.groups?.videoId;
 }
 
+export function injectSpecificVideo(
+  videos: YouTubeVideo[],
+  videoToInject: YouTubeVideo,
+) {
+  const injectedVideos = [...videos];
+  const videoDate = new Date(videoToInject.date);
+
+  // Find the correct position to insert the video based on date
+  const insertIndex = injectedVideos.findIndex(
+    (video) => new Date(video.date) < videoDate,
+  );
+
+  if (insertIndex === -1) {
+    // If no older videos found, append to the end
+    injectedVideos.push(videoToInject);
+  } else {
+    // Insert at the correct position
+    injectedVideos.splice(insertIndex, 0, videoToInject);
+  }
+
+  return injectedVideos;
+}
+
 export async function getVideos({
   videoFeedUrl,
-  descendingDate = false,
+  descendingDate = true,
   numberOfVideos = 6,
 }: {
   videoFeedUrl: string;
@@ -33,22 +56,35 @@ export async function getVideos({
 
   const feed = await parser.parseURL(videoFeedUrl);
 
-  return feed.items
-    .slice(0, numberOfVideos)
-    .sort((a, b) => {
-      return descendingDate
-        ? new Date(b.pubDate!).getTime() - new Date(a.pubDate!).getTime()
-        : 0;
-    })
-    .map((m) => {
-      return {
-        title: m.title,
-        link: m.link,
-        description: m["media:group"]["media:description"][0],
-        thumbnail: m["media:group"]["media:thumbnail"][0].$.url,
-        date: m.pubDate ? new Date(m.pubDate) : new Date(),
-      };
-    }) as unknown as YouTubeVideo[];
+  let videos = feed.items.slice(0, numberOfVideos).map((m) => {
+    return {
+      title: m.title,
+      link: m.link,
+      description: m["media:group"]["media:description"][0],
+      thumbnail: m["media:group"]["media:thumbnail"][0].$.url,
+      date: m.pubDate ? new Date(m.pubDate) : new Date(),
+    };
+  }) as unknown as YouTubeVideo[];
+
+  // Inject the specific video for guest appearances playlist
+  if (videoFeedUrl === GUEST_APPEARANCES_PLAYLIST_FEED_URL) {
+    const specialVideo: YouTubeVideo = {
+      title: "The Kubernetes Podcast From Google @KubeConEU25 Day#3",
+      link: "https://www.youtube.com/watch?v=mhToH2KgMtk",
+      description:
+        "The Kubernetes Podcast From Google was Live from KubeConEU2025 in London.\n\nWe spoke to some guests and covered what happened on Day#3",
+      thumbnail: "https://img.youtube.com/vi/mhToH2KgMtk/maxresdefault.jpg",
+      date: "2025-04-04T00:00:00Z", // KubeConEU25 Day 3
+    };
+    videos = injectSpecificVideo(videos, specialVideo);
+  }
+
+  // Sort all videos after injection
+  return videos.sort((a, b) => {
+    return descendingDate
+      ? new Date(b.date).getTime() - new Date(a.date).getTime()
+      : new Date(a.date).getTime() - new Date(b.date).getTime();
+  });
 }
 
 export async function getLatestVideo(videoFeedUrl: string) {
