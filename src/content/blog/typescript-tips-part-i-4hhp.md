@@ -30,8 +30,7 @@ First let's start off with some things to remember if you're migrating a React a
 - Create a reusable `children` prop and add it to your component props' type via an intersection.
 
   ```javascript
-  {% raw %}
-  // some file housing the ChildrenProp
+    // some file housing the ChildrenProp
   export type ChildrenProp = { children: React.ReactNode };
 
   // some other component file that consumes it.
@@ -57,8 +56,6 @@ Here's a [TypeScript Playgound](<https://www.typescriptlang.org/play/#src=type%2
 
 For example, instead of doing this
 
-{% endraw %}
-
 ```javascript
 const someElementReference = document.querySelector(".awesome-selector");
 
@@ -70,11 +67,7 @@ if (someElementReference) {
 }
 ```
 
-{% raw %}
-
 you could do this
-
-{% endraw %}
 
 ```javascript
 const someElementReference = document.querySelector('.awesome-selector');

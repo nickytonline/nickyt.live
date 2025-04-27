@@ -47,7 +47,6 @@ While Ollama enhances privacy by running locally, it's important to note that Gi
 The extension is built using Hono.js, a lightweight web framework. To get things running, you can configure a couple of environment variables or go with the defaults.
 
 ```typescript
-{% raw %}
 export const config = {
   ollama: {
     baseUrl: process.env.OLLAMA_API_BASE_URL ?? "http://localhost:11434",
@@ -57,13 +56,11 @@ export const config = {
     port: Number(process.env.PORT ?? 3000),
   },
 };
-{% endraw %}
 ```
 
 The main endpoint handles incoming requests from GitHub Copilot, verifies them, and streams responses from Ollama:
 
 ```typescript
-{% raw %}
 app.post("/", async (c) => {
   // validation logic
 
@@ -88,7 +85,7 @@ app.post("/", async (c) => {
             prompt: userPrompt,
             stream: true,
           }),
-        }
+        },
       );
 
       if (!ollamaResponse.ok) {
@@ -100,7 +97,7 @@ app.post("/", async (c) => {
               code: "OLLAMA_REQUEST_FAILED",
               identifier: "ollama_request_failed",
             },
-          ])
+          ]),
         );
       }
 
@@ -119,12 +116,11 @@ app.post("/", async (c) => {
             code: "PROCESSING_ERROR",
             identifier: "processing_error",
           },
-        ])
+        ]),
       );
     }
   });
 });
-{% endraw %}
 ```
 
 ### Smart Context Handling
@@ -132,7 +128,6 @@ app.post("/", async (c) => {
 The extension leverages [GitHub Copilot's context-passing capabilities](https://docs.github.com/en/copilot/using-github-copilot/using-extensions-to-integrate-external-tools-with-copilot-chat#about-context-passing-in-github-copilot-extensions) to access file contents and other contextual information. Here's how it works:
 
 ```typescript
-{% raw %}
 export function getUserMessageWithContext({
   payload,
   type,
@@ -142,7 +137,7 @@ export function getUserMessageWithContext({
 }): string {
   const [firstMessage] = payload.messages;
   const relevantReferences = firstMessage?.copilot_references?.filter(
-    (ref) => ref.type === `client.${type}`
+    (ref) => ref.type === `client.${type}`,
   );
 
   // Format context into markdown for Ollama
@@ -156,7 +151,6 @@ export function getUserMessageWithContext({
     contextMarkdown ? `${FILES_PREAMBLE}\n\n${contextMarkdown}` : ""
   }`;
 }
-{% endraw %}
 ```
 
 ## Setting Up Your Development Environment

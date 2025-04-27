@@ -47,13 +47,11 @@ Not only do you get focus trapping, you also get modal close functionality that 
 All of that is already amazing, but another common thing people were doing in user land was adding a background to block out users from interacting with the page. With the `<dialog>` element, we can add a `::backdrop` pseudo-element that does this for you. All you need to do is style it. In the CodePen above, uncomment out this code in the CSS panel to see this in action.
 
 ```css
-{% raw %}
 dialog::backdrop {
   background-color: purple;
   opacity: 0.55;
   filter: blur(100px);
 }
-{% endraw %}
 ```
 
 ## &lt;dialog&gt; for Non-Modal Dialogs
@@ -69,14 +67,12 @@ With a non-modal dialog, the user is not blocked from navigating the rest of the
 To close a dialog or modal, we can use the [HTMLDialogElement close method](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/close).
 
 ```typescript
-{% raw %}
 const modal = document.querySelector("dialog");
 
 // some button in the dialog that has a click event listener registered
 modal.querySelector("button").addEventListener("click", () => {
   modal.close();
 });
-{% endraw %}
 ```
 
 ## Wrapping up

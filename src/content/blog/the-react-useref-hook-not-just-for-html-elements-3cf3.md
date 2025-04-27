@@ -30,7 +30,6 @@ In React, state manages data that can trigger re-renders. But what if you need a
 Typically, you'd do something like this.
 
 ```typescript
-{% raw %}
 import { useEffect, useRef } from "react";
 
 export const SomeComponent = () => {
@@ -52,7 +51,6 @@ export const SomeComponent = () => {
     </form>
   );
 }
-{% endraw %}
 ```
 
 1. We create a variable named `firstNameInputRef` using `useRef` to reference the DOM element (initially null) and use `useEffect` to focus the input element on the initial render.
@@ -75,7 +73,6 @@ I initially had this feature working, but ran into issues if the response starte
 So now, if someone presses the _Create a New Conversation_ button, I cancel the current streaming response from StarSearch, e.g.
 
 ```typescript
-{% raw %}
   const streamRef = useRef<ReadableStreamDefaultReader<string>>();
 
   // for plain JavaScript change the above line to
@@ -89,7 +86,6 @@ So now, if someone presses the _Create a New Conversation_ button, I cancel the 
 
 ...
 
-{% endraw %}
 ```
 
 1. We create a variable named `streamRef` using `useRef` to hold a reference to the current [ReadableStreamDefaultReader](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamDefaultReader).

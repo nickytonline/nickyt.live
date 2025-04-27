@@ -35,23 +35,24 @@ Let's break down the whole flow.
 I call the DEV API, which pulls in all my blog posts. At the time of writing, the function to do that looks like this. Feel free to peek at the [complete source code](https://github.com/nickytonline/iamdeveloper.com/blob/main/bin/generateDevToPosts.js).
 
 ```javascript
-{% raw %}
 /**
  * Retrieves the latest blog posts from dev.to.
  *
  * @returns {Promise<object[]>} A promise that resolves to an array of blog posts.
  */
 async function getDevPosts() {
-  const response = await fetch(DEV_TO_API_URL + '/articles/me/published?per_page=1000', {
-    headers: {
-      'api-key': DEV_API_KEY,
+  const response = await fetch(
+    DEV_TO_API_URL + "/articles/me/published?per_page=1000",
+    {
+      headers: {
+        "api-key": DEV_API_KEY,
+      },
     },
-  });
+  );
   const posts = await response.json();
 
   return posts.filter(isValidPost);
 }
-{% endraw %}
 ```
 
 I filter out certain posts via the `isValidPost(post)` function. I filter out discussion posts, water cooler posts etc., as I enjoy having them on DEV, but not my blog.
@@ -60,12 +61,11 @@ The API does allow you to exclude tags instead of doing it once you’ve receive
 
 ### Manipulating the markdown and shortcodes
 
-DEV uses [liquid tags](https://shopify.github.io/liquid/basics/variations/) for embedding content in blog posts. For those interested, here is the [complete list of supported embeds](https://dev.to/p/editor_guide#liquidtags) via the DEV {% raw %}`{% embed "url" %}`{% endraw %} liquid tag.
+DEV uses [liquid tags](https://shopify.github.io/liquid/basics/variations/) for embedding content in blog posts. For those interested, here is the [complete list of supported embeds](https://dev.to/p/editor_guide#liquidtags) via the DEV `{% embed "url" %}` liquid tag.
 
-I'm using [short codes](https://www.11ty.dev/docs/shortcodes/) in Eleventy which are the same syntax as liquid tags. In the past DEV had specific liquid tags for different embeds. For example, to embed a GitHub repository, you'd use the {% raw %}`{% github "url" %}`{% endraw %} liquid tag. The liquid tag is still supported, but they now have a generic embed liquid tag, {% raw %}`{% embed "url" %}`{% endraw %} which determines what type of embed based on the URL.
+I'm using [short codes](https://www.11ty.dev/docs/shortcodes/) in Eleventy which are the same syntax as liquid tags. In the past DEV had specific liquid tags for different embeds. For example, to embed a GitHub repository, you'd use the `{% github "url" %}` liquid tag. The liquid tag is still supported, but they now have a generic embed liquid tag, `{% embed "url" %}` which determines what type of embed based on the URL.
 
-In my project, I have shortcodes for specific embeds, e.g. {% raw %}`{% github "url" %}`{% endraw %}, {% raw %}`{% twitter "url" %}`{% endraw %}, etc. I have older posts that use the old liquid tags of DEV, but newer posts use the {% raw %}`{% embed "url" %}`{% endraw %} liquid tag. On my end I manipulate the markdown to convert e.g. {% raw %}`{% embed "https://twitter.com/nickytonline/status/1521650477674471424" %}`{% endraw %} to {% raw %}`{% twitter "https://twitter.com/nickytonline/status/1521650477674471424" %}`{% endraw %}
-
+In my project, I have shortcodes for specific embeds, e.g. `{% github "url" %}`, `{% twitter "url" %}`, etc. I have older posts that use the old liquid tags of DEV, but newer posts use the `{% embed "url" %}` liquid tag. On my end I manipulate the markdown to convert e.g. `{% embed "https://twitter.com/nickytonline/status/1521650477674471424" %}` to `{% twitter "https://twitter.com/nickytonline/status/1521650477674471424" %}`
 I don't support all embeds at the moment. For example, comment and tag embeds. I had DEV comment embeds at one point, but it proved troublesome for comment embeds with Tweets or any embed. I used so few of them in blog posts that I made it a rule to create a hyperlink to the comment instead. For the tag embed, I barely used it, so I made another rule to not reference a tag on DEV or, if I did, to create a hyperlink instead.
 
 There are some other manipulations I do to the markdown that I'm probably forgetting. The markdown of a blog post from DEV is now in a state that Eleventy can consume.
@@ -79,7 +79,6 @@ On all my blog posts, you'll notice that they have a Boost on DEV link, and some
 These links are generated in the markdown by the `boostLink` shortcode
 
 ```javascript
-{% raw %}
 /**
  * Generates markup for a boost on DEV button.
  *
@@ -89,11 +88,11 @@ These links are generated in the markdown by the `boostLink` shortcode
  * @returns {string} Markup for a boost links on DEV and Hashnode.
  */
 function boostLink(title, fileSlug, url) {
-  if (!url.startsWith('/posts/')) {
-    return '';
+  if (!url.startsWith("/posts/")) {
+    return "";
   }
 
-  let hashnodeBoosterLink = '';
+  let hashnodeBoosterLink = "";
   const hashnodeUrl = hashnodeData[fileSlug];
 
   if (hashnodeUrl) {
@@ -103,12 +102,11 @@ function boostLink(title, fileSlug, url) {
   }
 
   const intentToTweet = `<a class="boost-link" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    `${title} by ${site.authorHandle} ${site.url}${url}`
+    `${title} by ${site.authorHandle} ${site.url}${url}`,
   )}">Share on Twitter</a>`;
 
   return `<a href="https://dev.to/nickytonline/${fileSlug}" class="boost-link">Boost on DEV</a>${hashnodeBoosterLink}${intentToTweet}`;
 }
-{% endraw %}
 ```
 
 [Source code for the boostLink shortcode](https://github.com/nickytonline/iamdeveloper.com/blob/0e839df7ce6fe04b7991c2f7144d46e7587369e9/src/shortCodes/index.js#L8-L35) on GitHub.
@@ -124,7 +122,6 @@ Any images in blog posts not on my omission list are pulled down and committed t
 Before downloading any images, I check if they already exist in the repository. If they don't, I download and save them.
 
 ```javascript
-{% raw %}
 /**
  * Saves a markdown image URL to a local file and returns the new image URL.
  * TODO: Fix mixing two concerns.
@@ -137,8 +134,11 @@ async function saveMarkdownImageUrl(markdownImageUrl = null) {
 
   if (markdownImageUrl) {
     const imageUrl = new URL(markdownImageUrl);
-    const imagefilename = imageUrl.pathname.replaceAll('/', '_');
-    const localCoverImagePath = path.join(POSTS_IMAGES_DIRECTORY, imagefilename);
+    const imagefilename = imageUrl.pathname.replaceAll("/", "_");
+    const localCoverImagePath = path.join(
+      POSTS_IMAGES_DIRECTORY,
+      imagefilename,
+    );
 
     newMarkdownImageUrl = generateNewImageUrl(imageUrl);
 
@@ -150,7 +150,6 @@ async function saveMarkdownImageUrl(markdownImageUrl = null) {
 
   return newMarkdownImageUrl;
 }
-{% endraw %}
 ```
 
 ### Embedded articles
@@ -158,7 +157,6 @@ async function saveMarkdownImageUrl(markdownImageUrl = null) {
 I link to DEV posts withing some of my DEV blog posts. These are persisted as well to my repostitory. They are stored in the [embeddedPostsMarkup.json](https://github.com/nickytonline/iamdeveloper.com/blob/main/src/_data/embeddedPostsMarkup.json) file I generate via the `updateBlogPostEmbeds(embeds, filepaths)` function.
 
 ```javascript
-{% raw %}
 async function updateBlogPostEmbeds(embeds, filePaths) {
   let blogPostEmbedsMarkup = {};
 
@@ -171,7 +169,7 @@ async function updateBlogPostEmbeds(embeds, filePaths) {
     const match = html.match(/data-article-id="(?<blogPostId>.+?)"/);
 
     if (match) {
-      const {blogPostId} = match.groups;
+      const { blogPostId } = match.groups;
       const {
         body_html,
         body_markdown,
@@ -190,10 +188,9 @@ async function updateBlogPostEmbeds(embeds, filePaths) {
   const data = JSON.stringify(blogPostEmbedsMarkup, null, 2);
 
   await fs.writeFile(filePaths, data, () =>
-    console.log(`Saved image ${imageUrl} to ${imageFilePath}!`)
+    console.log(`Saved image ${imageUrl} to ${imageFilePath}!`),
   );
 }
-{% endraw %}
 ```
 
 [Source for the updateBlogPostsEmbeds](https://github.com/nickytonline/iamdeveloper.com/blob/0e839df7ce6fe04b7991c2f7144d46e7587369e9/src/shortCodes/index.js#L8-L35) on GitHub.

@@ -36,11 +36,13 @@ The core concepts will remain the same regardless of the framework you choose. T
 
         ```bash
 
-    {% raw %}
-    npm create hono@latest
+        npm create hono@latest
+
     ```
 
         Follow the prompts to set up your project. This will create a new TypeScript project using [Hono.js](https://hono.dev/), a lightweight and fast web framework.
+
+    ```
 
 2.  Install the preview SDK for Copilot extensions and Octokit's core package:
 
@@ -163,8 +165,6 @@ To test your Copilot extension, you need to make it publicly accessible:
 1. Alternatively, use tools like [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-local-tunnel/) or [ngrok](https://ngrok.com) to expose a public URL.
 
 In the provided code, the server is set up to run on port 3000:
-
-{% endraw %}
 
 ```typescript
 const port = 3000;

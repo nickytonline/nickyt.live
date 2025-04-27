@@ -42,7 +42,6 @@ This action makes it simple to integrate repository management tasks into your c
 To use the OpenSauced Pizza GitHub Action, add the following to your GitHub Actions workflow file:
 
 ```yaml
-{% raw %}
 name: OpenSauced Pizza Action
 
 on:
@@ -64,8 +63,6 @@ jobs:
           commit-and-pr: "true"
           # optional
           pr-title: "chore: update repository codeowners"
-
-{% endraw %}
 ```
 
 We recommend saving this as `pizza-action.yml` in the `.github/workflows` directory of your repository.

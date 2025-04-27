@@ -35,25 +35,17 @@ For example, a text input, is an input HTML element that has a `type` equal to `
 
 Another one you are likely familiar with is `class`. This is the attribute you use to add one or more CSS classes to an HTML tag.
 
-```html
-{% raw %}
-<a href="/awesome-product" class="funky-link">Awesome Product</a>
-{% endraw %}
-```
-
-_Note: If you've worked mainly with [React](https://react.dev/), the `className` prop on a component generates an HTML `class` attribute when your component renders._
-
-You can create non-standard attributes, like `item` or `productId` that will work, but if you want to access them, you would have to access them via the attribute getter, e.g.
-
-```javascript
-{% raw %}
-// Get the awesome product HTML element.
-const someElement = document.querySelector('#awesome-product');
-
-// get attribute returns the value or if there is none, it returns null
-const productId = someElement.getAttribute('productId');
-{% endraw %}
-```
+````html
+<a href="/awesome-product" class="funky-link">Awesome Product</a> ``` _Note: If
+you've worked mainly with [React](https://react.dev/), the `className` prop on a
+component generates an HTML `class` attribute when your component renders._ You
+can create non-standard attributes, like `item` or `productId` that will work,
+but if you want to access them, you would have to access them via the attribute
+getter, e.g. ```javascript // Get the awesome product HTML element. const
+someElement = document.querySelector('#awesome-product'); // get attribute
+returns the value or if there is none, it returns null const productId =
+someElement.getAttribute('productId');
+````
 
 If you have a lot of these bespoke attributes, you'll always have to use `.getAttribute()`.
 
@@ -68,12 +60,10 @@ Although, `.getAttribute` works, it's not necessary. HTML elements, when accesse
 So for example, if I wanted to get the value of the `data-product-id` attribute, I can do the following:
 
 ```javascript
-{% raw %}
 // Get the awesome product HTML element.
-const someElement = document.querySelector('#awesome-product');
+const someElement = document.querySelector("#awesome-product");
 
-const productId = someElement.dataset.productId
-{% endraw %}
+const productId = someElement.dataset.productId;
 ```
 
 So a few things are happening under the hood. All the data attributes when accessed via the `dataset` property no longer have `data-` in their names, and when the attribute has more than one word in it like `data-product-id`, it gets converted to camel case, `productId`.

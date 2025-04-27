@@ -57,7 +57,6 @@ Next up, create a `vitest.config.ts` file in the root of your project. Even if y
 In that file, add the following code and save it.
 
 ```javascript
-{% raw %}
 import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
@@ -67,13 +66,11 @@ export default defineConfig({
     include: ["./**/*.test.ts", "./**/*.test.tsx"],
   },
 });
-{% endraw %}
 ```
 
 You can explicitly import `describe`, `it`/`test`, `expect` or you can have it work like in Jest where they're all globals. All you need to do is set `globals` to `true` in the Vitest configuration.
 
 ```diff
-{% raw %}
  import { defineConfig } from "vite";
 
  // https://vitejs.dev/config/
@@ -83,7 +80,6 @@ You can explicitly import `describe`, `it`/`test`, `expect` or you can have it w
 +    globals: true,
    },
  });
-{% endraw %}
 ```
 
 ## Using Vitest with React
@@ -97,7 +93,6 @@ Run `npm install @vitejs/plugin-react -D` to install the plugin as a dev depende
 Update the Vitest configuration to add the React plugin.
 
 ```diff
-{% raw %}
  import { defineConfig } from "vite";
  import react from "@vitejs/plugin-react";
 
@@ -109,7 +104,6 @@ Update the Vitest configuration to add the React plugin.
      globals: true,
    },
  });
-{% endraw %}
 ```
 
 ## React Testing Library
@@ -119,7 +113,6 @@ If you happen to be using [React Testing Library](https://testing-library.com/do
 Next, add `jsdom` to your Vitest configuration.
 
 ```diff
-{% raw %}
  import { defineConfig } from "vite";
  import react from "@vitejs/plugin-react";
 
@@ -132,7 +125,6 @@ Next, add `jsdom` to your Vitest configuration.
 +    environment: "jsdom",
    },
  });
-{% endraw %}
 ```
 
 ## Aliases
@@ -144,7 +136,6 @@ If you need to [support aliases](https://vitest.dev/config/#alias), Vitest has y
 Here's an example of supporting the above-mentioned aliases.
 
 ```diff
-{% raw %}
  export default defineConfig({
    plugins: [react()],
 +  resolve: {
@@ -160,7 +151,6 @@ Here's an example of supporting the above-mentioned aliases.
      environment: "jsdom",
    },
  });
-{% endraw %}
 ```
 
 ## TypeScript Types
@@ -170,7 +160,6 @@ If you're using TypeScript, you can add the types for Vitest to the project.
 In your tsconfig.json file, add the types in the compiler options section of the TypeScript configuration file.
 
 ```json
-{% raw %}
  {
    "compilerOptions": {
      // . .. other compiler options in your project
@@ -180,7 +169,6 @@ In your tsconfig.json file, add the types in the compiler options section of the
    // . .. other TypeScript configuration options in your project
  }
 
-{% endraw %}
 ```
 
 ## Running Tests
@@ -192,17 +180,13 @@ To run tests using Vitest, you can run `vitest`. By default, it will go into wat
 If your project is a TypeScript project, you probably have the types for Jest in your project. If you do, run the following to remove the Jest TypeScript types.
 
 ```bash
-{% raw %}
 npm uninstall -D @types/jest
-{% endraw %}
 ```
 
 Uninstall Jest itself.
 
 ```bash
-{% raw %}
 npm uninstall jest jest-environment-jsdom -D
-{% endraw %}
 ```
 
 And that's it! Happy testing!

@@ -26,7 +26,6 @@ My friend Brittney Postma (@brittneypostma) who is a huge Svelte fan, wanted to 
 She made some changes which worked while running the dev server, but TypeScript was complaining, causing the build to fail.
 
 ```bash
-{% raw %}
 4:49:27 PM: ./lib/utils/recommendations.ts:3:7
 4:49:27 PM: Type error: Property "svelte" is missing in type "{ react: string[]; javascript:
 stringIl; python: string|]; ml: string|]; ai: stringI]; rust: string[l; ruby: string[]; c:
@@ -43,7 +42,6 @@ stringIl; }" but required in type "Record<"ruby" | "javascript" | "python" | "ja
 4:49:27 PM: 5 | javascript: ["EddieHubCommunity/LinkFree"],
 4:49:27 PM: python: ["randovania/randovania"],
 4:49:28 PM: Failed during stage "building site": Build script returned non-zero exit code: 2
-{% endraw %}
 ```
 
 I mentioned adding 'svelte' to the `topic` prop's union type in the [LanguagePillProps](https://github.com/open-sauced/app/blob/00486f7b45c7e185208030422f675718724c1d4a/components/atoms/LanguagePill/LanguagePill.tsx#L24-L47) interface in our `LanguagePill` component should resolve the issue. Narrator, it did.
@@ -57,9 +55,7 @@ Having to add `'svelte'` to the `topic` props type resolved the issue, but it wa
 You might already be inferring types without realizing it. Here are some examples of types being inferred.
 
 ```typescript
-{% raw %}
-let counter = 0
-{% endraw %}
+let counter = 0;
 ```
 
 `counter` gets inferred as type `number`. You could write this as `let counter: number = 0`, but the explicit type is unnecessary.
@@ -67,18 +63,14 @@ let counter = 0
 Let's look at an example of an array
 
 ```typescript
-{% raw %}
-let lotteryNumbers = [1, 34, 65, 43, 89, 56]
-{% endraw %}
+let lotteryNumbers = [1, 34, 65, 43, 89, 56];
 ```
 
 `lotteryNumbers` gets inferred as `Array<number>`. Again, you could explicitly type it.
 
 ```typescript
-{% raw %}
 // Array<number> or the shorter syntax, number[]
-let lotteryNumbers: Array<number> = [1, 34, 65, 43, 89, 56]
-{% endraw %}
+let lotteryNumbers: Array<number> = [1, 34, 65, 43, 89, 56];
 ```
 
 But once again, it's unnecessary. Take it for a spin in the [TypeScript playground](https://www.typescriptlang.org/play?#code/PTAEEsDsDMFMCd6wCagC4E8AOsIGdQBDSIxQjUAe2lEgFcBbAIwTwCgAbWNUDytNAgwA5Ri3gEAvKADaARgA0oAMwAWJQDYArEtXKlADgCcSrRoC6bNiFCwAHlg7gAxuDQcKmHEQLFS8cioaemZWTm4qNAALBAAZfkF4ETFWAC5QAEEyDAAeEPEAPlBpGXUVACZNHQrDU3MgA) to see for yourself.
@@ -86,9 +78,7 @@ But once again, it's unnecessary. Take it for a spin in the [TypeScript playgrou
 Let’s look at a React example, since plenty of folks are using React. It’s pretty common to use `useState` in React. If we have a counter that resides in `useState`, it’ll get set up something like this.
 
 ```typescript
-{% raw %}
 const [counter, setCounter] = useState<number>(0);
-{% endraw %}
 ```
 
 Once again, though, we don’t need to add an explicit type. Let TypeScript infer the type. `useState` is a [generic function](https://www.typescriptlang.org/docs/handbook/2/generics.html), so the type looks like this `useState<T>(initialValue: T)`
@@ -108,7 +98,6 @@ And here's the PR I put up.
 I did some other refactoring in the pull request, but the big chunk of it was this diff.
 
 ```diff
-{% raw %}
 interface LanguagePillProps {
 -  topic:
 -    | "react"
@@ -133,13 +122,11 @@ interface LanguagePillProps {
   classNames?: string;
   onClick?: () => void;
 }
-{% endraw %}
 ```
 
 `InterestType` is a type inferred from the `interests` array (see [getInterestOptions.ts](https://github.com/open-sauced/app/blob/beta/lib/utils/getInterestOptions.ts#L1-L22)).
 
 ```typescript
-{% raw %}
 const interests = [
   "javascript",
   "python",
@@ -162,7 +149,6 @@ const interests = [
   "clojure",
 ] as const;
 export type InterestType = (typeof interests)[number];
-{% endraw %}
 ```
 
 Aside from the type being inferred, the type is now data-driven. If we want to add a new language to the `interests` array, all places where the `InterestType` are used now have that new language available. If there is some code that requires all the values in that union type to be used, TypeScript will complain.
@@ -180,25 +166,19 @@ If the `InterestType` has been used everywhere, that error would have been caugh
 Let’s look at another React example.
 
 ```typescript
-{% raw %}
 const [name, setName] = useState();
-{% endraw %}
 ```
 
 We’re on the infer types hype and set up a new piece of state in our React application. We’re going to have a name that can get updated. Somewhere in the application, we call `setName(someNameVariable)` and all of a sudden, TypeScript is like nope! What happened? The type that gets inferred for
 
 ```typescript
-{% raw %}
 const [name, setName] = useState();
-{% endraw %}
 ```
 
 is `undefined`, so we can’t set a name to a `string` type. This is where an explicit type is practical.
 
 ```typescript
-{% raw %}
 const [name, setName] = useState<string | undefined>();
-{% endraw %}
 ```
 
 If the `string | undefined`, I recommend reading about [union types in TypeScript](https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html#union-types).

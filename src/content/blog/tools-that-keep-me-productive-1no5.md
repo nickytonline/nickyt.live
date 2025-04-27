@@ -43,9 +43,7 @@ If you're interested in my editor settings, [here's my current settings](https:/
 One of the more fun ones is you can change the title bar, so I've added some emojis to mine.
 
 ```json
-{% raw %}
   "window.title": "🦙⚡🫡 – ${activeEditorShort}${separator}${rootName} – 🫡⚡🦙",
-{% endraw %}
 ```
 
 ![An alpaca floating through a rainbow](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzQ1NzBodWZuam84b2FlYmV1a3o5cHRhYzZqcGp6bHVoYWNra2ZsZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tZB5MG7OOPuZIAcPZZ/giphy.gif)
@@ -53,11 +51,9 @@ One of the more fun ones is you can change the title bar, so I've added some emo
 Another setting that I find super handy is `terminal.integrated.autoReplies`. I never want to source my .env file and this handles it perfectly.
 
 ```json
-{% raw %}
   "terminal.integrated.autoReplies": {
     "dotenv: found '.env' file. Source it? ([Y]es/[n]o/[a]lways/n[e]ver)": "e\r"
   },
-{% endraw %}
 ```
 
 ### Maybe Zed Soon?

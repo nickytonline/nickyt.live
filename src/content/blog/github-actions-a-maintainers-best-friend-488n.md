@@ -62,12 +62,11 @@ Don’t see a GitHub action for what you need? Create your own. You can even bui
 I'm using some GitHub Actions, a custom script that leverages the [GitHub CLI](https://cli.github.com/) and magic.
 
 ```yaml
-{% raw %}
 name: Get latest videos
 on:
   schedule:
     # Everyday at midnight UTC
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
@@ -92,7 +91,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./bin/pr-videos.sh
-{% endraw %}
 ```
 
 You can see the results on the [streaming page of my site](https://www.nickyt.co/pages/streaming/).

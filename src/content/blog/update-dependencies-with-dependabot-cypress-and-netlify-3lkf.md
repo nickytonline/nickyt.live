@@ -49,7 +49,6 @@ Since we’re currently talking about a JavaScript project, let’s add the npm 
 3. Now let’s add some npm scripts to our package.json
 
 ```json
-{% raw %}
   "scripts": {
 		...
     	"prebuild": "CI=1 npm i cypress",
@@ -60,7 +59,6 @@ Since we’re currently talking about a JavaScript project, let’s add the npm 
 		"develop":"gatsby develop",
 		...
   },
-{% endraw %}
 ```
 
 Let’s start off with the `e2e:dev` script. What this script does is start Cypress’ test runner. The environment variable `CYPRESS_baseUrl` is set here, because we want to override the value in the cypress.json file. The value stocked in there is the one we will be using for our CI/CD pipeline. If you want to learn more about the cypress.json configuration file, check out their totally tubular [documentation](https://docs.cypress.io/guides/references/configuration.html#Options) on it.
@@ -70,13 +68,11 @@ Alright, let’s run the Cypress task runner. From the command line, run `npm ru
 For the sake of this post, we’re just going to create one simple test. Let’s create a file in the `cypress/integration` folder called, `smoke.spec.js`. Open that file and add the following:
 
 ```javascript
-{% raw %}
-describe('Smoke test site', () => {
-    it('Should load the main page', () => {
-        cy.visit('/');
-    });
+describe("Smoke test site", () => {
+  it("Should load the main page", () => {
+    cy.visit("/");
+  });
 });
-{% endraw %}
 ```
 
 Save the file. Since we’re in the context of a Gatsby site, let’s start up the Gatsby local development server by running `npm run develop`. All this does is run the following Gatsby CLI command, `gatsby develop`. Once the site is built, it will be running on port 8000 (default).
@@ -98,25 +94,19 @@ At this point we’re ready to revisit our Dependabot configuration for our repo
 Alright, let’s go through the extra setup to have Cypress run as part of our CI/CD pipeline. The `prebuild` script is required because, at least on Netlify, you cannot cache binaries. See this article, [Test on Netlify | Gatsby + Netlify + Cypress.io](https://gatsby-blog-0a5be4.netlify.com/test-on-netlify/), for more information.
 
 ```json
-{% raw %}
     	"prebuild": "CI=1 npm i cypress",
-{% endraw %}
 ```
 
 The `e2e` script is what we’ll use to run Cypress in our CI/CD pipeline. It runs all the e2e test files in a headless browser.
 
 ```json
-{% raw %}
     	"e2e": "cypress run",
-{% endraw %}
 ```
 
 The `build` script is what I used to build my site. It’s included just to explain the `postbuild`. 😉 If you’re not aware, you can run pre and post scripts on npm script. For more information, see the [npm documentation](https://docs.npmjs.com/misc/scripts).
 
 ```json
-{% raw %}
 		"postbuild":"gatsby serve & npm run e2e && fkill:9000",
-{% endraw %}
 ```
 
 For our `postbuild` script, we want to run our Gatsby site in the container. The [Gatsby CLI](https://www.gatsbyjs.org/docs/gatsby-cli) has a bunch of great commands, including `gatsby serve` which starts your site on port 9000 (default). While the server starts, we also want to start up the e2e tests. This is where our `e2e` script comes in. Once the tests finish running in the container (hopefully successfully 😉), we want to gracefully stop the site. This is where the fkill CLI comes in handy. Now since this is a post build step, things will continue along in Netlify deployment land and eventually the site will go live. In the case of a PR for dependency updates, this check will pass and because Dependabot is configured to merge PRs automatically, we’ve reached full automation of our dependency updates.

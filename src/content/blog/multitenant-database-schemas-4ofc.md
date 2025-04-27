@@ -49,44 +49,34 @@ The process of setting up a multitenant database schema with Turso involves the 
 1. **Create a Group**: This essentially creates a machine to host the database.
 
 ```bash
-{% raw %}
 turso group create default
-{% endraw %}
 ```
 
 You'll receive a message like this one.
 
 ```bash
-{% raw %}
 Created group default at yul in 8.989s.
-{% endraw %}
 ```
 
 2. **Create a Schema Database**: This database defines the structure for child databases.
 
 ```bash
-{% raw %}
 turso db create parent-db --type schema
-{% endraw %}
 ```
 
 3. **Set Up the Schema**: Connect to the schema database shell and create your table structure.
 
 ```bash
-{% raw %}
 turso db shell parent-db
-{% endraw %}
 ```
 
 For example, in the shell enter:
 
 ```sql
-{% raw %}
 CREATE TABLE users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT NOT NULL UNIQUE
 );
-{% endraw %}
 ```
 
 4. Type `.quit` in the shell to exit the shell.
@@ -94,9 +84,7 @@ CREATE TABLE users (
 5. Create a child database with the schema DB `parent-db`
 
 ```bash
-{% raw %}
 turso db create child-db1 --schema parent-db
-{% endraw %}
 ```
 
 6. Run `turso db shell child-db1` to load the shell for the newly created `child-db1`
@@ -104,9 +92,7 @@ turso db create child-db1 --schema parent-db
 7. Run `.schema` from the shell. Notice the schema:
 
 ```bash
-{% raw %}
 CREATE TABLE users ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);
-{% endraw %}
 ```
 
 8. Type `.quit` in the shell to exit the shell.
@@ -114,9 +100,7 @@ CREATE TABLE users ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);
 9. Create another child Databases with the schema DB `parent-db`
 
 ```bash
-{% raw %}
 turso db create child-db2 --schema parent-db
-{% endraw %}
 ```
 
 10. Run `turso db shell child-db2` to load the shell for the newly created `child-db2`
@@ -124,9 +108,7 @@ turso db create child-db2 --schema parent-db
 11. Run `.schema` from the shell. Notice the schema:
 
 ```bash
-{% raw %}
 CREATE TABLE users ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);
-{% endraw %}
 ```
 
 12. Type `.quit` in the shell to exit the shell.
@@ -138,9 +120,7 @@ CREATE TABLE users ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);
 15. Run `.schema` from the shell to view the updated schema.
 
 ```bash
-{% raw %}
 CREATE TABLE users ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT);
-{% endraw %}
 ```
 
 16. Type `.quit` in the shell to exit the shell.

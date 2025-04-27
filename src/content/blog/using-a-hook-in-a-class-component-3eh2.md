@@ -25,7 +25,6 @@ The beauty of this pattern is that you can build new components as function comp
 Let's first create a hook.
 
 ```javascript
-{% raw %}
 import { useEffect, useState } from "react";
 
 export function useDarkMode() {
@@ -48,13 +47,11 @@ export function useDarkMode() {
   }, [enabled]);
   return [enabled, setEnabledState];
 }
-{% endraw %}
 ```
 
 Now let's create a function component that has a render prop. Note that the prop does not literally need to be called `render`, but it tends to convey its purpose.
 
 ```jsx
-{% raw %}
 // I wouldn't normally call a component something like this.
 // It's just to convey what it is doing for the purpose of the article
 const UseDarkModeHookWrapperComponent = ({ render }) => {
@@ -64,13 +61,11 @@ const UseDarkModeHookWrapperComponent = ({ render }) => {
   // setter for the custom hook
   return render(darkMode, setDarkMode);
 };
-{% endraw %}
 ```
 
 And now, let's use the wrapper component in a class component.
 
 ```jsx
-{% raw %}
 export default class App extends Component {
   render() {
     return (
@@ -83,7 +78,7 @@ export default class App extends Component {
                 gridTemplateColumns: "200px",
                 gap: "2rem",
                 maxWidth: "50%",
-                placeItems: "center"
+                placeItems: "center",
               }}
             >
               <ThemeToggler darkMode={darkMode} setDarkMode={setDarkMode} />
@@ -95,7 +90,6 @@ export default class App extends Component {
     );
   }
 }
-{% endraw %}
 ```
 
 And voilà! You're using your hook in a class component. Here's the complete application in action.

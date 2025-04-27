@@ -39,14 +39,16 @@ Authentication and authorization are two great candidates for guarding certain r
 In the OpenSauced application, when a user logs in and the path is `/workspaces` we redirect them to their workspace.
 
 ```typescript
-{% raw %}
-  if (session?.user && req.nextUrl.pathname === "/workspaces") {
-    const data = await loadSession(req, session?.access_token);
-    const workspaceUrl = getWorkspaceUrl(req.cookies, req.url, data.personal_workspace_id);
+if (session?.user && req.nextUrl.pathname === "/workspaces") {
+  const data = await loadSession(req, session?.access_token);
+  const workspaceUrl = getWorkspaceUrl(
+    req.cookies,
+    req.url,
+    data.personal_workspace_id,
+  );
 
-    return NextResponse.redirect(`${workspaceUrl}`);
-  }
-{% endraw %}
+  return NextResponse.redirect(`${workspaceUrl}`);
+}
 ```
 
 [Code on GitHub](https://github.com/open-sauced/app/blob/beta/middleware.ts#L63C1-L68C4)
@@ -72,16 +74,21 @@ When someone logs in, we check if they have a workspace ID cookie set. If they d
 The code for this was in the code snippet in the last section.
 
 ```typescript
-{% raw %}
-    const workspaceUrl = getWorkspaceUrl(req.cookies, req.url, data.personal_workspace_id);
-{% endraw %}
+const workspaceUrl = getWorkspaceUrl(
+  req.cookies,
+  req.url,
+  data.personal_workspace_id,
+);
 ```
 
 Let's take a peek into the `getWorkspaceUrl` function.
 
 ```typescript
-{% raw %}
-export function getWorkspaceUrl(cookies: RequestCookies, baseUrl: string, personalWorkspaceId: string) {
+export function getWorkspaceUrl(
+  cookies: RequestCookies,
+  baseUrl: string,
+  personalWorkspaceId: string,
+) {
   if (!cookies.has(WORKSPACE_ID_COOKIE_NAME)) {
     cookies.set(WORKSPACE_ID_COOKIE_NAME, personalWorkspaceId);
   }
@@ -91,7 +98,6 @@ export function getWorkspaceUrl(cookies: RequestCookies, baseUrl: string, person
 
   return new URL(`/workspaces/${workspaceId}`, baseUrl);
 }
-{% endraw %}
 ```
 
 If there is no workspace cookie set, we create a cookie and set its value to the user's personal workspace ID.
@@ -103,7 +109,6 @@ The other piece of this that doesn't occur in middleware is when a user visits a
 The page will call the OpenSauced app's `setCookie` function.
 
 ```typescript
-{% raw %}
 export function setCookie({
   response,
   name,
@@ -119,10 +124,9 @@ export function setCookie({
 }) {
   response.setHeader(
     "Set-Cookie",
-    `${name}=${value}; Max-Age=${maxAge}; Path=/; HttpOnly; SameSite=${sameSite}; Secure`
+    `${name}=${value}; Max-Age=${maxAge}; Path=/; HttpOnly; SameSite=${sameSite}; Secure`,
   );
 }
-{% endraw %}
 ```
 
 [Code on GitHub](https://github.com/open-sauced/app/blob/beta/lib/utils/server/cookies.ts#L18C1-L35C2)
@@ -144,11 +148,7 @@ I recently gave a talk on Fresh, a full-stack framework for Deno at [Node Summit
 In Fresh middleware, this is how you could set a header.
 
 ```typescript
-{% raw %}
-export async function handler(
-  request: Request,
-  ctx: FreshContext<State>
-) {
+export async function handler(request: Request, ctx: FreshContext<State>) {
   const response = await ctx.next();
   response.headers.set("x-fresh", "true");
 
@@ -162,7 +162,6 @@ export async function handler(
 
   return response;
 }
-{% endraw %}
 ```
 
 [Code on GitHub](https://github.com/nickytonline/fresh-demo/blob/main/routes/_middleware.ts#L8C1-L24C2)
@@ -170,9 +169,7 @@ export async function handler(
 In the above code snippet, we're checking to see if a specific route contains a certain string and if it does, we set a custom header, e.g.
 
 ```typescript
-{% raw %}
 response.headers.set("x-joke-page", "true");
-{% endraw %}
 ```
 
 ## URL Redirection
@@ -184,14 +181,16 @@ Page redirection allows you to have a URL go to another URL. You might do this f
 For non-trivial redirects like the workspaces redirect URL mentioned in one of the previous sections, middleware is a great place for handing redirects.
 
 ```typescript
-{% raw %}
-  if (session?.user && req.nextUrl.pathname === "/workspaces") {
-    const data = await loadSession(req, session?.access_token);
-    const workspaceUrl = getWorkspaceUrl(req.cookies, req.url, data.personal_workspace_id);
+if (session?.user && req.nextUrl.pathname === "/workspaces") {
+  const data = await loadSession(req, session?.access_token);
+  const workspaceUrl = getWorkspaceUrl(
+    req.cookies,
+    req.url,
+    data.personal_workspace_id,
+  );
 
-    return NextResponse.redirect(`${workspaceUrl}`);
-  }
-{% endraw %}
+  return NextResponse.redirect(`${workspaceUrl}`);
+}
 ```
 
 [Code on GitHub](https://github.com/open-sauced/app/blob/beta/middleware.ts#L63C1-L68C4)
@@ -199,9 +198,7 @@ For non-trivial redirects like the workspaces redirect URL mentioned in one of t
 In this case, when someone in the OpenSauced application goes to `/workspaces` we redirect them to a user-specific URL.
 
 ```typescript
-{% raw %}
 return NextResponse.redirect(`${workspaceUrl}`);
-{% endraw %}
 ```
 
 Not a hard and fast rule, but if you have trivial redirects like redirect `/old-blog-path/*` to `/blog/*`, consider using your hosting platform's redirects instead of middleware.
@@ -215,16 +212,14 @@ You can also do URL rewrites. It's like a redirect, but the URL never changes. F
 Here's a slightly modified example straight out of the Next.js middleware documentation:
 
 ```typescript
-{% raw %}
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/dashboard')) {
-    return NextResponse.rewrite(new URL('/dashboard/user', request.url))
+  if (request.nextUrl.pathname.startsWith("/dashboard")) {
+    return NextResponse.rewrite(new URL("/dashboard/user", request.url));
   }
 }
-{% endraw %}
 ```
 
 [Code in Next.js documenation](https://nextjs.org/docs/app/building-your-application/routing/middleware#conditional-statements)

@@ -58,7 +58,6 @@ Under the hood, og_edge and @vercel/og use the Satori library.
 The API for the `og_edge` module is pretty straightforward. It exposes an `ImageResponse` constructor with the following options and that's it.
 
 ```typescript
-{% raw %}
 new ImageResponse(
   element: ReactElement,
   options: {
@@ -79,7 +78,6 @@ new ImageResponse(
     headers?: Record<string, string>
   },
 )
-{% endraw %}
 ```
 
 _Code snippet above care of the official [og_edge API reference](https://github.com/ascorbic/og-edge#api-reference)._
@@ -91,13 +89,11 @@ As far as I know, `og_edge` does not support Tailwind like `@vercel/og` does. No
 One other thing we do is set cache headers as these are dynamic images where the data changes over time. Having said that, some social networks cache OG images very aggressively.
 
 ```typescript
-{% raw %}
       headers: {
         // cache for 2 hours
         "cache-control": "public, s-maxage=7200",
         "content-type": "image/png",
       },
-{% endraw %}
 ```
 
 ## Show me the code

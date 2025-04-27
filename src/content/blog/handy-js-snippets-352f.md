@@ -21,21 +21,15 @@ I'll get the ball rolling and start with some examples:
 - Shallow array clone via Array spread.
 
 ```javascript
-{% raw %}
 const originalArray = [1, 2, 3];
 const shallowArrayClone = [...originalArray];
-
-{% endraw %}
 ```
 
 - Shallow array clone via `Array.protoype.slice`.
 
 ```javascript
-{% raw %}
 const originalArray = [1, 2, 3];
 const shallowArrayClone = originalArray.slice();
-
-{% endraw %}
 ```
 
 {% twitter "908547800442404864" %}
@@ -43,51 +37,39 @@ const shallowArrayClone = originalArray.slice();
 - Shallow clone of an object via object spread.
 
 ```javascript
-{% raw %}
-const originalObject = { a:1, b: 2, c: 3 };
-const shallowObjectClone = {...originalObject};
-
-{% endraw %}
+const originalObject = { a: 1, b: 2, c: 3 };
+const shallowObjectClone = { ...originalObject };
 ```
 
 - Shallow clone of an object via object spread with one property overridden.
 
 ```javascript
-{% raw %}
-const originalObject = { a:1, b: 2, c: 3 };
-const shallowObjectClone = {...originalObject, c: 45 };
-
-{% endraw %}
+const originalObject = { a: 1, b: 2, c: 3 };
+const shallowObjectClone = { ...originalObject, c: 45 };
 ```
 
 - Get unique values of an array using `Set`
 
 ```javascript
-{% raw %}
 const arrayWithDuplicateValues = [1, 2, 3, 3, 1, 5];
 const uniqueArray = Array.from(new Set(arrayWithDuplicateValues);
-{% endraw %}
 ```
 
 or
 
 ```javascript
-{% raw %}
 const arrayWithDuplicateValues = [1, 2, 3, 3, 1, 5];
 const uniqueArray = [...new Set(arrayWithDuplicateValues)];
-{% endraw %}
 ```
 
 - See if two arrays have the same values (unordered and for primitive values).
 
 ```javascript
-{% raw %}
 const a = [1, 2, 3];
 const b = [2, 3, 4];
 
 const uniques = new Set(a.concat(b));
-const haveSameValues = uniques.length === a.length // or uniques.length === b.length;
-{% endraw %}
+const haveSameValues = uniques.length === a.length; // or uniques.length === b.length;
 ```
 
 - Flatten an array with the ES spread operator and Array.prototype.concat. Great tip care of Jonathan Z. White.
@@ -95,18 +77,22 @@ const haveSameValues = uniques.length === a.length // or uniques.length === b.le
 {% twitter "985726458466263042" %}
 
 ```javascript
-{% raw %}
-const arrayToFlatten = [ [1,2,3], [4,5,6], [7,8,9] ];
+const arrayToFlatten = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+];
 const flattenedArray = [].concat(...arrayToFlatten);
-{% endraw %}
 ```
 
 2020 Update for the above is
 
 ```javascript
-{% raw %}
-[ [1,2,3], [4,5,6], [7,8,9] ].flatMap(x=>x)
-{% endraw %}
+[
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+].flatMap((x) => x);
 ```
 
 And go!

@@ -35,21 +35,17 @@ In the case of the a11y-twitter extension, finding the correct elements to perfo
 I'm not positive, but at Twitter they are most likely using Cypress for End to End (E2E) Testing as some elements on the page have `data-testid` attributes. And that's how I find the Tweet button.
 
 ```javascript
-{% raw %}
-!['tweetButtonInline', 'tweetButton'].includes(
+!["tweetButtonInline", "tweetButton"].includes(
   potentialTweetButton.dataset.testid,
-)
-{% endraw %}
+);
 ```
 
 `data-testid` attributes are for testing only, but I highly doubt they'll be removed because the E2E tests have the same problem I have. How to find the Tweet button? Once found, I check if it's disabled. If it's disabled, it means the person hasn't typed anything to Tweet out. If they have, though, that's when I check for alt text.
 
 ```javascript
-{% raw %}
-if (tweetButton && tweetButton.ariaDisabled !== 'true') {
+if (tweetButton && tweetButton.ariaDisabled !== "true") {
   a11yCheck(event);
 }
-{% endraw %}
 ```
 
 ![The a11y-twitter browser extension notifying a Twitter user that al text is missing](https://www.nickyt.co/images/posts/_uploads_articles_xcwdy86a2wg1z3bfwxs4.png)
@@ -59,12 +55,11 @@ And that's pretty much it!
 As of the date this blog post was initially published, this is the entire magic sauce to make this all happen.
 
 ```javascript
-{% raw %}
 // TODO: This would need to support other languages than English.
 const ADD_DESCRIPTIONS_MESSAGE =
-  'You have attachments without descriptions. You can make these attachments more accessible if you add a description. Would you like to do that right now before you Tweet?';
-const ADD_DESCRIPTION_LABEL = 'Add description';
-const ADD_DESCRIPTIONS_LABEL = 'Add descriptions';
+  "You have attachments without descriptions. You can make these attachments more accessible if you add a description. Would you like to do that right now before you Tweet?";
+const ADD_DESCRIPTION_LABEL = "Add description";
+const ADD_DESCRIPTIONS_LABEL = "Add descriptions";
 let askedOnce = false;
 
 function a11yCheck(event) {
@@ -119,7 +114,7 @@ function findTweetButton(element) {
   let potentialTweetButton = element;
 
   while (
-    !['tweetButtonInline', 'tweetButton'].includes(
+    !["tweetButtonInline", "tweetButton"].includes(
       potentialTweetButton.dataset.testid,
     )
   ) {
@@ -134,16 +129,14 @@ function findTweetButton(element) {
   return potentialTweetButton;
 }
 
-document.body.addEventListener('mousedown', (event) => {
+document.body.addEventListener("mousedown", (event) => {
   const { target } = event;
   const tweetButton = findTweetButton(target);
 
-  if (tweetButton && tweetButton.ariaDisabled !== 'true') {
+  if (tweetButton && tweetButton.ariaDisabled !== "true") {
     a11yCheck(event);
   }
 });
-
-{% endraw %}
 ```
 
 I may add more features to the extension in the future, but for now, it's serving its purpose for myself and other folks. Also, if you end up using it, [consider starring it on GitHub](https://github.com/nickytonline/a11y-twitter)! 😎

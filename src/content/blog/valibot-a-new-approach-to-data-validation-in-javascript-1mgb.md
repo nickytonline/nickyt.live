@@ -47,15 +47,13 @@ Also, [version 0.31.0 was recently released](https://valibot.dev/blog/valibot-v0
 Let's start of simple. We want to create an e-mail validator. Valibot makes this pretty easy for us.
 
 ```typescript
-{% raw %}
-import * as v from 'valibot';
+import * as v from "valibot";
 
 const EmailSchema = v.pipe(v.string(), v.email());
 
-const validEmail = v.safeParse(EmailSchema, 'jane@example.com');
+const validEmail = v.safeParse(EmailSchema, "jane@example.com");
 
 console.log(validEmail);
-{% endraw %}
 ```
 
 First, we import the Valibot package. Next, we create a schema for a valid email, `const EmailSchema = v.pipe(v.string(), v.email());`
@@ -65,14 +63,12 @@ First, we import the Valibot package. Next, we create a schema for a valid email
 If you run this in the playground, you'll get the following output.
 
 ```bash
-{% raw %}
 [LOG]: {
   typed: true,
   success: true,
   output: "jane@example.com",
   issues: undefined
 }
-{% endraw %}
 ```
 
 You can view the following example in [this Valibot playground](https://valibot.dev/playground/?code=JYWwDg9gTgLgBAKjgQwM5wG5wGZQiOAcg2QBtgAjCGQgbgCh6BjCAO1XgFERlhSBlJgAsApjzgBeTADowwMCIAUGaRyjBWAc0UBKADQyxvUrp0NmbDpjLAAJt2OSZqZNhEAFZFFRKHfQaI8BoQAVsisIgACIgAeyOCkItIsIIRmjCzsEInSpBDaJOT2PHzpQA).
@@ -80,21 +76,18 @@ You can view the following example in [this Valibot playground](https://valibot.
 Let's see what happens when we have an invalid email.
 
 ```typescript
-{% raw %}
-import * as v from 'valibot';
+import * as v from "valibot";
 
 const EmailSchema = v.pipe(v.string(), v.email());
 
-const validEmail = v.safeParse(EmailSchema, 'janeexample.com');
+const validEmail = v.safeParse(EmailSchema, "janeexample.com");
 
 console.log(validEmail);
-{% endraw %}
 ```
 
 If we run the updated playground, it will now output the following:
 
 ```bash
-{% raw %}
 [LOG]: {
   typed: true,
   success: false,
@@ -116,7 +109,6 @@ If we run the updated playground, it will now output the following:
     }
   ]
 }
-{% endraw %}
 ```
 
 You can view the updated example in [this Valibot playground](https://valibot.dev/playground/?code=JYWwDg9gTgLgBAKjgQwM5wG5wGZQiOAcg2QBtgAjCGQgbgCh6BjCAO1XgFERlhSBlJgAsApjzgBeTADowwMCIAUGaRyjBWAc0UBKADQyxvUrp0NmbDpjLAAJt2OSZqZNhEAFZFFRKHfQaI8BoQAVsisIiIAHsjgpCLSLCCEZows7BDx0qQQ2iTk9jx8qUA).
@@ -124,17 +116,19 @@ You can view the updated example in [this Valibot playground](https://valibot.de
 You can see an example of valibot in action in a recent pull request of mine.
 
 ```typescript
-{% raw %}
-  if (context.query.id) {
-    try {
-      sharedChatId = parseSchema(UuidSchema, context.query.id);
-      searchParams.set("id", sharedChatId);
-    } catch (error) {
-      captureException(new Error(`Failed to parse UUID for StarSearch. UUID: ${sharedChatId}`, { cause: error }));
-      throw new Error("Invalid shared Chat ID");
-    }
+if (context.query.id) {
+  try {
+    sharedChatId = parseSchema(UuidSchema, context.query.id);
+    searchParams.set("id", sharedChatId);
+  } catch (error) {
+    captureException(
+      new Error(`Failed to parse UUID for StarSearch. UUID: ${sharedChatId}`, {
+        cause: error,
+      }),
+    );
+    throw new Error("Invalid shared Chat ID");
   }
-{% endraw %}
+}
 ```
 
 {% embed "https://github.com/open-sauced/app/pull/3563" %}

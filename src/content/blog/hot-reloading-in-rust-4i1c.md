@@ -23,7 +23,6 @@ From there, I went into a rust project I'm working on and ran the following from
 And that was it! I was able to start up my program, and with every change, it reran automatically!
 
 ```bash
-{% raw %}
 [Finished running. Exit status: 101]
 [Running 'cargo run']
    Compiling rusty v0.1.0
@@ -43,7 +42,6 @@ And that was it! I was able to start up my program, and with every change, it re
      Running `target/debug/rusty`
 ["tobey maguire", "andrew garfield", "tom holland", "pete davidson"]
 [Finished running. Exit status: 0]
-{% endraw %}
 ```
 
 🦀

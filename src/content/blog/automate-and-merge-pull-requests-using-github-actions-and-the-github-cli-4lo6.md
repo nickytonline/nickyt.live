@@ -80,12 +80,11 @@ For the auto-merge PR use case, we'll add the following branch protection for th
 I already had a GitHub action in place to update content. They run once a day. For example, here is how the update blog posts action looks like
 
 ```yaml
-{% raw %}
 name: Get latest blog posts
 on:
   schedule:
     # Everyday at midnight UTC
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
@@ -117,17 +116,14 @@ jobs:
             git commit -m "chore (automated): update blog posts"
             git push origin main
           fi
-{% endraw %}
 ```
 
 The main things happening here are I'm getting the latest code from the `main` branch, and then I run
 
 ```bash
-{% raw %}
 npm install
 node --experimental-fetch bin/generateDevToPosts.js
 node bin/generateHashnodeUrlMapping.js
-{% endraw %}
 ```
 
 If you're wondering why I'm using `--experimental-fetch`, it's because I'm using [native fetch in Node.js 16](https://nodejs.org/fa/blog/release/v16.15.0/#add-fetch-api).
@@ -135,7 +131,6 @@ If you're wondering why I'm using `--experimental-fetch`, it's because I'm using
 The scripts above generate changes if any. If there are changes, they're committed and merged into the main branch.
 
 ```bash
-{% raw %}
 git config user.name "GitHub Actions Bot"
 git config user.email "<>"
 git pull origin main
@@ -144,13 +139,11 @@ if [[ -n "$(git status --porcelain)" ]]; then
   git commit -m "chore (automated): update blog posts"
   git push origin main
 fi
-{% endraw %}
 ```
 
 To use a PR instead, I went with the following, in this case, for updating blog posts.
 
 ```bash
-{% raw %}
 PR_TITLE="chore (automated): update blog posts"
 BRANCH_NAME="chore_automated_update_blog_posts_$(date +%s)"
 
@@ -171,7 +164,6 @@ else
   # Shouldn't end up here, but log that there was nothing to sync
   echo "Looks like there was nothing to update."
 fi
-{% endraw %}
 ```
 
 So like before, the GitHub action has already gotten the latest code from the main branch, and we've run our Node.js scripts to get the latest blog posts.
@@ -179,17 +171,13 @@ So like before, the GitHub action has already gotten the latest code from the ma
 Instead of committing straight to the main branch, we now create a PR via the [GitHub CLI](https://cli.github.com/).
 
 ```bash
-{% raw %}
 gh pr create --title "$PR_TITLE" --body "This is an automated PR to update blog posts"
-{% endraw %}
 ```
 
 Once the pull request is created, the following GitHub CLI command sets up the PR to auto-merge if all the checks pass.
 
 ```bash
-{% raw %}
 gh pr merge --auto --delete-branch --squash "$BRANCH_NAME"
-{% endraw %}
 ```
 
 ## The Result

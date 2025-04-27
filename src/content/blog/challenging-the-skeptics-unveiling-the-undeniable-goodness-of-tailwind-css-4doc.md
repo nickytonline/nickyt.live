@@ -34,7 +34,6 @@ So let's look at some comparisons between Tailwind and "real" CSS. I'm going to 
 **Vanilla CSS**
 
 ```html
-{% raw %}
 <style>
   .my-list {
     display: flex;
@@ -51,31 +50,26 @@ So let's look at some comparisons between Tailwind and "real" CSS. I'm going to 
   <li>Item 2</li>
   <li>Item 3</li>
 </ul>
-{% endraw %}
 ```
 
 **Tailwind**
 
 ```html
-{% raw %}
 <ul class="flex flex-col gap-6">
   <li class="border">Item 1</li>
   <li class="border">Item 2</li>
   <li class="border">Item 3</li>
 </ul>
-{% endraw %}
 ```
 
 So the first thing someone might say is that Tailwind is repeating the `border` CSS class on a list item, `<li>`, instead of using a selector that can target the `li` DOM elements. This is true, but Tailwind allows you to create the equivalent of `.my-list li`. You can do the following:
 
 ```html
-{% raw %}
 <ul class="flex flex-col gap-6 [&_li]:border">
   <li>Item 1</li>
   <li>Item 2</li>
   <li>Item 3</li>
 </ul>
-{% endraw %}
 ```
 
 This is probably where someone might say, "Well, now you're just writing inline CSS." This is also false. It will generate a [CSS rule](https://developer.mozilla.org/en-US/docs/Web/API/CSSRule) based on the `[&_li]:border` CSS class name. It will compile it to literal CSS that will generate an equivalent CSS rule comparable to the CSS rule for the `.mylist li` selector.
@@ -83,11 +77,9 @@ This is probably where someone might say, "Well, now you're just writing inline 
 In fact, this is what it compiles to. I've formatted it since it gets minified.
 
 ```css
-{% raw %}
 .\[\&_li\]\:border li {
   border-width: 1px;
 }
-{% endraw %}
 ```
 
 You could make an argument that the "real" version looks nicer, but this isn't a strong argument, and you have CSS source maps if you open the browser dev tools.
@@ -105,35 +97,29 @@ What about something more complex like [pseudo-elements](https://developer.mozil
 **Vanilla CSS**
 
 ```html
-{% raw %}
 <style>
   .pizza-time::before {
     content: attr(data-inset-label);
   }
 </style>
 <p data-inset-label="🍕" class="pizza-time">OpenSauced is awesome!</p>
-{% endraw %}
 ```
 
 **Tailwind**
 
 ```html
-{% raw %}
 <p data-inset-label="🍕" class="before:content-[attr(data-inset-label)]">
   OpenSauced is awesome!
 </p>
-{% endraw %}
 ```
 
 Here's what it generates as CSS when Tailwind compiles that CSS class.
 
 ```css
-{% raw %}
-.before\:content-\[attr\(data-inset-label\)\]:before{
-  --tw-content:attr(data-inset-label);
-  content:var(--tw-content)
+.before\:content-\[attr\(data-inset-label\)\]:before {
+  --tw-content: attr(data-inset-label);
+  content: var(--tw-content);
 }
-{% endraw %}
 ```
 
 You could complain that that is one hell of a bloated CSS class name, but again, I don't think this is a colossal deal.
@@ -153,9 +139,7 @@ Need a custom animation? You can do that as well. I won't go into it here, but h
 You've got all these cool animations, but what if someone has specified [prefers-reduced-motion](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion)? Tailwind can handle that for you as long as you prefix your animation with `motion-safe:`, e.g.
 
 ```html
-{% raw %}
 <p class="motion-safe:animate-spin">Spinning text</p>
-{% endraw %}
 ```
 
 There's other useful Tailwind classes for accessibility, like [sr-only](https://tailwindcss.com/docs/screen-readers#screen-reader-only-elements), which will remain in the page, but only be visible to screen readers.

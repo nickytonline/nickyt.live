@@ -38,13 +38,11 @@ Scripts for webpack entry points are added to Ruby ERB templates, but they use t
 [dev.to/webpacker.yml at master · thepracticaldev/dev.to · GitHub](https://github.com/thepracticaldev/dev.to/blob/master/config/webpacker.yml)
 
 ```yaml
-{ % raw % }
 ---
 default: &default
   source_path: app/javascript
   source_entry_path: packs
 ---
-{ % endraw % }
 ```
 
 Looking at the configuration above, this part of the frontend code base can be found in the `app/javascript` folder with webpack entry points found in the `app/javascript/packs` folder.
@@ -54,15 +52,13 @@ This represents the base configuration for webpack. If additional configuration 
 [dev.to/development.js at master · thepracticaldev/dev.to · GitHub](https://github.com/thepracticaldev/dev.to/blob/master/config/webpack/development.js)
 
 ```javascript
-{% raw %}
-const environment = require('./environment');
+const environment = require("./environment");
 const config = environment.toWebpackConfig();
 
 // For more information, see https://webpack.js.org/configuration/devtool/#devtool
-config.devtool = 'eval-source-map';
+config.devtool = "eval-source-map";
 
 module.exports = config;
-{% endraw %}
 ```
 
 As the project continues to move forward, expect to see some more things client side becoming preactitized (I just made that up, boom!).
@@ -76,7 +72,6 @@ As the project continues to move forward, expect to see some more things client 
 [dev.to/application.html.erb at master · thepracticaldev/dev.to · GitHub](https://github.com/thepracticaldev/dev.to/blob/master/app/views/layouts/application.html.erb#L38)
 
 ```html
-{% raw %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -93,7 +88,7 @@ As the project continues to move forward, expect to see some more things client 
     <style>
       ..
     </style>
-    ... <%= javascript_pack_tag "Search", defer: true %> ... {% endraw %}
+    ... <%= javascript_pack_tag "Search", defer: true %> ...
   </head>
 </html>
 ```
@@ -102,8 +97,8 @@ As the project continues to move forward, expect to see some more things client 
 
 [dev.to/\_top_bar.html.erb at master · thepracticaldev/dev.to · GitHub](https://github.com/thepracticaldev/dev.to/blob/master/app/views/layouts/_top_bar.html.erb#L12)
 
-```html
-{% raw %} ...
+````html
+...
 <div id="nav-search-form-root">
   <div class="nav-search-form">
     <form acceptCharset="UTF-8" method="get">
@@ -118,25 +113,15 @@ As the project continues to move forward, expect to see some more things client 
     </form>
   </div>
 </div>
-... {% endraw %}
-```
-
-3. On the client-side once the DOM content has loaded, Preact takes over.
-
-[dev.to/Search.jsx at master · thepracticaldev/dev.to · GitHub](https://github.com/thepracticaldev/dev.to/blob/master/app/javascript/packs/Search.jsx#L5)
-
-```javascript
-{% raw %}
-import { h, render } from ‘preact’;
-import { Search } from ‘../src/components/Search’;
-
-document.addEventListener(‘DOMContentLoaded’, () => {
-  const root = document.getElementById(‘nav-search-form-root’);
-
-  render(<Search />, root, root.firstElementChild);
-});
-{% endraw %}
-```
+... ``` 3. On the client-side once the DOM content has loaded, Preact takes
+over. [dev.to/Search.jsx at master · thepracticaldev/dev.to ·
+GitHub](https://github.com/thepracticaldev/dev.to/blob/master/app/javascript/packs/Search.jsx#L5)
+```javascript import { h, render } from ‘preact’; import { Search } from
+‘../src/components/Search’; document.addEventListener(‘DOMContentLoaded’, () =>
+{ const root = document.getElementById(‘nav-search-form-root’); render(
+<search />
+, root, root.firstElementChild); });
+````
 
 4. From there on in, all interactions with the Search box are client-side.
 
@@ -149,21 +134,19 @@ Aside from prefetching pages, InstantClick also allows you to customize what hap
 [dev.to/githubRepos.jsx at master · thepracticaldev/dev.to · GitHub](https://github.com/thepracticaldev/dev.to/blob/master/app/javascript/packs/githubRepos.jsx#L11)
 
 ```javascript
-{% raw %}
 ...
 window.InstantClick.on('change', () => {
   loadElement();
 });
 ...
-{% endraw %}
 ```
 
 You can also decide whether or not to reevaluate a script in an InstantClick loaded page via the `data-no-instant` attribute. I don’t believe there are any examples in the code base that blacklist script reevaluation. You can also blacklist a link. Here is an example from the codebase.
 
 [dev.to/buildCommentHTML.js.erb at master · thepracticaldev/dev.to · GitHub](https://github.com/thepracticaldev/dev.to/blob/master/app/assets/javascripts/utilities/buildCommentHTML.js.erb#L80)
 
-```html
-{% raw %} ... function actions(comment) { if (comment.newly_created) { return '
+````html
+... function actions(comment) { if (comment.newly_created) { return '
 <div
   class="actions"
   data-comment-id="'+comment.id+'"
@@ -185,31 +168,18 @@ You can also decide whether or not to reevaluate a script in an InstantClick loa
     >\ </span
   >\ <a href="#" class="toggle-reply-form" rel="nofollow">REPLY</a>\
 </div>
-'; } else { ... {% endraw %}
-```
-
-For more information on this, see the [Events and script re-evaluation in InstantClick](http://instantclick.io/scripts) documentation.
-
-## [Linting / Code Formatting](#linting-formatting)
-
-### eslint & prettier
-
-The project uses eslint with the Prettier plugin. This means that all eslint rules related to code formatting are handled by prettier. For the most part we use the out of the box rules provided by the configurations that we extend but there are some tweaks.
-
-As well, as mentioned above, there are some objects that live in the global scope, e.g. `Pusher`. We need to tell eslint that it is defined otherwise it will complain that it is not defined. This is where the eslint `globals` section comes in handy.
-
-```javascript
-{% raw %}
-...
-  globals: {
-    InstantClick: false,
-    filterXSS: false,
-    Pusher: false,
-    algoliasearch: false,
-  }
-...
-{% endraw %}
-```
+'; } else { ... ``` For more information on this, see the [Events and script
+re-evaluation in InstantClick](http://instantclick.io/scripts) documentation. ##
+[Linting / Code Formatting](#linting-formatting) ### eslint & prettier The
+project uses eslint with the Prettier plugin. This means that all eslint rules
+related to code formatting are handled by prettier. For the most part we use the
+out of the box rules provided by the configurations that we extend but there are
+some tweaks. As well, as mentioned above, there are some objects that live in
+the global scope, e.g. `Pusher`. We need to tell eslint that it is defined
+otherwise it will complain that it is not defined. This is where the eslint
+`globals` section comes in handy. ```javascript ... globals: { InstantClick:
+false, filterXSS: false, Pusher: false, algoliasearch: false, } ...
+````
 
 ### Husky, lint-staged
 
@@ -246,7 +216,6 @@ The magic of theme toggling can be seen in action in the user configuration. Her
 [dev.to/\_user_config.html.erb at master · thepracticaldev/dev.to · GitHub](https://github.com/thepracticaldev/dev.to/blob/master/app/views/layouts/_user_config.html.erb#L8)
 
 ```php
-{% raw %}
 <script>
   try {
     var bodyClass = localStorage.getItem('config_body_class');
@@ -272,7 +241,6 @@ The magic of theme toggling can be seen in action in the user configuration. Her
       console.log(e)
   }
 </script>
-{% endraw %}
 ```
 
 So if you’re contributing to anything CSS related in the project, keep in the back of your head if you need theming applied to what you’re working on. Don't be shy, just ask if it's not obvious in the issue. @venarius has worked a lot on this, so he’s probably a good person to talk to about theming.
