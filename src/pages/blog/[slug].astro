@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({ params: { slug: post.slug }, props: { post } }));
+}
+const { post } = Astro.props;
+---
+
+<html>
+  <head>
+    <title>{post.data.title} | Blog | Nickyt.live</title>
+  </head>
+  <body>
+    <article style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+      <h1>{post.data.title}</h1>
+      <small style="color: #888;">{post.data.date.toLocaleDateString()}</small>
+      {post.data.cover && (
+        <img src={Astro.resolve('../../images/posts/' + post.data.cover)} alt={post.data.title + ' cover'} style="max-width: 100%; height: auto; margin: 1.5rem 0;" />
+      )}
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div style="margin-bottom: 1rem;">
+          {post.data.tags.map(tag => (
+            <span style="background: #f0f0f0; color: #555; padding: 0.2em 0.6em; margin-right: 0.5em; border-radius: 3px; font-size: 0.9em;">{tag}</span>
+          ))}
+        </div>
+      )}
+      {post.data.description && (
+        <p style="color: #444; font-size: 1.2em; margin-bottom: 2rem;">{post.data.description}</p>
+      )}
+      {post.Content ? (
+        <div class="prose">
+          <post.Content />
+        </div>
+      ) : (
+        <p>Sorry, this post could not be rendered.</p>
+      )}
+    </article>
+  </body>
+</html>
