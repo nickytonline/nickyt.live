@@ -43,10 +43,13 @@ const posts = await getCollection("blog", ({ data }) => !data.draft);
             {post.data.tags && post.data.tags.length > 0 && (
               <div style="margin-top: 0.5rem;">
                 {post.data.tags.map((tag) => (
-                  <span style="background: #f0f0f0; color: #555; padding: 0.2em 0.6em; margin-right: 0.5em; border-radius: 3px; font-size: 0.9em;">
-                    {tag}
-                  </span>
-                ))}
+  <a
+    href={`/tags/${encodeURIComponent(tag)}/`}
+    style="background: #f0f0f0; color: #555; padding: 0.2em 0.6em; margin-right: 0.5em; border-radius: 3px; font-size: 0.9em; text-decoration: none;"
+  >
+    {tag}
+  </a>
+))}
               </div>
             )}
           </li>

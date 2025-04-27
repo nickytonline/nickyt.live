@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  // Collect all unique tags
+  const tagSet = new Set();
+  posts.forEach((post) => {
+    if (post.data.tags && Array.isArray(post.data.tags)) {
+      post.data.tags.forEach((tag) => tagSet.add(tag));
+    }
+  });
+  return Array.from(tagSet).map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const posts = (await getCollection("blog")).filter(
+  (post) => Array.isArray(post.data.tags) && post.data.tags.includes(tag)
+);
+---
+
+<MainLayout title={`Posts tagged "${tag}" | Nickyt.live`}>
+  <h1>Posts tagged: {tag}</h1>
+  {posts.length === 0 && <p>No posts found for this tag.</p>}
+  <ul class="grid gap-2">
+    {
+      posts.map((post) => (
+        <li class="grid gap-2">
+          <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+          <time datetime={post.data.date.toISOString()}>
+            {post.data.date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </time>
+        </li>
+      ))
+    }
+  </ul>
+</MainLayout>
