@@ -22,8 +22,12 @@ const currentPath = pathname.slice(1);
         <ul class="list-none flex gap-6 place-content-center flex-wrap">
           <li>
             <a href="/" aria-current={currentPath === "" ? "page" : "false"}
-              >Home</a
-            >
+              >Home</a>
+          </li>
+          <li>
+            <a href="/blog" aria-current={currentPath === "blog" ? "page" : "false"}>
+              Blog
+            </a>
           </li>
           <li>
             <a

@@ -18,7 +18,7 @@ const posts = await getCollection("blog", ({ data }) => !data.draft);
                 <img
                   src={post.data.cover_image}
                   alt={post.data.title}
-                  class="hidden md:block w-1/2 aspect-auto mb-4 rounded"
+                  class="hidden md:block w-1/2 max-w-[200px] lg:max-w-[400px] aspect-auto mb-4 rounded"
                   width={861}
                   height={361}
                 />
@@ -27,9 +27,14 @@ const posts = await getCollection("blog", ({ data }) => !data.draft);
             <h2 style="margin: 0 0 0.5rem 0;">
               <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
             </h2>
-            <small style="color: #888;">
-              {post.data.date.toLocaleDateString()}
-            </small>
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
             {post.data.description && (
               <p style="margin-top: 0.5rem; color: #444;">
                 {post.data.description}

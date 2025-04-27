@@ -19,8 +19,6 @@ const { title, date, description, tags, cover_image, canonicalUrl } = post.data;
 <MainLayout title={`${title} | Blog | Nickyt.live`}>
   {description && <meta name="description" content={description} />}
   <article>
-    <h1>{title}</h1>
-    <small style="color: #888;">{date}</small>
     {
       cover_image && (
         <img
@@ -30,6 +28,17 @@ const { title, date, description, tags, cover_image, canonicalUrl } = post.data;
         />
       )
     }
+    <h1>{title}</h1>
+    <time datetime={post.data.date.toISOString()}>
+      {
+        post.data.date.toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      }
+    </time>
     {
       tags && tags.length > 0 && (
         <div style="margin-bottom: 1rem;">
