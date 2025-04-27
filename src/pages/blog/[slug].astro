@@ -41,18 +41,21 @@ const { title, date, description, tags, cover_image, canonicalUrl } = post.data;
     </time>
     {
       tags && tags.length > 0 && (
-        <div style="margin-bottom: 1rem;">
+        <ul class="mt-2 flex gap-2">
           {tags.map((tag) => (
-            <a
-              href={`/tags/${encodeURIComponent(tag)}/`}
-              style="background: #f0f0f0; color: #555; padding: 0.2em 0.6em; margin-right: 0.5em; border-radius: 3px; font-size: 0.9em; text-decoration: none;"
-            >
-              {tag}
-            </a>
+            <li>
+              <a
+                href={`/tags/${encodeURIComponent(tag)}/`}
+                class="bg-pink-600 text-white px-2 py-1 rounded"
+              >
+                {tag}
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       )
     }
+
     {/* Description is now in the meta tag, not rendered in-body */}
     {
       Content ? (
