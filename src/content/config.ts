@@ -34,7 +34,6 @@ const talksCollection = defineCollection({
       )
       .optional(),
   }),
-  sort: (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 });
 
 export const collections = {

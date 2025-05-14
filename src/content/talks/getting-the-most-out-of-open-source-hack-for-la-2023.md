@@ -11,7 +11,7 @@ video:
     "type": "custom",
     "image":
       {
-        "url": "/images/talks/hack-for-la-open-source-talk.png",
+        "url": "/assets/talks/hack-for-la-open-source-talk.png",
         "width": 1200,
         "height": 628,
       },

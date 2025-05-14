@@ -1,6 +1,4 @@
 ---
-import { AnimatedText } from "./AnimatedText";
-
 const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.slice(1);
 ---
@@ -8,13 +6,11 @@ const currentPath = pathname.slice(1);
 <header class="lg:sticky top-0 pt-6 pb-6 bg-white z-10">
   <div class="flex flex-col items-center md:items-start md:flex-row gap-6">
     <div class="flex flex-col gap-6 items-center md:items-start">
-      {
-        currentPath === "" ? (
-          <AnimatedText animate={true} client:load />
-        ) : (
-          <AnimatedText animate={false} />
-        )
-      }
+      <h1 class="font-outfit md:text-6xl lg:text-8xl font-medium">
+        nickyt<span class="text-pink-600">.</span>live<span
+          class="text-pink-600">!</span
+        >
+      </h1>
       <nav
         aria-label="main navigation"
         class="mt-2 text-xl md:text-2xl lg:text-3xl"
