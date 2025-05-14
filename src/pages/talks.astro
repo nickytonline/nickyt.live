@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/MainLayout.astro";
+const talks = await getCollection("talks");
+const sortedTalks = talks.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<Layout title="Talks | Nick Taylor">
+  <main class="mt-4 md:mt-8 lg:mt-16">
+    <div class="grid gap-8">
+      <h1>Talks</h1>
+      <ul class="grid gap-8">
+        {
+          sortedTalks.map((talk) => {
+            // Derive slug from entry id (filename without extension)
+            const slug = talk.id.replace(/^talks\//, "").replace(/\.md$/, "");
+            return (
+              <li class="flex items-center before:content-['🎙️'] before:mr-2 before:inline-block before:text-2xl">
+                <a href={`/talks/${slug}`} class="block group">
+                  <article>
+                    <h2>
+                      <a href={`/talks/${slug}`}>{talk.data.title}</a>
+                    </h2>
+                    <div>
+                      <time datetime={talk.data.date.toISOString()}>
+                        {talk.data.date.toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </time>
+                      {" \u2022 "}
+                      {talk.data.venue.name}
+                    </div>
+                  </article>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </main>
+</Layout>
