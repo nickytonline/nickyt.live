@@ -116,32 +116,40 @@ const { Content } = await talk.render();
       </div>
 
       <footer class="flex flex-wrap gap-4 mt-6">
-        {
-          slideDeck && (
-            <a href={slideDeck} target="_blank">
-              View Slides
-            </a>
-          )
-        }
-        {
-          sourceCode && (
-            <a href={sourceCode} target="_blank">
-              Source Code
-            </a>
-          )
-        }
-        {
-          additionalLinks.map((link: { title: string; url: string }) => (
-            <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800"
-            >
-              {link.title}
-            </a>
-          ))
-        }
+        <ul class="flex flex-wrap gap-4">
+          {
+            slideDeck && (
+              <li>
+                <a href={slideDeck} target="_blank">
+                  View Slides
+                </a>
+              </li>
+            )
+          }
+          {
+            sourceCode && (
+              <li>
+                <a href={sourceCode} target="_blank">
+                  Source Code
+                </a>
+              </li>
+            )
+          }
+          {
+            additionalLinks.map((link: { title: string; url: string }) => (
+              <li>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800"
+                >
+                  {link.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </footer>
 
       <div class="flex flex-wrap gap-2 mt-4">
