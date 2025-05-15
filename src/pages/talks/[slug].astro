@@ -24,7 +24,8 @@ const {
   sourceCode,
   additionalLinks = [],
 } = talk.data;
-const summary = talk.body;
+
+const { Content } = await talk.render();
 ---
 
 <Layout title={`${title} | Nick Taylor`}>
@@ -46,7 +47,10 @@ const summary = talk.body;
               })
             }
           </time>
-          {` \u2022 ${venue.name}`}
+          {` \u2022 `}
+          <a href={venue.url} target="_blank">
+            {venue.name}
+          </a>
         </div>
       </header>
 
@@ -108,7 +112,7 @@ const summary = talk.body;
       }
 
       <div class="prose max-w-none">
-        {summary}
+        <Content />
       </div>
 
       <footer class="flex flex-wrap gap-4 mt-6">
