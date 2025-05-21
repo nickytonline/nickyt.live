@@ -107,8 +107,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
                   <div>
                     {noGuest ? null : (
                       <div>
-                        Guest: {guestName}
-                        {guestTitle ? `, ${guestTitle}` : null}
+                        Guest: {guestName}{guestTitle ? `, ${guestTitle}` : null}
                       </div>
                     )}
                   </div>
