@@ -7,6 +7,30 @@ import {
 
 const SITE_URL = import.meta.env.URL;
 
+/**
+ * Escapes a string for XML.
+ * @param unsafe The string to escape.
+ * @returns The escaped string.
+ */
+function escapeXml(unsafe: string): string {
+  return unsafe.replace(/[<>&'"\\]/g, (c) => {
+    switch (c) {
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case "&":
+        return "&amp;";
+      case "'":
+        return "&apos;";
+      case '"':
+        return "&quot;";
+      default:
+        return c;
+    }
+  });
+}
+
 export const GET: APIRoute = async () => {
   const [streamSchedule, twoFullTwoStackSchedule] = await Promise.all([
     getStreamSchedule({
@@ -47,29 +71,31 @@ export const GET: APIRoute = async () => {
       .map(
         (stream) => `
     <item>
-      <title>${stream.title}</title>
-      <description><![CDATA[${stream.description}
+      <title>${escapeXml(stream.title ?? "")}</title>
+      <description><![CDATA[${stream.description ?? ""}
 
-${stream.type === "2-full-2-stack" ? "" : `Guest: ${(stream as StreamGuestInfo).guestName}${(stream as StreamGuestInfo).guestTitle ? ` (${(stream as StreamGuestInfo).guestTitle})` : ""}`}
+${stream.type === "2-full-2-stack" ? "" : `Guest: ${(stream as StreamGuestInfo).guestName ?? ""}${(stream as StreamGuestInfo).guestTitle ? ` (${(stream as StreamGuestInfo).guestTitle ?? ""})` : ""}`}
 
-${(stream as StreamGuestInfo).youtubeStreamLink ? `YouTube Stream: ${(stream as StreamGuestInfo).youtubeStreamLink}` : ""}
-${(stream as StreamGuestInfo).linkedinStreamLink ? `LinkedIn Stream: ${(stream as StreamGuestInfo).linkedinStreamLink}` : ""}
-${(stream as StreamGuestInfo).twitter ? `Twitter: https://twitter.com/${(stream as StreamGuestInfo).twitter}` : ""}
-${(stream as StreamGuestInfo).github ? `GitHub: https://github.com/${(stream as StreamGuestInfo).github}` : ""}
-${(stream as StreamGuestInfo).website ? `Website: ${(stream as StreamGuestInfo).website}` : ""}
+${(stream as StreamGuestInfo).youtubeStreamLink ? `YouTube Stream: ${(stream as StreamGuestInfo).youtubeStreamLink ?? ""}` : ""}
+${(stream as StreamGuestInfo).linkedinStreamLink ? `LinkedIn Stream: ${(stream as StreamGuestInfo).linkedinStreamLink ?? ""}` : ""}
+${(stream as StreamGuestInfo).twitter ? `Twitter: https://twitter.com/${(stream as StreamGuestInfo).twitter ?? ""}` : ""}
+${(stream as StreamGuestInfo).github ? `GitHub: https://github.com/${(stream as StreamGuestInfo).github ?? ""}` : ""}
+${(stream as StreamGuestInfo).website ? `Website: ${(stream as StreamGuestInfo).website ?? ""}` : ""}
 ]]></description>
       <pubDate>${new Date(stream.date).toUTCString()}</pubDate>
       <link>${
         stream.type === "2-full-2-stack"
-          ? (stream as { link: string | undefined }).link
-          : (stream as StreamGuestInfo).youtubeStreamLink
+          ? escapeXml((stream as { link: string | undefined }).link ?? "")
+          : escapeXml((stream as StreamGuestInfo).youtubeStreamLink ?? "")
       }</link>
-      <guid isPermaLink="false">${stream.date}-${
+      <guid isPermaLink="false">${escapeXml(stream.date)}-${
         stream.type === "2-full-2-stack"
-          ? stream.title?.replace(/\s+/g, "-")
-          : (stream as StreamGuestInfo).guestName.replace(/\s+/g, "-")
+          ? escapeXml(stream.title?.replace(/\s+/g, "-") ?? "")
+          : escapeXml(
+              (stream as StreamGuestInfo).guestName.replace(/\s+/g, "-") ?? "",
+            )
       }</guid>
-      ${stream.type === "2-full-2-stack" ? `<media:thumbnail url="${(stream as { ogImage: string }).ogImage}" />` : ""}
+      ${stream.type === "2-full-2-stack" ? `<media:thumbnail url="${escapeXml((stream as { ogImage: string }).ogImage ?? "")}" />` : ""}
     </item>`,
       )
       .join("\n    ")}
