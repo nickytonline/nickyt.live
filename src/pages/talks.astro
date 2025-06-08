@@ -1,85 +1,65 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../layouts/MainLayout.astro";
-import type { CollectionEntry } from "astro:content";
+import TagList from "../components/TagList.astro";
+import { getThumbnailUrl } from "../utils/video-utils";
 
 const talks = await getCollection("talks");
 const sortedTalks = talks.sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
-
-const PLACEHOLDER_IMAGE = "/assets/talks/no-video-thumb.svg";
-
-function getThumbnailUrl(talk: CollectionEntry<"talks">) {
-  if (talk.data.video?.image) {
-    return talk.data.video.image.url;
-  }
-
-  if (talk.data.video?.type === "youtube") {
-    const videoId = talk.data.video.url.match(
-      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/,
-    )?.[1];
-    if (videoId) {
-      return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-    }
-  }
-
-  if (talk.data.video?.type === "vimeo") {
-    const videoId = talk.data.video.url.match(/(?:vimeo\.com\/)(\d+)/)?.[1];
-    if (videoId) {
-      return `https://vumbnail.com/${videoId}.jpg`;
-    }
-  }
-
-  return PLACEHOLDER_IMAGE;
-}
 ---
 
 <Layout title="Talks | Nick Taylor">
-  <main class="mt-4 md:mt-8 lg:mt-16">
-    <div class="grid gap-8">
-      <h1>Talks</h1>
-      <ul class="grid gap-8">
-        {
-          sortedTalks.map((talk) => {
-            const slug = talk.id.replace(/^talks\//, "").replace(/\.md$/, "");
-            const thumbnailUrl = getThumbnailUrl(talk);
-            return (
-              <li>
-                <a href={`/talks/${slug}`} class="block group">
-                  <article class="flex gap-4">
-                    <div class="hidden md:block flex-shrink-0 w-48 h-27">
-                      <img
-                        src={thumbnailUrl}
-                        alt=""
-                        aria-hidden="true"
-                        class="w-full h-full object-cover rounded"
-                        loading="lazy"
-                      />
-                    </div>
+  <main class="mt-4 md:mt-8 lg:mt-16 grid gap-8">
+    <h1>Talks</h1>
+    <a href="/tags">Browse talks by tag</a>
+    <ul class="grid gap-8">
+      {
+        sortedTalks.map((talk) => {
+          const slug = talk.id.replace(/^talks\//, "").replace(/\.md$/, "");
+          const thumbnailUrl = getThumbnailUrl(talk);
+          return (
+            <li>
+              <a href={`/talks/${slug}`} class="block group">
+                <article class="flex gap-4">
+                  <div class="hidden md:block flex-shrink-0 w-48 h-27">
+                    <img
+                      src={thumbnailUrl}
+                      alt=""
+                      aria-hidden="true"
+                      class="w-full h-full object-cover rounded"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div>
+                    <h2>
+                      <a href={`/talks/${slug}`}>{talk.data.title}</a>
+                    </h2>
                     <div>
-                      <h2>
-                        <a href={`/talks/${slug}`}>{talk.data.title}</a>
-                      </h2>
-                      <div>
-                        <time datetime={talk.data.date.toISOString()}>
-                          {talk.data.date.toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </time>
-                        {" \u2022 "}
-                        {talk.data.venue.name}
-                      </div>
+                      <time datetime={talk.data.date.toISOString()}>
+                        {talk.data.date.toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </time>
+                      {" \u2022 "}
+                      {talk.data.venue.name}
                     </div>
-                  </article>
-                </a>
-              </li>
-            );
-          })
-        }
-      </ul>
-    </div>
+                    {talk.data.tags && talk.data.tags.length > 0 && (
+                      <div class="mt-2">
+                        <TagList tags={talk.data.tags} limit={3} />
+                      </div>
+                    )}
+                  </div>
+                </article>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+    <a href="/tags">Browse talks by tag</a>
   </main>
 </Layout>
