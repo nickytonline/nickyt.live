@@ -4,7 +4,7 @@ date: 2024-11-12T12:00:00.000Z
 venue:
   name: "Xtreme.js 2024"
   url: "https://xtremejs.dev/2024"
-tags: ["e2etesting"]
+tags: ["testing", "e2e"]
 video:
   { "url": "https://www.youtube.com/watch?v=QUkYtRYdXk4", "type": "youtube" }
 slideDeck: /slides/xtreme24

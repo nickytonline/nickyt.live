@@ -4,7 +4,7 @@ date: 2025-05-29T00:00:00.000Z
 venue:
   name: "The Context, MCP Live Stream"
   url: "https://www.youtube.com/@MCPDevSummit"
-tags: ["security", "zerotrust", "oauth", "authentication", "mcp"]
+tags: ["security", "zero trust", "oauth", "authentication", "mcp"]
 video: { "url": "https://youtube.com/watch?v=KY1kCZkqUh0", "type": "youtube" }
 slideDeck: https://docs.google.com/presentation/d/e/2PACX-1vTDrH25FaDk-Q6DFpUvra2r04wJPVOr5UYAwf3bGmdwLmEqBNEV_OFg4XuxGevIyQDTHMkBep7oh7dM/pub?start=false&loop=false&delayms=5000
 sourceCode: https://github.com/pomerium/mcp-app-demo
