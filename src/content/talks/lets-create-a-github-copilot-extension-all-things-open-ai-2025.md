@@ -4,7 +4,15 @@ date: 2025-03-18T12:00:00.000Z
 venue:
   name: "All Things Open AI"
   url: "https://allthingsopen.ai/"
-tags: ["github copilot", "ai", "github copilot extensions"]
+tags:
+  [
+    "github copilot",
+    "ai",
+    "agentic ai",
+    "github copilot extensions",
+    "vscode",
+    "nodejs",
+  ]
 video:
   type: "youtube"
   url: "https://www.youtube.com/watch?v=d1ymwRWt9bg"

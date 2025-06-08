@@ -4,7 +4,15 @@ date: 2025-05-13T00:00:00.000Z
 venue:
   name: "AI Native DevCon Spring Edition"
   url: "https://ai-native-devcon-2025.heysummit.com/"
-tags: ["github copilot", "extensions", "ai", "developer-tools", "nodejs"]
+tags:
+  [
+    "github copilot",
+    "ai",
+    "agentic ai",
+    "github copilot extensions",
+    "vscode",
+    "nodejs",
+  ]
 video:
   url: "https://www.youtube.com/watch?v=hjsO72uf6bE"
   type: "youtube"

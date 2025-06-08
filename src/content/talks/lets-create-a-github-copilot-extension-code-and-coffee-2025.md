@@ -4,7 +4,15 @@ date: 2025-04-25T13:55:00.000Z
 venue:
   name: "Code & Coffee: A Virtual Coffee Conference"
   url: "https://cfe.dev/events/virtual-coffee-conf-2025/"
-tags: ["github", "ai", "copilot", "visual studio code"]
+tags:
+  [
+    "github copilot",
+    "ai",
+    "agentic ai",
+    "github copilot extensions",
+    "vscode",
+    "nodejs",
+  ]
 video:
   type: "youtube"
   url: "https://www.youtube.com/watch?v=vKB5yP6XyDE"

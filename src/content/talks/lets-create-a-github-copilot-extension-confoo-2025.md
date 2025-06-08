@@ -4,7 +4,15 @@ date: 2025-02-26T12:00:00.000Z
 venue:
   name: "Confoo 2025"
   url: "https://confoo.ca/en/2025"
-tags: ["github copilot", "ai", "github copilot extensions"]
+tags:
+  [
+    "github copilot",
+    "ai",
+    "agentic ai",
+    "github copilot extensions",
+    "vscode",
+    "nodejs",
+  ]
 slideDeck: https://docs.google.com/presentation/d/e/2PACX-1vSpG5KEWSVJuXK55F_XNnILVnZ3-9nITE32-yX6l8wn9DQIHQEin9slf6GRe4qTYTLi6JJa6Qu_634g/pub?start=false&loop=false&delayms=3000
 ---
 

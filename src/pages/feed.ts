@@ -5,7 +5,7 @@ import {
   type StreamGuestInfo,
 } from "../utils/schedule-utils";
 
-const SITE_URL = import.meta.env.URL;
+const SITE_URL = import.meta.env.URL || "https://nickyt.live";
 
 /**
  * Escapes a string for XML.
@@ -32,34 +32,35 @@ function escapeXml(unsafe: string): string {
 }
 
 export const GET: APIRoute = async () => {
-  const [streamSchedule, twoFullTwoStackSchedule] = await Promise.all([
-    getStreamSchedule({
-      apiKey: import.meta.env.AIRTABLE_API_KEY,
-      baseId: import.meta.env.AIRTABLE_STREAM_GUEST_BASE_ID,
-    }),
-    get2Full2StackStreamSchedule(),
-  ]);
+  try {
+    const [streamSchedule, twoFullTwoStackSchedule] = await Promise.all([
+      getStreamSchedule({
+        apiKey: import.meta.env.AIRTABLE_API_KEY || "",
+        baseId: import.meta.env.AIRTABLE_STREAM_GUEST_BASE_ID || "",
+      }),
+      get2Full2StackStreamSchedule(),
+    ]);
 
-  // Merge both schedules
-  const allStreams = [...streamSchedule, ...twoFullTwoStackSchedule];
+    // Merge both schedules
+    const allStreams = [...streamSchedule, ...twoFullTwoStackSchedule];
 
-  console.log("Total streams:", allStreams.length);
-  if (allStreams.length > 0) {
-    console.log("First stream:", {
-      title: allStreams[0].title,
-      date: allStreams[0].date,
-      type: allStreams[0].type,
-    });
-  }
+    console.log("Total streams:", allStreams.length);
+    if (allStreams.length > 0) {
+      console.log("First stream:", {
+        title: allStreams[0].title,
+        date: allStreams[0].date,
+        type: allStreams[0].type,
+      });
+    }
 
-  // Sort streams by date
-  const sortedSchedule = [...allStreams].sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-  );
+    // Sort streams by date
+    const sortedSchedule = [...allStreams].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+    );
 
-  console.log("Sorted schedule length:", sortedSchedule.length);
+    console.log("Sorted schedule length:", sortedSchedule.length);
 
-  const rss = `<?xml version="1.0" encoding="UTF-8"?>
+    const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>NickyT.Live Stream Schedule</title>
@@ -102,11 +103,15 @@ ${(stream as StreamGuestInfo).website ? `Website: ${(stream as StreamGuestInfo).
   </channel>
 </rss>`;
 
-  return new Response(rss, {
-    headers: {
-      "Content-Type": "application/xml;charset=utf-8",
-      "Cache-Control": "public, max-age=0, must-revalidate",
-      "Netlify-CDN-Cache-Control": "public, max-age=86400, must-revalidate",
-    },
-  });
+    return new Response(rss, {
+      headers: {
+        "Content-Type": "application/xml;charset=utf-8",
+        "Cache-Control": "public, max-age=0, must-revalidate",
+        "Netlify-CDN-Cache-Control": "public, max-age=86400, must-revalidate",
+      },
+    });
+  } catch (error) {
+    console.error("Error generating RSS feed:", error);
+    return new Response("Error generating RSS feed", { status: 500 });
+  }
 };
