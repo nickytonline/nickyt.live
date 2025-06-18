@@ -1,6 +1,6 @@
 ---
 title: "Fresh: A Full Stack Web Framework for Deno"
-date: 2024-10-29T12:00:00.000Z
+date: "2024-10-29T12:00:00.000Z"
 venue:
   name: "All Things Open 2024"
   url: "https://2024.allthingsopen.org/"

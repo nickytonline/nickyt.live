@@ -1,6 +1,6 @@
 ---
 title: "Let's Create a GitHub Copilot Extension! with Nick Taylor"
-date: 2025-05-13T00:00:00.000Z
+date: "2025-05-13T00:00:00.000Z"
 venue:
   name: "AI Native DevCon Spring Edition"
   url: "https://ai-native-devcon-2025.heysummit.com/"

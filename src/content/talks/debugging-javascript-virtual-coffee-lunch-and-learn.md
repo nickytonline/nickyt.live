@@ -1,6 +1,6 @@
 ---
 title: "Debugging JavaScript"
-date: 2021-04-02T12:00:00.000Z
+date: "2021-04-02T12:00:00.000Z"
 venue:
   name: "Virtual Coffee Lunch & Learn"
   url: "https://www.youtube.com/playlist?list=PLh9uT23TA65idCyc_orC85RefgY_-fKsG"

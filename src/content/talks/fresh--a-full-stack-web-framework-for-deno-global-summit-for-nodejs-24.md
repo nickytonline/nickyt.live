@@ -1,6 +1,6 @@
 ---
 title: "Fresh: A Full Stack Web Framework for Deno"
-date: 2024-02-21T12:00:00.000Z
+date: "2024-02-21T12:00:00.000Z"
 venue:
   name: "Global Summit for Node.js '24"
   url: "https://events.geekle.us/nodejs24"

@@ -1,6 +1,6 @@
 ---
 title: "Why HTML Forms Still Rule the Web"
-date: 2024-10-03T09:00:00.000Z
+date: "2024-10-03T09:00:00.000Z"
 venue:
   name: "Netlify Compose 2024"
   url: "https://www.netlify.com/compose/"

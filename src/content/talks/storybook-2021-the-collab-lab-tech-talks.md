@@ -1,6 +1,6 @@
 ---
 title: "Storybook 2021"
-date: 2021-03-10T12:00:00.000Z
+date: "2021-03-10T12:00:00.000Z"
 venue:
   name: "The Collab Lab Tech Talks"
   url: "https://www.meetup.com/tech-talks-by-the-collab-lab/events/276679138/"

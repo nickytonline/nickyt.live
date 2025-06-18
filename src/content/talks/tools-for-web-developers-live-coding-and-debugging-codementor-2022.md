@@ -1,6 +1,6 @@
 ---
 title: "Tools for web developers: Live coding and debugging"
-date: 2022-02-10T12:00:00.000Z
+date: "2022-02-10T12:00:00.000Z"
 venue:
   name: "codementor"
   url: "https://www.codementor.io/events/tools-for-web-devs-dpqk2w3b1r"

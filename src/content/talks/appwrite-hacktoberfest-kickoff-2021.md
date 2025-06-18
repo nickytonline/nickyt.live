@@ -1,6 +1,6 @@
 ---
 title: "AppWrite Hacktoberfest Kickoff"
-date: 2021-04-02T12:00:00.000Z
+date: "2021-04-02T12:00:00.000Z"
 venue:
   name: "AppWrite Hacktoberfest Kickoff"
   url: "https://dev.to/appwrite/appwrites-hacktoberfest-21-journey-4n91"

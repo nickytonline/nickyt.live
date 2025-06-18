@@ -1,6 +1,6 @@
 ---
 title: "End to End Testing with Cypress"
-date: 2023-03-14T12:00:00.000Z
+date: "2023-03-14T12:00:00.000Z"
 venue:
   name: "The Collab Lab Tech Talks"
   url: "https://the-collab-lab.codes/tech-talks/"

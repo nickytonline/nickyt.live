@@ -1,6 +1,6 @@
 ---
 title: "Automate syndication and ownership of your content with Eleventy"
-date: 2022-05-26T12:00:00.000Z
+date: "2022-05-26T12:00:00.000Z"
 venue:
   name: "Eleventy Meetup"
   url: "https://11tymeetup.dev/events/ep-9-automatic-syndication-and-wordle-on-the-edge/"

@@ -1,6 +1,6 @@
 ---
 title: "Getting the Most out of Open Source"
-date: 2020-10-01T12:00:00.000Z
+date: "2020-10-01T12:00:00.000Z"
 venue:
   name: "DigitalOcean Tech Talk"
   url: "https://www.digitalocean.com/community/tech_talks/getting-the-most-out-of-open-source"

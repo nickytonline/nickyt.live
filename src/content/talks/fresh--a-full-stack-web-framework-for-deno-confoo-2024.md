@@ -1,6 +1,6 @@
 ---
 title: "Fresh: A Full Stack Web Framework for Deno"
-date: 2024-02-23T12:00:00.000Z
+date: "2024-02-23T12:00:00.000Z"
 venue:
   name: "Confoo 2024"
   url: "https://confoo.ca/en/2024/session/fresh-a-full-stack-web-framework-for-deno"

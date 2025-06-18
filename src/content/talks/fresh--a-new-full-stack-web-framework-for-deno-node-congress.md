@@ -1,6 +1,6 @@
 ---
 title: "Fresh: A New Full Stack Web Framework for Deno"
-date: 2023-04-20T12:00:00.000Z
+date: "2023-04-20T12:00:00.000Z"
 venue:
   name: "Node Congress"
   url: "https://nodecongress.com/"

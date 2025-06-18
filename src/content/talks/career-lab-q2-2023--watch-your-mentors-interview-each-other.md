@@ -1,6 +1,6 @@
 ---
 title: "Career Lab Q2 2023: Watch Your Mentors Interview Each Other"
-date: 2023-06-05T12:00:00.000Z
+date: "2023-06-05T12:00:00.000Z"
 venue:
   name: "The Collab Lab: Career Lab"
   url: "https://the-collab-lab.codes/"

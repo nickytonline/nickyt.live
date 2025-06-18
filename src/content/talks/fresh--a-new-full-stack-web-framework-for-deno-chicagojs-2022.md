@@ -1,6 +1,6 @@
 ---
 title: "Fresh: A New Full Stack Web Framework for Deno"
-date: 2022-12-13T12:00:00.000Z
+date: "2022-12-13T12:00:00.000Z"
 venue:
   name: "ChicagoJS"
   url: "https://chicagojs.org/"
