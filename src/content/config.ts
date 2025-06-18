@@ -36,6 +36,27 @@ const talksCollection = defineCollection({
   }),
 });
 
+const blogCollection = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    date: z.date(),
+    tags: z.array(z.string()),
+    draft: z.boolean().optional(),
+    featured: z.boolean().optional(),
+    image: z
+      .object({
+        url: z.string(),
+        alt: z.string(),
+        width: z.number().optional(),
+        height: z.number().optional(),
+      })
+      .optional(),
+  }),
+});
+
 export const collections = {
   talks: talksCollection,
+  blog: blogCollection,
 };
