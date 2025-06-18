@@ -1,6 +1,6 @@
 ---
 title: "Zero Trust: From Airports to Identity-Aware Proxies"
-date: 2025-03-27T00:00:00.000Z
+date: "2025-03-27T00:00:00.000Z"
 venue:
   name: "SREday London 2025 Q1"
   url: "https://sreday.com/2025-london-q1"

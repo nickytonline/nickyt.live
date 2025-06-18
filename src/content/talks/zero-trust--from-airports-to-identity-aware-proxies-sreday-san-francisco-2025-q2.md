@@ -1,6 +1,6 @@
 ---
 title: "Zero Trust: From Airports to Identity-Aware Proxies"
-date: 2025-04-11T00:00:00.000Z
+date: "2025-04-11T00:00:00.000Z"
 venue:
   name: "SREday San Francisco 2025 Q2"
   url: "https://sreday.com/2025-san-francisco-q2/"

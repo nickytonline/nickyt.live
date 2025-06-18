@@ -1,6 +1,6 @@
 ---
 title: "Expert Panel—Future of Testing: How AI Can Accelerate Release Pipelines | Front-End Test Fest 2023"
-date: 2023-06-07T12:00:00.000Z
+date: "2023-06-07T12:00:00.000Z"
 venue:
   name: "Applitools & Netlify Present FRONT-END <TEST>{FEST}"
   url: "https://applitools.com/resources/events/fetf2023-panel-future-of-testing-how-ai-can-accelerate-release-pipelines/"

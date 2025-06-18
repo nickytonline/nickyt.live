@@ -1,6 +1,6 @@
 ---
 title: "Getting Started with Streaming on Twitch"
-date: 2021-09-20T12:00:00.000Z
+date: "2021-09-20T12:00:00.000Z"
 venue:
   name: "Virtual Coffee Lunch & Learn"
   url: "https://www.youtube.com/playlist?list=PLh9uT23TA65idCyc_orC85RefgY_-fKsG"

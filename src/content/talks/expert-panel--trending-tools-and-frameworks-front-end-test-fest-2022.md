@@ -1,6 +1,6 @@
 ---
 title: "Expert Panel: Trending Tools and Frameworks – What's Hype and What's Not"
-date: 2022-06-23T12:00:00.000Z
+date: "2022-06-23T12:00:00.000Z"
 venue:
   name: "Applitools & Netlify Present FRONT-END <TEST>{FEST}"
   url: "https://applitools.com/on-demand-videos/front-end-test-fest-june-2022/"

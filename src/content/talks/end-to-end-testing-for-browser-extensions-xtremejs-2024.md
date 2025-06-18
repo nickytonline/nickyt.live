@@ -1,6 +1,6 @@
 ---
 title: "End to End Testing for Browser Extensions"
-date: 2024-11-12T12:00:00.000Z
+date: "2024-11-12T12:00:00.000Z"
 venue:
   name: "Xtreme.js 2024"
   url: "https://xtremejs.dev/2024"

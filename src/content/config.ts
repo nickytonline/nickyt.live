@@ -40,19 +40,13 @@ const blogCollection = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    description: z.string().optional(),
+    excerpt: z.string(),
     date: z.date(),
     tags: z.array(z.string()),
-    draft: z.boolean().optional(),
-    featured: z.boolean().optional(),
-    image: z
-      .object({
-        url: z.string(),
-        alt: z.string(),
-        width: z.number().optional(),
-        height: z.number().optional(),
-      })
-      .optional(),
+    cover_image: z.string(),
+    canonical_url: z.string(),
+    reading_time_minutes: z.number(),
+    template: z.string(),
   }),
 });
 

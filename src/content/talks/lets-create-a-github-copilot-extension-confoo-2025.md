@@ -1,6 +1,6 @@
 ---
 title: "Let's Create a GitHub Copilot Extension"
-date: 2025-02-26T12:00:00.000Z
+date: "2025-02-26T12:00:00.000Z"
 venue:
   name: "Confoo 2025"
   url: "https://confoo.ca/en/2025"

@@ -1,6 +1,6 @@
 ---
 title: "Agentic Access: OAuth Gets You In, Zero Trust Keeps You Safe"
-date: 2025-05-29T00:00:00.000Z
+date: "2025-05-29T00:00:00.000Z"
 venue:
   name: "The Context, MCP Live Stream"
   url: "https://www.youtube.com/@MCPDevSummit"

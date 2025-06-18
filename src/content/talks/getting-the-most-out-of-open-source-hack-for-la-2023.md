@@ -1,6 +1,6 @@
 ---
 title: "Getting the Most out of Open Source"
-date: 2023-10-19T12:00:00.000Z
+date: "2023-10-19T12:00:00.000Z"
 venue:
   name: "Hack for LA"
   url: "https://hackforla.org"

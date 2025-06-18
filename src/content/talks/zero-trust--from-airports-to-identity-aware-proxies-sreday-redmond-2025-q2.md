@@ -1,6 +1,6 @@
 ---
 title: "Zero Trust: From Airports to Identity-Aware Proxies"
-date: 2025-04-14T00:00:00.000Z
+date: "2025-04-14T00:00:00.000Z"
 venue:
   name: "SREday Redmond 2025 Q2"
   url: "https://sreday.com/2025-redmond-q2/"

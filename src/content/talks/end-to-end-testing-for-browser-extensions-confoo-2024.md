@@ -1,6 +1,6 @@
 ---
 title: "End to End Testing for Browser Extensions"
-date: 2024-02-21T12:00:00.000Z
+date: "2024-02-21T12:00:00.000Z"
 venue:
   name: "Confoo 2024"
   url: "https://confoo.ca/en/2024/session/end-to-end-testing-for-browser-extensions"

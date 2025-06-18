@@ -1,6 +1,6 @@
 ---
 title: "Let's Create a GitHub Copilot Extension!"
-date: 2025-03-18T12:00:00.000Z
+date: "2025-03-18T12:00:00.000Z"
 venue:
   name: "All Things Open AI"
   url: "https://allthingsopen.ai/"

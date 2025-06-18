@@ -1,6 +1,6 @@
 ---
 title: "Let's Create a GitHub Copilot Extension!"
-date: 2025-04-25T13:55:00.000Z
+date: "2025-04-25T13:55:00.000Z"
 venue:
   name: "Code & Coffee: A Virtual Coffee Conference"
   url: "https://cfe.dev/events/virtual-coffee-conf-2025/"
