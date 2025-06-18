@@ -4,7 +4,7 @@ const talksCollection = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    date: z.date(),
+    date: z.string().datetime(),
     video: z
       .object({
         url: z.string(),
@@ -41,9 +41,9 @@ const blogCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     excerpt: z.string(),
-    date: z.date(),
+    date: z.string().datetime(),
     tags: z.array(z.string()),
-    cover_image: z.string(),
+    cover_image: z.string().nullable(),
     canonical_url: z.string(),
     reading_time_minutes: z.number(),
     template: z.string(),

@@ -67,13 +67,19 @@ const { talks, posts, originalTagCase } = Astro.props;
 // Sort talks by date (newest first)
 const sortedTalks =
   talks && talks.length
-    ? talks.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+    ? talks.sort(
+        (a, b) =>
+          new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+      )
     : [];
 
 // Sort posts by date (newest first)
 const sortedPosts =
   posts && posts.length
-    ? posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+    ? posts.sort(
+        (a, b) =>
+          new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+      )
     : [];
 
 const displayTag = originalTagCase || tag;
@@ -103,11 +109,11 @@ const totalItems = sortedTalks.length + sortedPosts.length;
                 <li>
                   <a href={`/blog/${slug}`} class="block group">
                     <article class="flex gap-4">
-                      {post.data.image && (
+                      {post.data.cover_image && (
                         <div class="hidden md:block flex-shrink-0 w-48 h-27">
                           <img
-                            src={post.data.image.url}
-                            alt={post.data.image.alt || ""}
+                            src={post.data.cover_image}
+                            alt=""
                             aria-hidden="true"
                             class="w-full h-full object-cover rounded"
                             loading="lazy"
@@ -118,18 +124,19 @@ const totalItems = sortedTalks.length + sortedPosts.length;
                         <h3>
                           <a href={`/blog/${slug}`}>{post.data.title}</a>
                         </h3>
-                        {post.data.description && (
-                          <p class="mt-2 text-gray-600">
-                            {post.data.description}
-                          </p>
+                        {post.data.excerpt && (
+                          <p class="mt-2 text-gray-600">{post.data.excerpt}</p>
                         )}
                         <div>
-                          <time datetime={post.data.date.toISOString()}>
-                            {post.data.date.toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            })}
+                          <time datetime={post.data.date}>
+                            {new Date(post.data.date).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              },
+                            )}
                           </time>
                           {post.data.featured && (
                             <>
@@ -144,7 +151,7 @@ const totalItems = sortedTalks.length + sortedPosts.length;
                           <TagList
                             tags={post.data.tags || []}
                             currentTag={tag}
-                            limit={5}
+                            limit={3}
                           />
                         </div>
                       </div>
@@ -184,12 +191,15 @@ const totalItems = sortedTalks.length + sortedPosts.length;
                           <a href={`/talks/${slug}`}>{talk.data.title}</a>
                         </h3>
                         <div>
-                          <time datetime={talk.data.date.toISOString()}>
-                            {talk.data.date.toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            })}
+                          <time datetime={talk.data.date}>
+                            {new Date(talk.data.date).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              },
+                            )}
                           </time>
                           {" \u2022 "}
                           {talk.data.venue.name}
@@ -198,7 +208,7 @@ const totalItems = sortedTalks.length + sortedPosts.length;
                           <TagList
                             tags={talk.data.tags || []}
                             currentTag={tag}
-                            limit={5}
+                            limit={3}
                           />
                         </div>
                       </div>
