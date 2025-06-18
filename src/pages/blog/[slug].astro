@@ -1,0 +1,138 @@
+---
+import { getEntry, getCollection } from "astro:content";
+import Layout from "../../layouts/MainLayout.astro";
+import TagList from "../../components/TagList.astro";
+import { getRelatedPosts } from "../../utils/tag-utils";
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  throw new Error("Blog post not found");
+}
+
+const post = await getEntry("blog", slug);
+
+if (!post) {
+  throw new Error("Blog post not found");
+}
+
+// Get all blog posts to find related ones
+const allPosts = await getCollection("blog");
+const relatedPosts = getRelatedPosts(
+  post,
+  allPosts.filter((p) => !p.data.draft),
+  3,
+);
+
+const { title, description, date, tags = [], featured, image } = post.data;
+
+const { Content } = await post.render();
+---
+
+<Layout title={`${title} | Nick Taylor`}>
+  <main class="mt-4 md:mt-8 lg:mt-16">
+    <article class="max-w-3xl grid gap-8">
+      <header>
+        <h1
+          class="text-4xl font-extrabold leading-tight mb-2 relative inline-block"
+        >
+          {title}
+        </h1>
+        {description && <p class="text-xl text-gray-600 mt-2">{description}</p>}
+        <div class="text-lg text-gray-600 mt-4 relative inline-block">
+          <time datetime={date.toISOString()}>
+            {
+              date.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            }
+          </time>
+          {
+            featured && (
+              <>
+                {` \u2022 `}
+                <span class="text-pink-600 font-medium">Featured Post</span>
+              </>
+            )
+          }
+        </div>
+      </header>
+
+      {
+        image && (
+          <div class="my-4">
+            <img
+              src={image.url}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              class="w-full max-w-2xl rounded shadow"
+            />
+          </div>
+        )
+      }
+
+      <div class="prose max-w-none">
+        <Content />
+      </div>
+
+      <div class="flex flex-wrap gap-2 mt-4">
+        <TagList tags={tags} />
+      </div>
+
+      {
+        relatedPosts.length > 0 && (
+          <section class="mt-12 border-t pt-6">
+            <h2 class="text-2xl font-bold mb-4">Related Posts</h2>
+            <ul class="grid gap-4">
+              {relatedPosts.map((relatedPost) => {
+                const relatedSlug = relatedPost.id
+                  .replace(/^blog\//, "")
+                  .replace(/\.md$/, "");
+                return (
+                  <li>
+                    <a href={`/blog/${relatedSlug}`} class="hover:underline">
+                      <article>
+                        <h3 class="font-medium">{relatedPost.data.title}</h3>
+                        {relatedPost.data.description && (
+                          <p class="text-sm text-gray-600 mt-1">
+                            {relatedPost.data.description}
+                          </p>
+                        )}
+                        <div class="text-sm text-gray-600 mt-1">
+                          <time datetime={relatedPost.data.date.toISOString()}>
+                            {relatedPost.data.date.toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </time>
+                          {relatedPost.data.featured && (
+                            <>
+                              {" \u2022 "}
+                              <span class="text-pink-600 font-medium">
+                                Featured
+                              </span>
+                            </>
+                          )}
+                        </div>
+                        <div class="mt-1">
+                          <TagList
+                            tags={relatedPost.data.tags || []}
+                            limit={3}
+                          />
+                        </div>
+                      </article>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        )
+      }
+    </article>
+  </main>
+</Layout>

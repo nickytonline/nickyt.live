@@ -23,6 +23,12 @@ const currentPath = pathname.slice(1);
           </li>
           <li>
             <a
+              href="/blog"
+              aria-current={currentPath === "blog" ? "page" : "false"}>Blog</a
+            >
+          </li>
+          <li>
+            <a
               href="/archive"
               aria-current={currentPath === "archive" ? "page" : "false"}
               >Past Streams
