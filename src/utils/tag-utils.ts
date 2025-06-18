@@ -37,7 +37,10 @@ export function getRelatedTalks(
       if (b.score !== a.score) {
         return b.score - a.score;
       }
-      return b.talk.data.date.getTime() - a.talk.data.date.getTime();
+      return (
+        new Date(b.talk.data.date).getTime() -
+        new Date(a.talk.data.date).getTime()
+      );
     });
 
   return scoredTalks.slice(0, limit).map((item) => item.talk);
@@ -80,7 +83,10 @@ export function getRelatedPosts(
       if (b.score !== a.score) {
         return b.score - a.score;
       }
-      return b.post.data.date.getTime() - a.post.data.date.getTime();
+      return (
+        new Date(b.post.data.date).getTime() -
+        new Date(a.post.data.date).getTime()
+      );
     });
 
   return scoredPosts.slice(0, limit).map((item) => item.post);

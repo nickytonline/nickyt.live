@@ -18,13 +18,13 @@ if (!post) {
 
 // Get all blog posts to find related ones
 const allPosts = await getCollection("blog");
-const relatedPosts = getRelatedPosts(
-  post,
-  allPosts.filter((p) => !p.data.draft),
-  3,
-);
+const relatedPosts = getRelatedPosts(post, allPosts, 3);
 
-const { title, description, date, tags = [], featured, image } = post.data;
+const { title, excerpt, date, tags = [], cover_image } = post.data;
+
+// Debug: Log the cover_image value
+console.log("Cover image:", cover_image);
+console.log("Post data:", post.data);
 
 const { Content } = await post.render();
 ---
@@ -33,46 +33,33 @@ const { Content } = await post.render();
   <main class="mt-4 md:mt-8 lg:mt-16">
     <article class="max-w-3xl grid gap-8">
       <header>
+        {
+          cover_image ? (
+            <img
+              src={cover_image}
+              alt=""
+              class="w-full max-w-2xl rounded shadow my-4"
+            />
+          ) : null
+        }
         <h1
           class="text-4xl font-extrabold leading-tight mb-2 relative inline-block"
         >
           {title}
         </h1>
-        {description && <p class="text-xl text-gray-600 mt-2">{description}</p>}
+        {excerpt && <p class="text-xl text-gray-600 mt-2">{excerpt}</p>}
         <div class="text-lg text-gray-600 mt-4 relative inline-block">
-          <time datetime={date.toISOString()}>
+          <time datetime={date}>
             {
-              date.toLocaleDateString("en-US", {
+              new Date(date).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
               })
             }
           </time>
-          {
-            featured && (
-              <>
-                {` \u2022 `}
-                <span class="text-pink-600 font-medium">Featured Post</span>
-              </>
-            )
-          }
         </div>
       </header>
-
-      {
-        image && (
-          <div class="my-4">
-            <img
-              src={image.url}
-              alt={image.alt}
-              width={image.width}
-              height={image.height}
-              class="w-full max-w-2xl rounded shadow"
-            />
-          </div>
-        )
-      }
 
       <div class="prose max-w-none">
         <Content />
@@ -96,27 +83,22 @@ const { Content } = await post.render();
                     <a href={`/blog/${relatedSlug}`} class="hover:underline">
                       <article>
                         <h3 class="font-medium">{relatedPost.data.title}</h3>
-                        {relatedPost.data.description && (
+                        {relatedPost.data.excerpt && (
                           <p class="text-sm text-gray-600 mt-1">
-                            {relatedPost.data.description}
+                            {relatedPost.data.excerpt}
                           </p>
                         )}
                         <div class="text-sm text-gray-600 mt-1">
-                          <time datetime={relatedPost.data.date.toISOString()}>
-                            {relatedPost.data.date.toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            })}
+                          <time datetime={relatedPost.data.date}>
+                            {new Date(relatedPost.data.date).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              },
+                            )}
                           </time>
-                          {relatedPost.data.featured && (
-                            <>
-                              {" \u2022 "}
-                              <span class="text-pink-600 font-medium">
-                                Featured
-                              </span>
-                            </>
-                          )}
                         </div>
                         <div class="mt-1">
                           <TagList

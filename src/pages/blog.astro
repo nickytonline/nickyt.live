@@ -6,7 +6,9 @@ import TagList from "../components/TagList.astro";
 const blog = await getCollection("blog");
 const sortedBlog = blog
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  .sort(
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+  );
 ---
 
 <Layout title="Blog | Nick Taylor">
@@ -21,11 +23,11 @@ const sortedBlog = blog
             <li>
               <a href={`/blog/${slug}`} class="block group">
                 <article class="flex gap-4">
-                  {post.data.image && (
+                  {post.data.cover_image && (
                     <div class="hidden md:block flex-shrink-0 w-48 h-27">
                       <img
-                        src={post.data.image.url}
-                        alt={post.data.image.alt || ""}
+                        src={post.data.cover_image}
+                        alt=""
                         aria-hidden="true"
                         class="w-full h-full object-cover rounded"
                         loading="lazy"
@@ -36,25 +38,17 @@ const sortedBlog = blog
                     <h2>
                       <a href={`/blog/${slug}`}>{post.data.title}</a>
                     </h2>
-                    {post.data.description && (
-                      <p class="mt-2 text-gray-600">{post.data.description}</p>
+                    {post.data.excerpt && (
+                      <p class="mt-2 text-gray-600">{post.data.excerpt}</p>
                     )}
                     <div>
-                      <time datetime={post.data.date.toISOString()}>
-                        {post.data.date.toLocaleDateString("en-US", {
+                      <time datetime={post.data.date}>
+                        {new Date(post.data.date).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "long",
                           day: "numeric",
                         })}
                       </time>
-                      {post.data.featured && (
-                        <>
-                          {" \u2022 "}
-                          <span class="text-pink-600 font-medium">
-                            Featured
-                          </span>
-                        </>
-                      )}
                     </div>
                     {post.data.tags && post.data.tags.length > 0 && (
                       <div class="mt-2">
