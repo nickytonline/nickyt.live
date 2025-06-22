@@ -32,7 +32,7 @@ In this hands-on workshop, I walked through how to create a GitHub Copilot Exten
 
 **Workshop Highlights:**
 
-- Using the [`nickytonline/copilot-extension-template`](https://github.com/nickytonline/copilot-extension-template) repo
+- Using the [nickytonline/copilot-extension-workshop](https://github.com/nickytonline/copilot-extension-workshop) repo
 - Local development setup and tunneling
 - Creating and configuring a GitHub App
 - Working with the Copilot Extensions Preview SDK
