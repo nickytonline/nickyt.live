@@ -1,0 +1,43 @@
+---
+const { url: rawUrl } = Astro.props;
+
+async function getVideoId(videoUrl: string) {
+  let videoId;
+  let time;
+
+  if (videoUrl.includes("https://")) {
+    [, videoId, time] = videoUrl.match(/.+\?v=([^&]+)(?:&t=([^&]+)s)?/) ?? [];
+  } else {
+    videoId = videoUrl;
+  }
+
+  const timeQueryParameter = time ? `?start=${time}` : "";
+  const url = `https://www.youtube.com/embed/${videoId}${timeQueryParameter}`;
+  const response = await fetch(
+    `https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v%3D${videoId}&format=json`
+  );
+
+  if (response.status === 404) {
+    return {};
+  }
+
+  const { title } = await response.json();
+
+  return { url, title };
+}
+
+const { url, title } = await getVideoId(rawUrl);
+---
+
+<!-- todo: <div class="video-player"><p>Video is no longer available.</p></div> --><!-- implement pulling in title -->
+<div class="video-player">
+  <iframe
+    title={title}
+    loading="lazy"
+    src={url}
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    width="560"
+    height="315"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+</div>
