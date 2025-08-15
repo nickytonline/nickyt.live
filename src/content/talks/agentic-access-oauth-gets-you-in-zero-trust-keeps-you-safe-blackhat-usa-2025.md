@@ -4,8 +4,21 @@ date: 2025-08-06T17:50:00.000Z
 venue:
   name: "BlackHat USA 2025"
   url: "https://www.blackhat.com/us-25/"
+video:
+  {
+    "url": "https://attend.blackhatevents.virtual.informatech.com/event/black-hat-usa-2025/planning/UGxhbm5pbmdfMjcyNTA1OA==",
+    "type": "custom",
+    "image":
+      {
+        "url": "https://static.swapcard.com/public/images/09c128eca2f3443091b566898cf044d7.png",
+        "width": 1200,
+        "height": 628,
+      },
+  }
 tags: ["mcp", "agentic ai", "zero trust", "ai", "oauth", "security"]
 ---
+
+Note: You will need to be logged in to the BlackHat site to view the video.
 
 AI agents are no longer speculative—they're querying APIs, rewriting records, and chaining tools via protocols like MCP (Model Context Protocol). The latest MCP spec requires OAuth 2.1 and Resource Indicators (RFC 8707), strengthening identity security while leaving authorization up to the implementer. But OAuth alone can't enforce what an agent does after login—or whether it should act at all.
 
