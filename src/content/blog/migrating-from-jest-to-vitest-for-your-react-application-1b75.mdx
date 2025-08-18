@@ -13,11 +13,13 @@ reading_time_minutes: 4
 template: "post"
 ---
 
+import Embed from "../../components/Embed.astro";
+
 Are you looking to migrate from [Jest](https://jestjs.io) to [Vitest](https://vitest.dev) for your React application? Look no further.
 
 I recently migrated the OpenSauced app repository to Vitest. Here's the pull request if you're interested.
 
-{% embed "https://github.com/open-sauced/app/pull/2296" %}
+<Embed url="https://github.com/open-sauced/app/pull/2296" />
 
 ## Why move from Jest to Vitest?
 
@@ -45,7 +47,7 @@ Some other niceties are a default watch mode care of Vite instant Hot Module Rel
 
 The first thing you want to do is install Vitest.
 
-{% embed "https://github.com/vitest-dev/vitest" %}
+<Embed url="https://github.com/vitest-dev/vitest" />
 
 Run `npm install vitest -D` in the terminal to install Vitest as a dev dependency.
 

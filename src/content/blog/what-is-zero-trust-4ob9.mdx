@@ -11,6 +11,8 @@ reading_time_minutes: 2
 template: "post"
 ---
 
+import Embed from "../../components/Embed.astro";
+
 What is zero trust? I like to use an airport analogy to convey the concept.
 
 Think about airport security. Traditional perimeter-based security, like a virtual private network (VPN), is like showing your ID to security, not your bags or anything else, and then you're in never to be checked again. You could walk to a gate and say you're the pilot. Not great, right?
@@ -19,7 +21,7 @@ Think about airport security. Traditional perimeter-based security, like a virtu
 
 [Zero Trust security](https://www.pomerium.com/docs/internals/zero-trust) takes a different approach - more like how airports actually work. No boarding pass? You'll need to verify who you are at the ticket counter first. Got your pass? Great, but it isn't a free pass to wander - it only works for your specific flight, at your specific gate, at the right time. This matches how an [identity aware proxy](https://cloud.google.com/iap/docs/concepts-overview) works in Zero Trust security.
 
-{% embed "https://www.youtube.com/watch?v=Rl79jcpt3mQ" %}
+<Embed url="https://www.youtube.com/watch?v=Rl79jcpt3mQ" />
 
 Let's take a look at a real world situation, production access. Just because you're an engineer doesn't mean you get 24/7 access to production. You might only get elevated permissions during your on-call shifts. So the context here isn't just who you are, but when you're allowed to access a resource.
 

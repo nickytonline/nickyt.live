@@ -12,6 +12,8 @@ reading_time_minutes: 5
 template: "post"
 ---
 
+import Embed from "../../components/Embed.astro";
+
 People definitely have opinions about Tailwind. There are staunch supporters and staunch haters, but I really don't want to get into all that. Head on over to Twitter if you want to waste some time.
 
 If you're pretty well versed with Tailwind, this article might not be for you, but who knows? Read on and maybe you'll learn something.
@@ -85,7 +87,7 @@ I'll say it here and repeat it again later. **Tailwind is a utility-first CSS fr
 
 If you want to see an example of this in production grade code, check out a recent pull request (PR) of mine to the OpenSauced app repository.
 
-{% embed "https://github.com/open-sauced/app/pull/2524" %}
+<Embed url="https://github.com/open-sauced/app/pull/2524" />
 
 ### Styling pseudo-elements
 
@@ -123,7 +125,7 @@ You could complain that that is one hell of a bloated CSS class name, but again,
 
 If you want to see an example of this in production grade code, check out a recent PR of mine to the OpenSauced app repository.
 
-{% embed "https://github.com/open-sauced/app/pull/2552" %}
+<Embed url="https://github.com/open-sauced/app/pull/2552" />
 
 ## Animations
 

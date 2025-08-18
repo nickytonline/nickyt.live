@@ -12,9 +12,11 @@ reading_time_minutes: 4
 template: "post"
 ---
 
+import Embed from "../../components/Embed.astro";
+
 I was [streaming recently](https://nickyt.live) and discussed how I implemented part of a graph I was building out.
 
-{% embed "https://www.youtube.com/watch?v=eSpkar-hNzU" %}
+<Embed url="https://www.youtube.com/watch?v=eSpkar-hNzU" />
 
 The graph is interactive, where you can navigate with the keyboard or hover over parts of the graph and a list item is bolded.
 
@@ -22,7 +24,7 @@ The graph is interactive, where you can navigate with the keyboard or hover over
 
 Here's the pull request.
 
-{% embed "https://github.com/open-sauced/app/pull/2158" %}
+<Embed url="https://github.com/open-sauced/app/pull/2158" />
 
 So what's this have to do with [HTML data attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes)? Well, before we get into that, what is an HTML data attribute? And what is an HTML attribute?
 

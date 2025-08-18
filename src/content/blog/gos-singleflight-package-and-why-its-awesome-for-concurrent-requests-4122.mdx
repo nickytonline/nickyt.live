@@ -12,13 +12,15 @@ reading_time_minutes: 3
 template: "post"
 ---
 
+import Embed from "../../components/Embed.astro";
+
 Concurrency in Go is fun… until duplicate work starts hammering your backend.
 
 I’m still pretty new to Go, but thanks to my awesome crew at [Pomerium](https://github.com/pomerium/pomerium), I’ve been learning fast by jumping into real-world code.
 
 One recent pull request (PR) from my teammate Caleb really made this click. He introduced me to `singleflight`, a super handy tool for avoiding redundant work in concurrent code.
 
-{% embed "https://github.com/pomerium/pomerium/pull/5491" %}
+<Embed url="https://github.com/pomerium/pomerium/pull/5491" />
 
 Imagine a burst of requests with the same [Identity Provider](https://en.wikipedia.org/wiki/Identity_provider) (IdP) token. Without coordination, each request would separately validate and create a session — wasting resources and hitting downstream systems hard.
 
