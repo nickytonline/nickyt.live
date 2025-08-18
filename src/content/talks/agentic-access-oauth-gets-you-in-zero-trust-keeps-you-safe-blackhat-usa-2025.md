@@ -1,6 +1,6 @@
 ---
 title: "Agentic Access: OAuth Gets You In, Zero Trust Keeps You Safe"
-date: 2025-08-06T17:50:00.000Z
+date: "2025-08-06T17:50:00.000Z"
 venue:
   name: "BlackHat USA 2025"
   url: "https://www.blackhat.com/us-25/"

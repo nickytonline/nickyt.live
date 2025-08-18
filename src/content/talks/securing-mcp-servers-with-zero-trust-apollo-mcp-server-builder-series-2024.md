@@ -1,6 +1,6 @@
 ---
 title: "Securing MCP Servers with Zero Trust"
-date: 2025-07-29T11:00:00.000Z
+date: "2025-07-29T11:00:00.000Z"
 venue:
   name: "Apollo MCP Server Builder Series - July Session (NYC)"
   url: "https://lu.ma/fefh1li0?tk=ePlHBg"

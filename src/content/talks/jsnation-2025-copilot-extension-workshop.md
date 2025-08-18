@@ -1,6 +1,6 @@
 ---
 title: "Let's Create A GitHub Copilot Extension! (Workshop)"
-date: 2025-06-20T12:00:00.000Z
+date: "2025-06-20T12:00:00.000Z"
 venue:
   name: "JS Nation 2025"
   url: "https://jsnation.com"
