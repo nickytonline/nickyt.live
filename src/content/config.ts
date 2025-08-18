@@ -1,7 +1,8 @@
+import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
 
 const talksCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/talks" }),
   schema: z.object({
     title: z.string(),
     date: z.string().datetime(),
@@ -10,34 +11,22 @@ const talksCollection = defineCollection({
         url: z.string(),
         type: z.enum(["youtube", "vimeo", "custom"]),
         image: z
-          .object({
-            url: z.string(),
-            width: z.number(),
-            height: z.number(),
-          })
+          .object({ url: z.string(), width: z.number(), height: z.number() })
           .optional(),
       })
       .optional(),
-    venue: z.object({
-      name: z.string(),
-      url: z.string().optional(),
-    }),
+    venue: z.object({ name: z.string(), url: z.string().optional() }),
     tags: z.array(z.string()),
     slideDeck: z.string().optional(),
     sourceCode: z.string().optional(),
     additionalLinks: z
-      .array(
-        z.object({
-          title: z.string(),
-          url: z.string(),
-        }),
-      )
+      .array(z.object({ title: z.string(), url: z.string() }))
       .optional(),
   }),
 });
 
 const blogCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
   schema: z.object({
     title: z.string(),
     excerpt: z.string(),
@@ -50,7 +39,4 @@ const blogCollection = defineCollection({
   }),
 });
 
-export const collections = {
-  talks: talksCollection,
-  blog: blogCollection,
-};
+export const collections = { talks: talksCollection, blog: blogCollection };

@@ -30,8 +30,6 @@ const {
   sourceCode,
   additionalLinks = [],
 } = talk.data;
-
-const { Content } = await talk.render();
 ---
 
 <Layout title={`${title} | Nick Taylor`}>
@@ -117,9 +115,7 @@ const { Content } = await talk.render();
         )
       }
 
-      <div class="prose max-w-none">
-        <Content />
-      </div>
+      <div class="prose max-w-none" set:html={talk.body} />
 
       <footer class="flex flex-wrap gap-4 mt-6">
         <ul class="flex flex-wrap gap-4">
@@ -170,7 +166,7 @@ const { Content } = await talk.render();
               {relatedTalks.map((relatedTalk) => {
                 const relatedSlug = relatedTalk.id
                   .replace(/^talks\//, "")
-                  .replace(/\.md$/, "");
+                  .replace(/\.mdx?$/, "");
                 return (
                   <li>
                     <a href={`/talks/${relatedSlug}`} class="hover:underline">
@@ -184,7 +180,7 @@ const { Content } = await talk.render();
                                 year: "numeric",
                                 month: "long",
                                 day: "numeric",
-                              },
+                              }
                             )}
                           </time>
                           {" \u2022 "}

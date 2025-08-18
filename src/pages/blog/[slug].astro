@@ -25,8 +25,6 @@ const { title, excerpt, date, tags = [], cover_image } = post.data;
 // Debug: Log the cover_image value
 console.log("Cover image:", cover_image);
 console.log("Post data:", post.data);
-
-const { Content } = await post.render();
 ---
 
 <Layout title={`${title} | Nick Taylor`}>
@@ -61,9 +59,7 @@ const { Content } = await post.render();
         </div>
       </header>
 
-      <div class="prose max-w-none">
-        <Content />
-      </div>
+      <div class="prose max-w-none" set:html={post.body} />
 
       <div class="flex flex-wrap gap-2 mt-4">
         <TagList tags={tags} />
@@ -77,7 +73,7 @@ const { Content } = await post.render();
               {relatedPosts.map((relatedPost) => {
                 const relatedSlug = relatedPost.id
                   .replace(/^blog\//, "")
-                  .replace(/\.md$/, "");
+                  .replace(/\.mdx?$/, "");
                 return (
                   <li>
                     <a href={`/blog/${relatedSlug}`} class="hover:underline">
@@ -96,7 +92,7 @@ const { Content } = await post.render();
                                 year: "numeric",
                                 month: "long",
                                 day: "numeric",
-                              },
+                              }
                             )}
                           </time>
                         </div>
