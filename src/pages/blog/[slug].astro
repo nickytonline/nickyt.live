@@ -1,5 +1,5 @@
 ---
-import { getEntry, getCollection } from "astro:content";
+import { getEntry, getCollection, render } from "astro:content";
 import Layout from "../../layouts/MainLayout.astro";
 import TagList from "../../components/TagList.astro";
 import { getRelatedPosts } from "../../utils/tag-utils";
@@ -15,6 +15,8 @@ const post = await getEntry("blog", slug);
 if (!post) {
   throw new Error("Blog post not found");
 }
+
+const { Content } = await render(post);
 
 // Get all blog posts to find related ones
 const allPosts = await getCollection("blog");
@@ -59,7 +61,9 @@ console.log("Post data:", post.data);
         </div>
       </header>
 
-      <div class="prose max-w-none" set:html={post.body} />
+      <div class="prose max-w-none">
+        <Content />
+      </div>
 
       <div class="flex flex-wrap gap-2 mt-4">
         <TagList tags={tags} />

@@ -1,5 +1,5 @@
 ---
-import { getEntry, getCollection } from "astro:content";
+import { getEntry, getCollection, render } from "astro:content";
 import Layout from "../../layouts/MainLayout.astro";
 import TagList from "../../components/TagList.astro";
 import { getRelatedTalks } from "../../utils/tag-utils";
@@ -15,6 +15,8 @@ const talk = await getEntry("talks", slug);
 if (!talk) {
   throw new Error("Talk not found");
 }
+
+const { Content } = await render(talk);
 
 // Get all talks to find related ones
 const allTalks = await getCollection("talks");
@@ -115,92 +117,91 @@ const {
         )
       }
 
-      <div class="prose max-w-none" set:html={talk.body} />
-
-      <footer class="flex flex-wrap gap-4 mt-6">
-        <ul class="flex flex-wrap gap-4">
-          {
-            slideDeck && (
-              <li>
-                <a href={slideDeck} target="_blank">
-                  View Slides
-                </a>
-              </li>
-            )
-          }
-          {
-            sourceCode && (
-              <li>
-                <a href={sourceCode} target="_blank">
-                  Source Code
-                </a>
-              </li>
-            )
-          }
-          {
-            additionalLinks.map((link: { title: string; url: string }) => (
-              <li>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800"
-                >
-                  {link.title}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </footer>
-
-      <div class="flex flex-wrap gap-2 mt-4">
-        <TagList tags={tags} />
+      <div class="prose max-w-none">
+        <Content />
       </div>
-
-      {
-        relatedTalks.length > 0 && (
-          <section class="mt-12 border-t pt-6">
-            <h2 class="text-2xl font-bold mb-4">Related Talks</h2>
-            <ul class="grid gap-4">
-              {relatedTalks.map((relatedTalk) => {
-                const relatedSlug = relatedTalk.id
-                  .replace(/^talks\//, "")
-                  .replace(/\.mdx?$/, "");
-                return (
-                  <li>
-                    <a href={`/talks/${relatedSlug}`} class="hover:underline">
-                      <article>
-                        <h3 class="font-medium">{relatedTalk.data.title}</h3>
-                        <div class="text-sm text-gray-600">
-                          <time datetime={relatedTalk.data.date}>
-                            {new Date(relatedTalk.data.date).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              }
-                            )}
-                          </time>
-                          {" \u2022 "}
-                          {relatedTalk.data.venue.name}
-                        </div>
-                        <div class="mt-1">
-                          <TagList
-                            tags={relatedTalk.data.tags || []}
-                            limit={3}
-                          />
-                        </div>
-                      </article>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        )
-      }
     </article>
+
+    <footer class="flex flex-wrap gap-4 mt-6">
+      <ul class="flex flex-wrap gap-4">
+        {
+          slideDeck && (
+            <li>
+              <a href={slideDeck} target="_blank">
+                View Slides
+              </a>
+            </li>
+          )
+        }
+        {
+          sourceCode && (
+            <li>
+              <a href={sourceCode} target="_blank">
+                Source Code
+              </a>
+            </li>
+          )
+        }
+        {
+          additionalLinks.map((link: { title: string; url: string }) => (
+            <li>
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800"
+              >
+                {link.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </footer>
+
+    <div class="flex flex-wrap gap-2 mt-4">
+      <TagList tags={tags} />
+    </div>
+
+    {
+      relatedTalks.length > 0 && (
+        <section class="mt-12 border-t pt-6">
+          <h2 class="text-2xl font-bold mb-4">Related Talks</h2>
+          <ul class="grid gap-4">
+            {relatedTalks.map((relatedTalk) => {
+              const relatedSlug = relatedTalk.id
+                .replace(/^talks\//, "")
+                .replace(/\.mdx?$/, "");
+              return (
+                <li>
+                  <a href={`/talks/${relatedSlug}`} class="hover:underline">
+                    <article>
+                      <h3 class="font-medium">{relatedTalk.data.title}</h3>
+                      <div class="text-sm text-gray-600">
+                        <time datetime={relatedTalk.data.date}>
+                          {new Date(relatedTalk.data.date).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }
+                          )}
+                        </time>
+                        {" \u2022 "}
+                        {relatedTalk.data.venue.name}
+                      </div>
+                      <div class="mt-1">
+                        <TagList tags={relatedTalk.data.tags || []} limit={3} />
+                      </div>
+                    </article>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )
+    }
   </main>
 </Layout>
