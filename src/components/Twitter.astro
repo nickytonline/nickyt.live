@@ -1,0 +1,34 @@
+---
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+
+let tweetEmbed = "";
+
+try {
+  // It doesn't matter who the user is. It's the Tweet ID that matters.
+  const response = await fetch(
+    `https://publish.twitter.com/oembed?url=${encodeURIComponent(
+      `https://twitter.com/anyone/status/${id}`
+    )}`
+  );
+
+  console.log(
+    `Grabbing markup for Tweet https://twitter.com/anyone/status/${id}`
+  );
+
+  if (response.status === 404) {
+    tweetEmbed = "<p>The Tweet has been deleted.</p>";
+  } else {
+    const data = await response.json();
+    tweetEmbed = data.html || `<div>Missing Tweet embed with ID ${id}</div>`;
+  }
+} catch (error) {
+  console.error(`Error fetching tweet ${id}:`, error);
+  tweetEmbed = `<div>Error loading Tweet with ID ${id}</div>`;
+}
+---
+
+<Fragment set:html={tweetEmbed} />
