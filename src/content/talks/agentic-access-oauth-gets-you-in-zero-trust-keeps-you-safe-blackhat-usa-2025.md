@@ -4,17 +4,7 @@ date: 2025-08-06T17:50:00.000Z
 venue:
   name: "BlackHat USA 2025"
   url: "https://www.blackhat.com/us-25/"
-video:
-  {
-    "url": "https://attend.blackhatevents.virtual.informatech.com/event/black-hat-usa-2025/planning/UGxhbm5pbmdfMjcyNTA1OA==",
-    "type": "custom",
-    "image":
-      {
-        "url": "https://static.swapcard.com/public/images/09c128eca2f3443091b566898cf044d7.png",
-        "width": 1200,
-        "height": 628,
-      },
-  }
+video: { "url": "https://youtu.be/V33Go0nIufs", "type": "youtube" }
 tags: ["mcp", "agentic ai", "zero trust", "ai", "oauth", "security"]
 ---
 
