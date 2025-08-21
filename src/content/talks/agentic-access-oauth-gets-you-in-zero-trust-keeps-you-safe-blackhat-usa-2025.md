@@ -8,8 +8,6 @@ video: { "url": "https://youtu.be/V33Go0nIufs", "type": "youtube" }
 tags: ["mcp", "agentic ai", "zero trust", "ai", "oauth", "security"]
 ---
 
-Note: You will need to be logged in to the BlackHat site to view the video.
-
 AI agents are no longer speculative—they're querying APIs, rewriting records, and chaining tools via protocols like MCP (Model Context Protocol). The latest MCP spec requires OAuth 2.1 and Resource Indicators (RFC 8707), strengthening identity security while leaving authorization up to the implementer. But OAuth alone can't enforce what an agent does after login—or whether it should act at all.
 
 This talk explores the limits of OAuth in agentic systems and shows how Zero Trust fills the gap. We'll demo an AI agent interacting with an MCP server behind Pomerium, enforcing per-request policies based on identity, route, and context—not just token validity.
