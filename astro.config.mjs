@@ -4,6 +4,9 @@ import netlify from "@astrojs/netlify";
 
 import react from "@astrojs/react";
 
+import varlockintegration from "@varlock/astro-integration";
+import { ENV } from "varlock/env";
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [
@@ -11,7 +14,11 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     react(),
+    varlockintegration(),
   ],
   output: "server",
   adapter: netlify(),
+  server: {
+    port: ENV.PORT,
+  },
 });
