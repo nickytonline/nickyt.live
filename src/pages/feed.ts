@@ -4,8 +4,9 @@ import {
   get2Full2StackStreamSchedule,
   type StreamGuestInfo,
 } from "../utils/schedule-utils";
+import { ENV } from "varlock/env";
 
-const SITE_URL = import.meta.env.URL || "https://nickyt.live";
+const SITE_URL = ENV.URL;
 
 /**
  * Escapes a string for XML.

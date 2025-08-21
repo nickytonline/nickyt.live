@@ -5,12 +5,7 @@ import {
   getStreamSchedule,
   get2Full2StackStreamSchedule,
 } from "../utils/schedule-utils";
-
-const { AIRTABLE_STREAM_GUEST_BASE_ID, AIRTABLE_API_KEY } = import.meta.env;
-
-if (!AIRTABLE_API_KEY || !AIRTABLE_STREAM_GUEST_BASE_ID) {
-  throw new Error("Missing required environment variables");
-}
+import { ENV } from "varlock/env";
 
 const locale =
   Astro.request.headers.get("Accept-Language")?.split(",")[0] ||
@@ -18,8 +13,8 @@ const locale =
   "en-US";
 
 const schedule = await getStreamSchedule({
-  apiKey: AIRTABLE_API_KEY,
-  baseId: AIRTABLE_STREAM_GUEST_BASE_ID,
+  apiKey: ENV.AIRTABLE_API_KEY,
+  baseId: ENV.AIRTABLE_STREAM_GUEST_BASE_ID,
 });
 
 const cfeSchedule = await get2Full2StackStreamSchedule();
