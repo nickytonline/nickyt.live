@@ -15,6 +15,7 @@
     "@astrojs/netlify": "^6.5.7",
     "@astrojs/react": "^4.3.0",
     "@astrojs/tailwind": "^6.0.2",
+    "@netlify/blobs": "^10.0.10",
     "@varlock/astro-integration": "^0.0.5",
     "astro": "^5.13.2",
     "gsap": "^3.12.5",
