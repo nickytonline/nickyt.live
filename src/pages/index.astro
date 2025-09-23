@@ -3,7 +3,7 @@ import StreamSchedule from "../components/StreamSchedule.astro";
 import Layout from "../layouts/MainLayout.astro";
 import {
   getStreamSchedule,
-  get2Full2StackStreamSchedule,
+  type StreamGuestInfo,
 } from "../utils/schedule-utils";
 import { ENV } from "varlock/env";
 
@@ -12,33 +12,42 @@ const locale =
   Astro.request.headers.get("Accept-Language") ||
   "en-US";
 
-const schedule = await getStreamSchedule({
-  apiKey: ENV.AIRTABLE_API_KEY,
-  baseId: ENV.AIRTABLE_STREAM_GUEST_BASE_ID,
-});
+let errorMessage = "";
+let schedule: StreamGuestInfo[] = [];
 
-const cfeSchedule = await get2Full2StackStreamSchedule();
+try {
+  schedule = await getStreamSchedule({
+    apiKey: ENV.AIRTABLE_API_KEY,
+    baseId: ENV.AIRTABLE_STREAM_GUEST_BASE_ID,
+  });
+} catch (e) {
+  console.error("Error fetching stream schedule:", e);
+  errorMessage = "Error fetching stream schedule.";
+}
 
 const { timezone = "" } = Astro.locals.netlify.context.geo;
 
-Astro.response.headers.set(
-  "Cache-Control",
-  "public, max-age=0, must-revalidate"
-);
-Astro.response.headers.set(
-  "Netlify-CDN-Cache-Control",
-  "public, max-age=86400, must-revalidate"
-);
-Astro.response.headers.set("timezone", timezone);
-Astro.response.headers.set("Netlify-Vary", "header=Accept-Language|timezone");
+if (!errorMessage) {
+  Astro.response.headers.set(
+    "Cache-Control",
+    "public, max-age=0, must-revalidate"
+  );
+  Astro.response.headers.set(
+    "Netlify-CDN-Cache-Control",
+    "public, max-age=86400, must-revalidate"
+  );
+  Astro.response.headers.set("timezone", timezone);
+  Astro.response.headers.set("Netlify-Vary", "header=Accept-Language|timezone");
+}
 ---
 
 <Layout title="Nick Taylor's live streaming schedule">
   <main id="main" class="mt-4 md:mt-8 lg:mt-16 sm:text-basemd:text-3xl">
     <div class="grid gap-8">
       <h1>Stream Schedule</h1>
+      {errorMessage && <p class="text-red-600">{errorMessage}</p>}
       {
-        schedule.length === 0 && cfeSchedule.length === 0 ? (
+        !errorMessage && schedule.length === 0 ? (
           <p>
             No upcoming streams scheduled. Check out the{" "}
             <a href="/archive">archives</a>!
@@ -46,7 +55,7 @@ Astro.response.headers.set("Netlify-Vary", "header=Accept-Language|timezone");
         ) : (
           <StreamSchedule
             schedule={schedule}
-            cfeSchedule={cfeSchedule}
+            cfeSchedule={[]}
             locale={locale}
             timezone={timezone}
           />
