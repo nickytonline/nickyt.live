@@ -23,15 +23,11 @@ interface Props {
   locale: string;
   timezone: string;
   schedule: StreamGuestInfo[];
-  cfeSchedule: CfeScheduleItem[];
 }
 
-const { locale, timezone, schedule, cfeSchedule } = Astro.props;
+const { locale, timezone, schedule } = Astro.props;
 
-const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
-  ...cfeSchedule,
-  ...schedule,
-].sort((a, b) => {
+const fullSchedule: Array<StreamGuestInfo> = [...schedule].sort((a, b) => {
   return new Date(a.date).getTime() - new Date(b.date).getTime();
 });
 ---
@@ -62,27 +58,18 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
         linkedin,
         type;
 
-      if (
-        scheduleItem.type === "nickyt.live" ||
-        scheduleItem.type === "pomerium-live"
-      ) {
-        guestName = scheduleItem.guestName;
-        guestTitle = scheduleItem.guestTitle;
-        youtubeStreamLink = scheduleItem.youtubeStreamLink;
-        linkedinStreamLink = scheduleItem.linkedinStreamLink;
-        twitter = scheduleItem.twitter;
-        website = scheduleItem.website;
-        twitch = scheduleItem.twitch;
-        youtube = scheduleItem.youtube;
-        github = scheduleItem.github;
-        bluesky = scheduleItem.bluesky;
-        linkedin = scheduleItem.linkedin;
-        type = scheduleItem.type;
-      } else {
-        guestName = "2Full2Stack";
-        youtubeStreamLink = (scheduleItem as CfeScheduleItem).link;
-        ogImage = (scheduleItem as CfeScheduleItem).ogImage;
-      }
+      guestName = scheduleItem.guestName;
+      guestTitle = scheduleItem.guestTitle;
+      youtubeStreamLink = scheduleItem.youtubeStreamLink;
+      linkedinStreamLink = scheduleItem.linkedinStreamLink;
+      twitter = scheduleItem.twitter;
+      website = scheduleItem.website;
+      twitch = scheduleItem.twitch;
+      youtube = scheduleItem.youtube;
+      github = scheduleItem.github;
+      bluesky = scheduleItem.bluesky;
+      linkedin = scheduleItem.linkedin;
+      type = scheduleItem.type;
 
       const headingId = getHeadingId(guestName, date);
       const videoId = youtubeStreamLink
@@ -107,7 +94,8 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
                   <div>
                     {noGuest ? null : (
                       <div>
-                        Guest: {guestName}{guestTitle ? `, ${guestTitle}` : null}
+                        Guest: {guestName}
+                        {guestTitle ? `, ${guestTitle}` : null}
                       </div>
                     )}
                   </div>
@@ -147,8 +135,7 @@ const fullSchedule: Array<StreamGuestInfo | CfeScheduleItem> = [
           </div>
           <nav
             class="nav"
-            aria-label={`Links for live stream guest ${guestName}`}
-          >
+            aria-label={`Links for live stream guest ${guestName}`}>
             <ul class="flex gap-2 items-center">
               {website ? (
                 <li>
