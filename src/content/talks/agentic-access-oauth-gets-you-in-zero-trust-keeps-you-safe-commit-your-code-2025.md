@@ -9,6 +9,8 @@ video:
     "url": "https://www.youtube.com/watch?v=JLs4qlyvezA&t=14218s",
     "type": "youtube",
   }
+slideDeck: https://nickyt.co/cyc2025
+sourceCode: https://github.com/pomerium/mcp-app-demo
 tags: ["mcp", "agentic ai", "zero trust", "ai", "oauth", "security"]
 ---
 
