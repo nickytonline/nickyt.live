@@ -100,3 +100,68 @@ export function sanitizeVideoDescription(description: string) {
       .replace(/Places to follow Nick.+/is, ""),
   );
 }
+
+function parseYouTubeStart(value: string | null): number | null {
+  if (!value) return null;
+  const normalized = value.trim();
+  if (/^\d+$/.test(normalized)) {
+    return Number(normalized);
+  }
+  if (/^\d+s$/.test(normalized)) {
+    return Number(normalized.slice(0, -1));
+  }
+  const hmsMatch = normalized.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/);
+  if (hmsMatch) {
+    const hours = hmsMatch[1] ? Number(hmsMatch[1]) : 0;
+    const minutes = hmsMatch[2] ? Number(hmsMatch[2]) : 0;
+    const seconds = hmsMatch[3] ? Number(hmsMatch[3]) : 0;
+    const total = hours * 3600 + minutes * 60 + seconds;
+    if (total > 0) return total;
+  }
+  return null;
+}
+
+export function getYouTubeEmbedUrl(rawUrl: string): string {
+  try {
+    const url = new URL(rawUrl);
+    const isShort = url.hostname.includes("youtu.be");
+    const pathSegments = url.pathname.split("/").filter(Boolean);
+    const videoId = isShort
+      ? pathSegments[0] || ""
+      : url.searchParams.get("v") || pathSegments[0] || "";
+    if (!videoId) return rawUrl;
+
+    const embedUrl = new URL(`https://www.youtube.com/embed/${videoId}`);
+
+    const hashValue = url.hash.startsWith("#t=")
+      ? url.hash.slice(3)
+      : url.hash.startsWith("#")
+        ? url.hash.slice(1)
+        : null;
+    const startValue =
+      url.searchParams.get("start") || url.searchParams.get("t") || hashValue;
+    const startSeconds = parseYouTubeStart(startValue);
+    if (startSeconds !== null) {
+      embedUrl.searchParams.set("start", startSeconds.toString());
+    }
+
+    const passthroughParams = [
+      "list",
+      "index",
+      "controls",
+      "rel",
+      "autoplay",
+    ] as const;
+    passthroughParams.forEach((param) => {
+      const value = url.searchParams.get(param);
+      if (value) {
+        embedUrl.searchParams.set(param, value);
+      }
+    });
+
+    return embedUrl.toString();
+  } catch (error) {
+    console.log(error);
+    return rawUrl;
+  }
+}

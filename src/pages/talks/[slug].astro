@@ -3,6 +3,7 @@ import { getEntry, getCollection } from "astro:content";
 import Layout from "../../layouts/MainLayout.astro";
 import TagList from "../../components/TagList.astro";
 import { getRelatedTalks } from "../../utils/tag-utils";
+import { getYouTubeEmbedUrl } from "../../utils/youtube-utils";
 
 const { slug } = Astro.params;
 
@@ -39,8 +40,7 @@ const { Content } = await talk.render();
     <article class="max-w-3xl grid gap-8">
       <header>
         <h1
-          class="text-4xl font-extrabold leading-tight mb-2 relative inline-block"
-        >
+          class="text-4xl font-extrabold leading-tight mb-2 relative inline-block">
           {title}
         </h1>
         <div class="text-2xl text-gray-600 mt-2 relative inline-block">
@@ -67,17 +67,8 @@ const { Content } = await talk.render();
               <iframe
                 width="560"
                 height="315"
-                src={
-                  video.url.includes("youtu.be/")
-                    ? video.url
-                        .replace("youtu.be/", "www.youtube.com/embed/")
-                        .replace("&t=", "?start=")
-                    : video.url
-                        .replace("watch?v=", "embed/")
-                        .replace("&t=", "?start=")
-                }
+                src={getYouTubeEmbedUrl(video.url)}
                 title="YouTube video player"
-                frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
                 class="w-full max-w-2xl aspect-video rounded shadow"
@@ -88,7 +79,6 @@ const { Content } = await talk.render();
                 src={video.url.replace("vimeo.com/", "player.vimeo.com/video/")}
                 width="640"
                 height="360"
-                frameborder="0"
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowfullscreen
                 class="w-full max-w-2xl aspect-video rounded shadow"
@@ -148,8 +138,7 @@ const { Content } = await talk.render();
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800"
-                >
+                  class="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800">
                   {link.title}
                 </a>
               </li>
