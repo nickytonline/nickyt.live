@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/MainLayout.astro";
+export const prerender = true;
 
 const talks = await getCollection("talks");
 

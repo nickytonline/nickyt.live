@@ -8,6 +8,7 @@
 - Shared utilities live in `src/utils/`; global styles and Tailwind layers are under `src/styles/`.
 - Static assets belong in `public/`; keep authored images in `src/images/` to benefit from Astro’s optimizers.
 - Deployment config sits in `netlify/` and `netlify.toml`; the built site is emitted to `dist/` by the build pipeline.
+- Astro is configured for `output: "server"`; pages opt into static generation with `export const prerender = true` (e.g. `/about`, `/talks`, `/tags`, `/2full2stack`, `/tags/[tag]`). Server-rendered routes continue to set `export const prerender = false` (currently `/`, `/archive`, `/guest-appearances`, `/pomerium-live`).
 
 ## Build, Test, and Development Commands
 

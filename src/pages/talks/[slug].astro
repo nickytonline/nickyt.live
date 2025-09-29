@@ -4,6 +4,15 @@ import Layout from "../../layouts/MainLayout.astro";
 import TagList from "../../components/TagList.astro";
 import { getRelatedTalks } from "../../utils/tag-utils";
 import { getYouTubeEmbedUrl } from "../../utils/youtube-utils";
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const talks = await getCollection("talks");
+
+  return talks.map((talk) => ({
+    params: { slug: talk.slug },
+  }));
+}
 
 const { slug } = Astro.params;
 

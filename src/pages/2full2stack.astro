@@ -6,17 +6,13 @@ import {
   TWO_FULL_2_STACK_PLAYLIST_FEED_URL,
   getYouTubeId,
 } from "../utils/youtube-utils";
+export const prerender = true;
 
-const videos = await getVideos({videoFeedUrl: TWO_FULL_2_STACK_PLAYLIST_FEED_URL, numberOfVideos:15, descendingDate: true});
-
-Astro.response.headers.set(
-  "Cache-Control",
-  "public, max-age=0, must-revalidate"
-);
-Astro.response.headers.set(
-  "Netlify-CDN-Cache-Control",
-  "public, max-age=608400, must-revalidate"
-);
+const videos = await getVideos({
+  videoFeedUrl: TWO_FULL_2_STACK_PLAYLIST_FEED_URL,
+  numberOfVideos: 15,
+  descendingDate: true,
+});
 ---
 
 <Layout title="Nick Taylor's live streaming homepage">
