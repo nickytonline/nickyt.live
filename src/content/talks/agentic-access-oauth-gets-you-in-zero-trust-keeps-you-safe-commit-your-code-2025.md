@@ -5,10 +5,7 @@ venue:
   name: "Commit Your Code 2025"
   url: "https://www.commityourcode.com/"
 video:
-  {
-    "url": "https://www.youtube.com/watch?v=JLs4qlyvezA&t=14218s",
-    "type": "youtube",
-  }
+  { "url": "https://www.youtube.com/watch?v=RW4N7SJL-eM", "type": "youtube" }
 slideDeck: https://nickyt.co/cyc2025
 sourceCode: https://github.com/pomerium/mcp-app-demo
 tags: ["mcp", "agentic ai", "zero trust", "ai", "oauth", "security"]
