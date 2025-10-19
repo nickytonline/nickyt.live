@@ -29,3 +29,6 @@ env.d.ts
 .netlify
 
 .eslintcache
+
+# Claude
+.claude/
