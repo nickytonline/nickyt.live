@@ -30,6 +30,6 @@ force = true
 
 [[redirects]]
 from = "https://nickyt.live/*"
-to = "https://www.nickyt.co/:splat"
+to = "https://www.nickyt.co/watch"
 status = 302
 force = true
